@@ -27,7 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # enablement: liga o Pages (source = GitHub Actions) na primeira execução,
+      # sem precisar mexer em Settings antes do primeiro deploy
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       # Site estático, sem build: sobe o repositório como está
       - uses: actions/upload-pages-artifact@v3
