@@ -158,11 +158,17 @@ propósito: a apresentação não pode depender de CDN nem de internet boa na ho
 
 ## Publicar
 
-O deploy é automático: qualquer push na branch da apresentação ou na `main` roda
-o workflow `.github/workflows/pages.yml` e publica no GitHub Pages. O próprio
-workflow liga o Pages na primeira execução (`enablement: true`).
+### Passo manual, uma vez só
 
-Se o deploy falhar com *"Get Pages site failed"*, é permissão: em
-**Settings → Pages**, deixe **Source = GitHub Actions**, e em
-**Settings → Actions → General**, marque **Read and write permissions**.
-Depois reexecute o workflow.
+Em **Settings → Pages**, deixe **Source = GitHub Actions**.
+
+Isso não dá para automatizar: criar o site do Pages pela API exige permissão de
+admin no repositório, e o `GITHUB_TOKEN` do workflow nunca tem esse nível — a
+tentativa falha com *"Create Pages site failed: Resource not accessible by
+integration"*. Depois de habilitar, reexecute o workflow em **Actions → Publicar
+no GitHub Pages → Re-run**.
+
+### Depois disso
+
+O deploy é automático: qualquer push na branch da apresentação ou na `main` roda
+`.github/workflows/pages.yml` e publica o repositório como está — não há build.
