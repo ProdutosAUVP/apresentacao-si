@@ -72,14 +72,18 @@ const SLIDES = [
     section: "O problema",
     title: "“Meu marido me indicou.”",
     quote: true,
-    image: "assets/img/slide-03-nomes-soltos.svg",
-    imageAlt: "Tela com nomes soltos: João, Márcio, meu marido me indicou",
+    image: "assets/img/slide03 1.png",
+    imageAlt: "Planilha com nomes soltos de embaixadores: Adair, Jean, Marcio, Meu Marido",
     annot: { text: "nomes soltos, sem dono", pos: "c" },
+    stat: { n: "32%", t: "da nossa base tem registro assim — e não dá pra cruzar." },
     navTitle: "A surpresa",
-    marks: ["⭐ surpresa / história", "📷 tela real de nomes soltos"],
+    marks: ["⭐ surpresa / história", "📷 tela real de nomes soltos", "⚠️ conferir os 32%"],
     notes: `<p>“Na V -1 a captação era por formulário, só o nome. A gente recebia dezenas de
       ‘João’, ‘Márcio’, ‘meu marido me indicou’. Não dava pra rastrear quem indicou quem.”</p>
-      <p><em>Deixe a tela falar 2–3 segundos antes de explicar. É o momento que gruda.</em></p>`,
+      <p><em>Deixe a tela falar 2–3 segundos antes de explicar. É o momento que gruda.</em></p>
+      <p>Depois entregue o número: “<strong>32% da nossa base</strong> tem registro assim.
+      Não é exceção, é um terço da base que a gente não consegue cruzar.”</p>
+      <p><em>⚠️ Conferir a base e a data de apuração dos 32%.</em></p>`,
   },
 
   /* 04 ------------------------------------------------------------------ */
@@ -140,20 +144,6 @@ const SLIDES = [
   /* 07 ------------------------------------------------------------------ */
   {
     layout: "statement",
-    theme: "light",
-    section: "Comportamento a mudar",
-    titleHTML:
-      'De indicar por acaso <span class="arrow">→</span><br>a indicar de propósito, de novo.',
-    navTitle: "Comportamento a mudar",
-    marks: [],
-    notes: `<p>Contraste hoje × futuro na voz (esporádico → recorrente; “quando lembra” →
-      em 2 toques; não sabe se vale → vê o progresso). A frase da tela é o slogan da seção —
-      <strong>repita-a</strong>.</p>`,
-  },
-
-  /* 08 ------------------------------------------------------------------ */
-  {
-    layout: "statement",
     theme: "dark",
     section: "A solução",
     rings: { corner: "bl", count: 6, base: 320, step: 200, from: 0.4 },
@@ -171,15 +161,15 @@ const SLIDES = [
       </ul>`,
   },
 
-  /* 09 ------------------------------------------------------------------ */
+  /* 08 ------------------------------------------------------------------ */
   {
-    layout: "image-left",
+    layout: "image-top",
     theme: "light",
     section: "Demo",
-    title: "O link nasce no ‘Minha AUVP’ (Hub).",
-    image: "assets/img/slide-09-menu-hub.svg",
-    imageAlt: "Menu superior do Minha AUVP mostrando os produtos que a pessoa tem",
-    annot: { text: "só os produtos que a pessoa tem", pos: "a" },
+    title: "O link é gerado no Salesforce com rastreabilidade.",
+    image: "assets/img/slide 09.png",
+    imageAlt: "Portal do embaixador: menu lateral, seleção de produto e o link pronto para copiar ou enviar no WhatsApp",
+    annot: { text: "só os produtos que a pessoa tem", pos: "c" },
     navTitle: "Demo: onde nasce o link",
     marks: ["📷 menu do Minha AUVP", "➡️ setinha fixa"],
     notes: `<p>“O menu só mostra o produto que a pessoa realmente tem — Escola, Consultoria,
@@ -188,33 +178,49 @@ const SLIDES = [
       passar a redirecionar pra cá.”</p>`,
   },
 
+  /* 09 ------------------------------------------------------------------ */
+  {
+    layout: "image-stack",
+    theme: "light",
+    section: "Demo",
+    title: "Cada link tem um código. Cada indicação tem dono.",
+    body: "Lembram do “meu marido me indicou”? Acabou.",
+    image: "assets/img/slide 10.png",
+    imageAlt: "O link pronto no portal do embaixador",
+    // A camada de baixo é a mesma imagem com uma seta a mais: revelar o passo
+    // parece a seta aparecendo, não a imagem trocando.
+    stack: [
+      {
+        image: "assets/img/Seta1_slide10.png",
+        imageAlt: "Retorno do Salesforce, com a seta apontando para o link",
+      },
+      {
+        image: "assets/img/Seta2_slide10.png",
+        imageAlt: "O mesmo retorno, agora com a segunda seta apontando para o código",
+      },
+    ],
+    navTitle: "Demo: rastreável de verdade",
+    marks: ["⭐ callback da surpresa", "📷 tela + payload", "➡️ setas em dois tempos"],
+    notes: `<p>Este slide tem <strong>um passo</strong>: a primeira seta já vem na tela,
+      apontando para o link. Aperte “próximo” <strong>uma vez</strong> e a segunda seta
+      aparece, no código — só então vire o slide.</p>
+      <p>“Lembram do ‘meu marido me indicou’? Acabou. O link que a pessoa copia lá em cima
+      é este objeto aqui embaixo: cada link carrega um identificador — dá pra saber quem
+      clicou e quem converteu, automaticamente. E a mesma estrutura serve pra qualquer
+      produto novo, inclusive um de brindes.”</p>
+      <p><em>Amarra no Slide 3 — Winston: fechar o ciclo.</em></p>`,
+  },
+
   /* 10 ------------------------------------------------------------------ */
   {
     layout: "image-top",
     theme: "light",
     section: "Demo",
-    title: "Cada link tem um código. Cada indicação tem dono.",
-    body: "Lembram do “meu marido me indicou”? Acabou.",
-    image: "assets/img/slide-10-link-rastreavel.svg",
-    imageAlt: "Link estruturado com o identificador de quem indicou",
-    annot: { text: "identificador", pos: "b" },
-    navTitle: "Demo: rastreável de verdade",
-    marks: ["⭐ callback da surpresa", "📷 link estruturado", "➡️ setinha fixa"],
-    notes: `<p>“Lembram do ‘meu marido me indicou’? Acabou. Cada link carrega um
-      identificador — dá pra saber quem clicou e quem converteu, automaticamente. E a mesma
-      estrutura serve pra qualquer produto novo, inclusive um de brindes.”</p>
-      <p><em>Amarra no Slide 3 — Winston: fechar o ciclo.</em></p>`,
-  },
-
-  /* 11 ------------------------------------------------------------------ */
-  {
-    layout: "image-left",
-    theme: "light",
-    section: "Demo",
     title: "Acompanha, e compartilha em 2 toques.",
-    image: "assets/img/slide-11-portal-whatsapp.svg",
-    imageAlt: "Portal do embaixador com o brinde do próximo degrau e botão de WhatsApp",
-    annot: { text: "próximo degrau", pos: "b" },
+    band: 800, // print denso: tabela + trilha
+    image: "assets/img/slide 12.png",
+    imageAlt: "Portal do embaixador: indicações recentes e a trilha de progresso até o próximo tier",
+    annot: { text: "próximo degrau", pos: "c" },
     navTitle: "Demo: o que o embaixador vê",
     marks: ["📷 portal + WhatsApp", "➡️ setinha fixa"],
     notes: `<p>“Ela vê quem usou o link e quem converteu. Na trilha, vê só o brinde da
@@ -224,30 +230,19 @@ const SLIDES = [
       pronta.”</p>`,
   },
 
-  /* 12 ------------------------------------------------------------------ */
-  {
-    layout: "video",
-    theme: "light",
-    section: "Demo",
-    title: "Está no ar — e zerado pra vocês testarem.",
-    sub: "Link no chat. Sem nenhum dado ainda: é de propósito.",
-    video: null, // ex.: "assets/video/demo.mp4"
-    poster: "assets/img/slide-12-video-poster.svg",
-    navTitle: "Demo: veja funcionando",
-    marks: ["🎥 vídeo curto (60–90 s)", "⚠️ link do ambiente pra colar no chat"],
-    notes: `<p>“Vou deixar o link no chat. Como ainda não tem nenhum dado, aparece zerado —
-      é de propósito, pra vocês navegarem à vontade.”</p>
-      <p><em>Mantenha o vídeo em 60–90 s, senão estoura o tempo.</em></p>
-      <p><em>⚠️ Ter o link pronto pra colar no chat.</em></p>`,
-  },
-
-  /* 13 ------------------------------------------------------------------ */
+  /* 11 ------------------------------------------------------------------ */
   {
     layout: "cards",
     theme: "dark",
     section: "Regras",
     rings: { corner: "br", count: 5, base: 260, step: 180, from: 0.36 },
     title: "Regra de ouro: sem link, sem indicação.",
+    lead: "E estamos publicando o Regulamento do Programa de Indicação AUVP.",
+    doc: {
+      image: "assets/img/slide 13.png",
+      alt: "Primeira página do Regulamento do Programa de Indicação AUVP",
+      caption: "Regulamento oficial",
+    },
     cardsLabel: "Como funciona:",
     cards: [
       { h: "Link só com produto", p: "Sem Escola ou Consultoria ativa, não existe link." },
@@ -257,11 +252,13 @@ const SLIDES = [
     navTitle: "As regras que evitam confusão",
     marks: ["⭐ a cerca"],
     notes: `<p>Defina o que conta e o que não conta. “Isso protege a pessoa certa e evita o
-      espertinho. Vamos publicar um <strong>regulamento oficial</strong> detalhando tudo, pra
-      tirar a dúvida na origem — menos ‘isso conta?’ na fila do atendimento.”</p>`,
+      espertinho. O <strong>Regulamento do Programa de Indicação AUVP</strong> já está sendo
+      escrito: geração de link, validação, conduta, vedação a spam, proteção de dados e
+      concessão de recompensas. Tira a dúvida na origem — menos ‘isso conta?’ na fila do
+      atendimento.”</p>`,
   },
 
-  /* 14 ------------------------------------------------------------------ */
+  /* 12 ------------------------------------------------------------------ */
   {
     layout: "cards",
     theme: "light",
@@ -278,6 +275,10 @@ const SLIDES = [
         h: "Sem rastreio",
         p: "Reivindicação em até 90 dias da entrada do indicado na base.",
       },
+      {
+        h: "Canal oficial",
+        p: "As reivindicações entram pelo Userback — um caminho só, rastreado.",
+      },
     ],
     navTitle: "“E os dados retroativos?”",
     marks: ["⭐ a cerca / FAQ que vai aparecer"],
@@ -286,10 +287,12 @@ const SLIDES = [
       libera, e a pessoa vê que já ganhou, sem pedir de novo. Quem chega alegando direito sem
       link vinculado é caso a caso, com prazo de 90 dias após o indicado entrar na base.
       É manual e chatinho só no começo; depois automatiza. Tudo isso vai num documento pra
-      não gerar dúvida no usuário.”</p>`,
+      não gerar dúvida no usuário.”</p>
+      <p>“E tem um caminho só pra pedir: o <strong>Userback</strong>. Fora dele, não entra —
+      é o que evita a reivindicação se perder em três canais diferentes.”</p>`,
   },
 
-  /* 15 ------------------------------------------------------------------ */
+  /* 13 ------------------------------------------------------------------ */
   {
     layout: "cards",
     theme: "light",
@@ -298,17 +301,22 @@ const SLIDES = [
     cardsLabel: "Hoje × futuro:",
     cards: [
       { h: "Hoje", p: "Link rastreado + visibilidade automática. Ambiente admin inicial." },
-      { h: "Futuro", p: "Painel de admin pra conferência de brinde e conversão num lugar só." },
+      {
+        h: "Futuro",
+        p: "Painel de admin pra conferência de brinde e conversão num lugar só, e automação com o ERP da logística para exibir o envio do brinde.",
+      },
     ],
     navTitle: "Escopo desta fase",
     marks: [],
     notes: `<p>“Sendo transparente: não é a V2 inteira — é o coração dela. O painel onde
       vocês conferem brinde e conversão num lugar só está em desenvolvimento; paramos por
       prioridade e vamos retomar. Hoje já existe um ambiente admin inicial. O que entregamos
-      de fato é <strong>rastrear</strong> e <strong>dar visibilidade automática</strong>.”</p>`,
+      de fato é <strong>rastrear</strong> e <strong>dar visibilidade automática</strong>.”</p>
+      <p>“Depois dele vem a automação com o ERP da logística, pra pessoa ver o envio do
+      brinde sem ninguém ter que consultar e responder.”</p>`,
   },
 
-  /* 16 ------------------------------------------------------------------ */
+  /* 14 ------------------------------------------------------------------ */
   {
     layout: "statement",
     theme: "light",
@@ -316,7 +324,7 @@ const SLIDES = [
     rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
     kicker: "Estamos apostando que:",
     titleHTML:
-      'rastrear <span class="hl">+</span> regras claras <span class="hl">+</span> facilitar <span class="hl">=</span> mais indicação, menos reclamação',
+      'rastrear <span class="hl">+</span> regras claras <span class="hl">+</span> brindes com esteira de gamificação <span class="hl">=</span> mais indicação, mais faturamento',
     longTitle: true,
     navTitle: "Hipóteses",
     marks: [],
@@ -330,7 +338,7 @@ const SLIDES = [
       testamos.</p>`,
   },
 
-  /* 17 ------------------------------------------------------------------ */
+  /* 15 ------------------------------------------------------------------ */
   {
     layout: "numbers",
     theme: "light",
@@ -349,40 +357,7 @@ const SLIDES = [
       canal.</em></p>`,
   },
 
-  /* 18 ------------------------------------------------------------------ */
-  {
-    layout: "cards",
-    theme: "light",
-    section: "Onde cada time entra",
-    title: "Sem todos dentro, não escala.",
-    cardsLabel: "Pré-requisitos e donos:",
-    cards: [
-      { h: "Tech", p: "Stack, edge functions, encurtador, RBAC." },
-      { h: "Salesforce", p: "Adapter e payload de status." },
-      { h: "Infra", p: "Dependências do dashboard." },
-      { h: "Logística", p: "Envio, custos e transportadora." },
-      { h: "Consultores", p: "Fluxo que vira o status." },
-      { h: "Atendimento", p: "Vínculo manual e caso a caso." },
-    ],
-    navTitle: "Onde cada time entra",
-    marks: [],
-    notes: `<ul>
-        <li><strong>Tech</strong> — stack, edge functions, encurtador, RBAC travado antes do
-          go-live</li>
-        <li><strong>Salesforce</strong> — adapter/payload que vira status pra
-          <code>converted</code> em tempo real</li>
-        <li><strong>Infra</strong> — dependências (ex.: IF-04-A) pro dashboard
-          operacional</li>
-        <li><strong>Logística (João)</strong> — fluxo e custos de envio, integração
-          transportadora/Tiny</li>
-        <li><strong>Consultores / Salesforce Consultoria</strong> — fluxo que dita a virada
-          de status</li>
-        <li><strong>Atendimento</strong> — passa a ser o dono do vínculo manual e do
-          tratamento caso a caso</li>
-      </ul>`,
-  },
-
-  /* 19 ------------------------------------------------------------------ */
+  /* 16 ------------------------------------------------------------------ */
   {
     layout: "closing",
     theme: "dark",
@@ -390,7 +365,7 @@ const SLIDES = [
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
     title: "O que esta fase entregou:",
     deliver: ["Rastreabilidade real", "Portal único", "Regras claras", "Brinde operacional"],
-    slogan: "“Cliente ativo é o nosso melhor vendedor.”",
+    slogan: "“Membro engajado é o nosso maior ativo.”",
     navTitle: "O que entregamos (fecho)",
     marks: ["⭐ slogan + fecho"],
     notes: `<p>Feche com o slogan e uma saudação ao tempo do público (“valeu pelos 25

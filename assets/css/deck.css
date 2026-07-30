@@ -555,31 +555,34 @@ p {
   padding: 168px 66px 96px;
 }
 
-.l-image-left .col-img img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+/* Uma regra só para todos os prints. `contain` escala para caber — inclusive
+   ampliando um print pequeno — sem distorcer nem transbordar. A sombra é
+   drop-shadow, não box-shadow: ela acompanha a imagem renderizada, enquanto
+   box-shadow desenharia o retângulo da caixa, maior que a imagem. */
+.l-image-left .col-img img,
+.l-image-top .band-img img,
+.l-image-stack .stack-top img,
+.l-image-stack .stack-bottom img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   display: block;
-  border-radius: 4px;
-  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.45);
   position: relative;
   z-index: 2;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
 }
 
-.l-image-left .col-img.is-bleed {
+/* Foto de verdade sangra o painel inteiro, como no template. */
+.l-image-left .col-img.is-bleed,
+.l-image-top .band-img.is-bleed {
   display: block;
   padding: 0;
 }
 
-.l-image-left .col-img.is-bleed img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
+.l-image-left .col-img.is-bleed img,
+.l-image-top .band-img.is-bleed img {
   object-fit: cover;
-  border-radius: 0;
-  box-shadow: none;
+  filter: none;
 }
 
 .l-image-left .col-txt {
@@ -611,7 +614,9 @@ p {
   top: 0;
   left: 0;
   right: 0;
-  height: 520px;
+  /* print denso precisa de mais faixa que print horizontal: cada slide pode
+     pedir a sua altura com `band` */
+  height: var(--band, 620px);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
@@ -619,36 +624,10 @@ p {
   padding: 132px var(--pad-x) 44px;
 }
 
-.l-image-top .band-img img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  display: block;
-  border-radius: 4px;
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.45);
-  position: relative;
-  z-index: 2;
-}
-
-.l-image-top .band-img.is-bleed {
-  display: block;
-  padding: 0;
-}
-
-.l-image-top .band-img.is-bleed img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  object-fit: cover;
-  border-radius: 0;
-  box-shadow: none;
-}
 
 .l-image-top .band-txt {
   position: absolute;
-  top: 520px;
+  top: var(--band, 620px);
   bottom: 0;
   left: var(--pad-x);
   right: var(--pad-x);
@@ -660,7 +639,7 @@ p {
 }
 
 .l-image-top h2 {
-  font-size: 62px;
+  font-size: 56px;
 }
 
 .l-image-top .body {
@@ -706,15 +685,15 @@ p {
 
 .l-image-top .annot.pos-a {
   left: 300px;
-  top: 470px;
+  top: calc(var(--band, 620px) - 50px);
 }
 .l-image-top .annot.pos-b {
   left: 1160px;
-  top: 470px;
+  top: calc(var(--band, 620px) - 50px);
 }
 .l-image-top .annot.pos-c {
   left: 730px;
-  top: 470px;
+  top: calc(var(--band, 620px) - 50px);
 }
 
 /* ---------- Texto sem imagem — modelo 2 (faixa + cartões) -------------- */
@@ -905,6 +884,151 @@ p {
   text-transform: uppercase;
   color: var(--accent);
   max-width: 24ch;
+}
+
+
+/* ---------- Destaque numérico dentro do texto -------------------------- */
+
+.stat {
+  margin-top: 52px;
+  padding-left: 28px;
+  border-left: 6px solid hsl(var(--gold));
+  display: block;
+}
+
+.stat-n {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 84px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.stat-t {
+  display: block;
+  margin-top: 14px;
+  font-size: 25px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 20em;
+}
+
+/* ---------- Duas imagens empilhadas no painel verde -------------------- */
+
+.l-image-stack .band-stack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 760px;
+  background-image: var(--green-grad);
+  overflow: hidden;
+  display: grid;
+  /* a camada de baixo é a que precisa ser lida (o payload e as setas), então
+     leva a fatia maior */
+  grid-template-rows: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 26px;
+  /* stretch (o padrão) de propósito: com place-items:center as linhas passam a
+     ser dimensionadas pelo conteúdo, a altura percentual da imagem vira
+     circular e o print estoura a faixa. Quem centraliza é o object-fit. */
+  padding: 118px var(--pad-x) 36px;
+}
+
+.l-image-stack .band-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.07;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.l-image-stack .stack-top,
+.l-image-stack .stack-bottom {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+/* As camadas do payload ocupam a mesma célula: a de cima só acrescenta uma
+   seta, então revelar a próxima parece a seta aparecendo, não a imagem
+   trocando. */
+.l-image-stack .stack-bottom img {
+  grid-area: 1 / 1;
+}
+
+.l-image-stack .band-txt {
+  position: absolute;
+  top: 760px;
+  bottom: 0;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 110px;
+  align-content: center;
+  padding-bottom: 40px;
+}
+
+.l-image-stack h2 {
+  font-size: 58px;
+}
+
+.slide.l-image-stack .chrome-top {
+  color: #fff;
+}
+
+.slide.l-image-stack .chrome-bottom {
+  color: hsl(var(--brand-dark));
+}
+
+/* ---------- Passos revelados dentro do slide --------------------------- */
+
+[data-step] {
+  opacity: 0;
+  transition: opacity 0.42s var(--ease);
+}
+
+.slide[data-shown="1"] [data-step="1"],
+.slide[data-shown="2"] [data-step="1"],
+.slide[data-shown="2"] [data-step="2"],
+.slide[data-shown="3"] [data-step] {
+  opacity: 1;
+}
+
+/* ---------- Miniatura de documento na faixa ---------------------------- */
+
+.l-cards .doc {
+  position: absolute;
+  right: var(--pad-x);
+  top: 150px;
+  width: 250px;
+  margin: 0;
+  z-index: 3;
+  transform: rotate(2.5deg);
+}
+
+.l-cards .doc img {
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5);
+}
+
+.l-cards .doc figcaption {
+  margin-top: 16px;
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
 }
 
 /* =========================================================================
@@ -1318,6 +1442,11 @@ p {
     animation: none !important;
   }
 
+  /* ...e todo passo já revelado, senão o PDF perde as camadas */
+  [data-step] {
+    opacity: 1 !important;
+  }
+
   #hud,
   #notes,
   #overview,
@@ -1331,6 +1460,10 @@ p {
   .slide,
   .slide * {
     animation: none !important;
+  }
+
+  [data-step] {
+    transition: none !important;
   }
 
   .slide.is-leaving {

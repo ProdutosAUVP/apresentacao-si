@@ -39,7 +39,7 @@
 
   // Layouts que sempre têm a metade de baixo branca: a raiz é clara e o verde
   // fica confinado à faixa/painel.
-  const LIGHT_ROOT = new Set(["cards", "image-top"]);
+  const LIGHT_ROOT = new Set(["cards", "image-top", "image-stack"]);
 
   /* ---------- anéis concêntricos ---------------------------------------- */
 
@@ -68,7 +68,7 @@
 
   // O olho acompanha o fundo em que o cabeçalho pousa.
   function headerLogo(slide) {
-    if (slide.layout === "image-top") return LOGO_LIGHT;
+    if (slide.layout === "image-top" || slide.layout === "image-stack") return LOGO_LIGHT;
     if (slide.layout === "cards") return slide.theme === "dark" ? LOGO_LIGHT : LOGO_DARK;
     return slide.theme === "dark" ? LOGO_LIGHT : LOGO_DARK;
   }
@@ -180,6 +180,13 @@
         <div class="col-txt">
           ${heading(slide)}
           ${slide.body ? `<p class="body"${anim()}>${esc(slide.body)}</p>` : ""}
+          ${
+            slide.stat
+              ? `<div class="stat"${anim()}><span class="stat-n">${esc(
+                  slide.stat.n
+                )}</span><span class="stat-t">${esc(slide.stat.t)}</span></div>`
+              : ""
+          }
         </div>`;
     },
 
@@ -188,6 +195,29 @@
           <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}"${anim()}>
         </div>
         ${annotation(slide)}
+        <div class="band-txt">
+          ${heading(slide)}
+          ${slide.body ? `<p class="body"${anim()}>${esc(slide.body)}</p>` : ""}
+        </div>`;
+    },
+
+    // Duas imagens empilhadas no mesmo painel verde: a tela que a pessoa vê em
+    // cima, o payload que a sustenta embaixo. A camada de baixo troca por passo.
+    "image-stack"(slide) {
+      const layers = (slide.stack || [])
+        .map(
+          (l, i) =>
+            `<img src="${l.image}" alt="${esc(l.imageAlt || "")}"${
+              i ? ` data-step="${i}"` : ""
+            }>`
+        )
+        .join("");
+      return `<div class="band-stack">
+          <div class="stack-top"${anim()}><img src="${slide.image}" alt="${esc(
+        slide.imageAlt || ""
+      )}"></div>
+          <div class="stack-bottom"${anim()}>${layers}</div>
+        </div>
         <div class="band-txt">
           ${heading(slide)}
           ${slide.body ? `<p class="body"${anim()}>${esc(slide.body)}</p>` : ""}
@@ -205,9 +235,15 @@
         ? `<p class="cards-label"${anim()}>${esc(slide.cardsLabel)}</p>`
         : "";
       const lead = slide.lead ? `<p class="lead"${anim()}>${esc(slide.lead)}</p>` : "";
+      const doc = slide.doc
+        ? `<figure class="doc"${anim()}><img src="${slide.doc.image}" alt="${esc(
+            slide.doc.alt || ""
+          )}"><figcaption>${esc(slide.doc.caption || "")}</figcaption></figure>`
+        : "";
       return `<div class="band${green ? " is-green" : ""}">
           ${green && slide.rings ? rings(slide.rings) : ""}
           <div class="inner">${heading(slide)}${lead}</div>
+          ${doc}
           ${label}
         </div>
         <div class="cards n-${(slide.cards || []).length}">${cards}</div>`;
@@ -252,11 +288,12 @@
       const greenBand = slide.layout === "cards" && slide.theme === "dark";
       const render = layouts[slide.layout];
       const inner = render ? render(slide) : `<div class="wrap">${heading(slide)}</div>`;
+      const bandVar = slide.band ? ` style="--band:${slide.band}px"` : "";
       return `<section class="slide l-${slide.layout} t-${theme}${
         greenBand ? " has-green-band" : ""
-      }" data-i="${i}" aria-label="Slide ${i + 1} de ${SLIDES.length}">${chromeTop(
-        slide
-      )}${inner}${chromeBottom(slide, i)}</section>`;
+      }" data-i="${i}"${bandVar} aria-label="Slide ${i + 1} de ${
+        SLIDES.length
+      }">${chromeTop(slide)}${inner}${chromeBottom(slide, i)}</section>`;
     }).join("");
 
     overviewGrid.innerHTML = SLIDES.map((slide, i) => {
@@ -316,6 +353,11 @@
       slides.forEach((el) => el.classList.remove("is-leaving"));
     }, 420);
 
+    // Entrando de frente, o slide começa fechado; voltando, já vem revelado —
+    // é o que se espera de quem está refazendo o caminho.
+    shown = back ? stepsOf(target) : 0;
+    showSteps(target, shown);
+
     current = target;
 
     document.getElementById("progress").style.width =
@@ -336,8 +378,42 @@
     flashHud();
   }
 
-  const next = () => go(current + 1);
-  const prev = () => go(current - 1);
+  /* ---------- passos dentro do slide ------------------------------------
+     Alguns slides revelam camadas antes de virar (as setas do payload). O
+     avanço consome os passos primeiro; só depois troca de slide. */
+
+  function stepsOf(i) {
+    const el = stage.querySelectorAll(".slide")[i];
+    return el ? el.querySelectorAll("[data-step]").length : 0;
+  }
+
+  function showSteps(i, n) {
+    const el = stage.querySelectorAll(".slide")[i];
+    if (!el) return;
+    el.dataset.shown = String(n);
+  }
+
+  let shown = 0;
+
+  function next() {
+    if (shown < stepsOf(current)) {
+      shown++;
+      showSteps(current, shown);
+      flashHud();
+      return;
+    }
+    go(current + 1);
+  }
+
+  function prev() {
+    if (shown > 0) {
+      shown--;
+      showSteps(current, shown);
+      flashHud();
+      return;
+    }
+    go(current - 1);
+  }
 
   /* ---------- notas ---------------------------------------------------- */
 
