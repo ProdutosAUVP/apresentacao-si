@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Indicação V2 — AUVP Capital</title>
+    <meta name="description" content="Apresentação interna: o que a Indicação V2 resolve e onde cada time entra." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="assets/brand/olho-preto.svg" />
+    <link rel="stylesheet" href="assets/css/deck.css" />
+  </head>
+  <body>
+    <div id="viewport">
+      <div id="stage"></div>
+    </div>
+
+    <div id="progress"></div>
+
+    <div id="hud" class="ui" aria-hidden="true">
+      <span class="count" id="hud-count">01 / 19</span>
+      <span class="timer" id="hud-timer">00:00</span>
+      <span class="hint">S notas · G visão geral · T cronômetro · ? ajuda</span>
+    </div>
+
+    <aside id="notes" class="ui" aria-label="Notas do apresentador"></aside>
+
+    <div id="overview" class="ui" aria-label="Visão geral dos slides">
+      <h4>Visão geral</h4>
+      <div class="grid" id="overview-grid"></div>
+    </div>
+
+    <div id="help" class="ui" aria-label="Atalhos">
+      <div class="box">
+        <h4>Atalhos</h4>
+        <dl>
+          <dt>→ ← espaço</dt>
+          <dd>Avançar e voltar</dd>
+          <dt>Home / End</dt>
+          <dd>Primeiro / último slide</dd>
+          <dt>S</dt>
+          <dd>Notas da fala</dd>
+          <dt>G</dt>
+          <dd>Visão geral dos slides</dd>
+          <dt>T / Shift+T</dt>
+          <dd>Cronômetro: iniciar-pausar / zerar</dd>
+          <dt>F</dt>
+          <dd>Tela cheia</dd>
+          <dt>Ctrl/Cmd + P</dt>
+          <dd>Exportar em PDF (paisagem, sem margens)</dd>
+          <dt>Esc</dt>
+          <dd>Fechar</dd>
+        </dl>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="color: #fff; font-family: sans-serif; padding: 40px">
+        Esta apresentação precisa de JavaScript ativado.
+      </p>
+    </noscript>
+
+    <script src="assets/js/slides.js"></script>
+    <script src="assets/js/deck.js"></script>
+  </body>
+</html>
