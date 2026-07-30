@@ -295,22 +295,20 @@ p {
   right: 0;
   height: 146px;
   background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad-x) 0 48px;
-  z-index: 6;
+  z-index: 5;
 }
 
-.l-cover .cover-bar .wordmark {
+/* O cabeçalho da capa é o mesmo componente dos outros slides — mesma margem,
+   mesma altura —, só troca o rótulo de seção pela marca e dispensa a data. */
+.chrome-top.is-cover {
+  color: hsl(var(--brand-dark));
+}
+
+.chrome-top .wordmark {
   font-family: var(--font-display);
   font-size: 27px;
   font-weight: 500;
   color: hsl(var(--brand-dark));
-}
-
-.l-cover .cover-bar img {
-  width: 104px;
 }
 
 .l-cover .cover-body {
@@ -479,12 +477,14 @@ p {
 .flow .step {
   flex: 1;
   padding: 34px 72px 34px 0;
-  border-top: 5px solid hsl(var(--border));
+  /* a partir da segunda etapa o filete vai perdendo força: é o fluxo se
+     perdendo pelo caminho */
+  border-top: 5px solid hsl(var(--primary) / calc(0.62 - var(--k, 0) * 0.13));
   position: relative;
 }
 
 .slide.t-dark .flow .step {
-  border-top-color: rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, calc(0.5 - var(--k, 0) * 0.1));
 }
 
 .flow .step:first-child {
@@ -559,17 +559,17 @@ p {
    ampliando um print pequeno — sem distorcer nem transbordar. A sombra é
    drop-shadow, não box-shadow: ela acompanha a imagem renderizada, enquanto
    box-shadow desenharia o retângulo da caixa, maior que a imagem. */
-.l-image-left .col-img img,
-.l-image-top .band-img img,
-.l-image-stack .stack-top img,
-.l-image-stack .stack-bottom img {
-  width: 100%;
-  height: 100%;
+.shot img {
+  /* largura e altura vêm do fitShots(), em pixels exatos: a caixa passa a ser
+     a imagem, e aí canto arredondado e sombra acompanham o print. */
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   display: block;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
+  border-radius: 8px;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42);
 }
 
 /* Foto de verdade sangra o painel inteiro, como no template. */
@@ -579,10 +579,13 @@ p {
   padding: 0;
 }
 
-.l-image-left .col-img.is-bleed img,
-.l-image-top .band-img.is-bleed img {
+.col-img.is-bleed img,
+.band-img.is-bleed img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  filter: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .l-image-left .col-txt {
@@ -957,8 +960,10 @@ p {
 
 /* As camadas do payload ocupam a mesma célula: a de cima só acrescenta uma
    seta, então revelar a próxima parece a seta aparecendo, não a imagem
-   trocando. */
-.l-image-stack .stack-bottom img {
+   trocando. (Precisa mirar o .shot, não a <img> — é o .shot que é item do
+   grid; sem isso a segunda camada cai numa linha implícita e as duas saem de
+   tamanhos diferentes.) */
+.l-image-stack .stack-bottom .shot {
   grid-area: 1 / 1;
 }
 
@@ -1029,6 +1034,344 @@ p {
   text-transform: uppercase;
   color: var(--accent);
   text-align: center;
+}
+
+
+/* ---------- Célula do print e legenda embaixo -------------------------- */
+
+.shot {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Com legenda, o painel abre uma segunda linha e o print cede o espaço dela */
+.col-img.has-caption,
+.band-img.has-caption {
+  grid-template-rows: minmax(0, 1fr) auto;
+  row-gap: 30px;
+}
+
+.annot.is-below {
+  position: static;
+  justify-self: center;
+  align-self: start;
+}
+
+.annot.is-below::before {
+  content: "↑";
+}
+
+/* Print ao lado de uma visualização */
+.band-img.has-aside {
+  grid-template-columns: 1.6fr 1fr;
+  column-gap: 70px;
+}
+
+/* ---------- Trilha de degraus ------------------------------------------ */
+
+.viz {
+  align-self: center;
+  justify-self: start;
+  min-width: 0;
+}
+
+.viz-t {
+  font-family: var(--font-ui);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+  margin-bottom: 26px;
+}
+
+.trail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.trail li {
+  position: relative;
+  padding: 0 0 30px 46px;
+  color: #fff;
+}
+
+.trail li:last-child {
+  padding-bottom: 0;
+}
+
+/* fio ligando os degraus */
+.trail li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 26px;
+  bottom: 4px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.trail .dot {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.trail .t-lab {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.trail .t-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 19px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* conquistado */
+.trail .s-done .dot {
+  background: #fff;
+  border-color: #fff;
+}
+
+.trail .s-done .dot::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  width: 7px;
+  height: 12px;
+  border: solid hsl(var(--brand-dark));
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+/* o próximo — o único que a pessoa vê na trilha */
+.trail .s-next .dot {
+  background: hsl(var(--gold));
+  border-color: hsl(var(--gold));
+  box-shadow: 0 0 0 8px hsl(var(--gold) / 0.18);
+}
+
+.trail .s-next .t-lab {
+  color: hsl(var(--gold));
+  font-size: 36px;
+}
+
+/* os seguintes vão sumindo: mesma gramática dos anéis */
+.trail .s-locked {
+  opacity: calc(0.5 - var(--k, 0) * 0.06);
+}
+
+.trail .s-locked .dot {
+  border-style: dashed;
+}
+
+/* ---------- Linha do tempo (escopo da fase) ---------------------------- */
+
+.l-timeline .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-timeline h2 {
+  font-size: 68px;
+  max-width: 22ch;
+}
+
+.l-timeline .lead {
+  margin-top: 32px;
+  font-size: 28px;
+  color: var(--ink-soft);
+  max-width: 46em;
+}
+
+.tl {
+  list-style: none;
+  margin: 92px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 90px;
+}
+
+.tl li {
+  position: relative;
+  padding-top: 52px;
+}
+
+/* o trilho: cheio no que já existe, tracejado no que vem */
+.tl li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -90px;
+  top: 11px;
+  height: 5px;
+  background: hsl(var(--gold));
+}
+
+.tl li.next::before {
+  background: none;
+  border-top: 5px dashed hsl(var(--gold) / 0.55);
+  height: 0;
+}
+
+.tl li:last-child::before {
+  right: 0;
+}
+
+.tl .tl-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: hsl(var(--gold));
+}
+
+.tl li.next .tl-dot {
+  background: hsl(var(--paper));
+  border: 5px solid hsl(var(--gold) / 0.55);
+}
+
+.tl .tl-when {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.tl .tl-what {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 1.06;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.tl .tl-item {
+  display: block;
+  margin-top: 18px;
+  padding-left: 22px;
+  position: relative;
+  font-size: 23px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 26em;
+}
+
+.tl .tl-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 10px;
+  height: 3px;
+  background: hsl(var(--gold));
+}
+
+/* ---------- Equação (as hipóteses) ------------------------------------- */
+
+.l-equation .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.eq {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.eq .term {
+  flex: 1 1 0;
+  min-width: 260px;
+  border-top: 6px solid hsl(var(--gold));
+  padding: 30px 26px 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* o operador acompanha a primeira linha da parcela, não o meio dela — com
+   parcelas de alturas diferentes, centralizar desalinharia tudo */
+.op {
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--accent);
+  padding-top: 26px;
+}
+
+.eq-out {
+  display: flex;
+  align-items: flex-start;
+  gap: 38px;
+  margin-top: 80px;
+}
+
+.op.is-eq {
+  font-size: 78px;
+  padding-top: 4px;
+}
+
+/* empilhado: são dois resultados, não uma frase */
+.eq-res {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eq .term:last-of-type {
+  padding-right: 0;
+}
+
+.eq-res .res {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1.04;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.eq-res .res + .res {
+  color: var(--accent);
 }
 
 /* =========================================================================

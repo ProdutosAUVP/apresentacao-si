@@ -92,11 +92,38 @@
     </footer>`;
   }
 
+  // O print mora num .shot: é a célula que o fitShots mede, e é o que permite
+  // ancorar uma legenda logo abaixo dele sem cálculo de posição.
+  function shot(src, alt, extra) {
+    return `<div class="shot"><img src="${src}" alt="${esc(alt || "")}" data-fit${
+      extra || ""
+    }></div>`;
+  }
+
   function annotation(slide) {
     if (!slide.annot) return "";
-    return `<div class="annot pos-${esc(slide.annot.pos || "a")}"${anim()}>${esc(
-      slide.annot.text
-    )}</div>`;
+    const pos = slide.annot.pos || "a";
+    if (pos === "below") return ""; // renderizada junto do print
+    return `<div class="annot pos-${esc(pos)}"${anim()}>${esc(slide.annot.text)}</div>`;
+  }
+
+  // Legenda centralizada sob o print
+  function caption(slide) {
+    if (!slide.annot || slide.annot.pos !== "below") return "";
+    return `<div class="annot is-below"${anim()}>${esc(slide.annot.text)}</div>`;
+  }
+
+  // Trilha de degraus: conquistado, o próximo em destaque, e os seguintes
+  // perdendo força — a mesma gramática dos anéis e do fluxo.
+  function trail(items) {
+    return `<ol class="trail">${(items || [])
+      .map(
+        (t, i) =>
+          `<li class="s-${esc(t.state || "locked")}" style="--k:${i}"><span class="dot"></span>
+            <span class="t-lab">${esc(t.label)}</span>
+            ${t.note ? `<span class="t-note">${esc(t.note)}</span>` : ""}</li>`
+      )
+      .join("")}</ol>`;
   }
 
   function heading(slide, tag) {
@@ -122,11 +149,16 @@
 
   const layouts = {
     cover(slide) {
+      // A faixa branca é só o fundo: quem posiciona a marca e o olho é o mesmo
+      // .chrome-top dos outros slides, para o topo não "pular" na virada.
       return `${rings(slide.rings || { corner: "br", from: 0.42 })}
-        <div class="cover-bar">
+        <div class="cover-bar"></div>
+        <header class="chrome-top is-cover">
           <span class="wordmark">${esc(slide.wordmark || "AUVP Capital")}</span>
-          <img src="${LOGO_DARK}" alt="AUVP">
-        </div>
+          <div class="hdr-right">
+            <img class="hdr-logo" src="${LOGO_DARK}" alt="AUVP">
+          </div>
+        </header>
         <div class="cover-body">
           <hr class="rule">
           <h1${anim()}>${esc(slide.title)}</h1>
@@ -162,9 +194,9 @@
       const steps = (slide.steps || [])
         .map(
           (s, i) =>
-            `<div class="step"${anim()}><div class="i">${pad(i + 1)}</div><div class="txt">${esc(
-              s
-            )}</div></div>`
+            `<div class="step" style="--k:${i}"${anim()}><div class="i">${pad(
+              i + 1
+            )}</div><div class="txt">${esc(s)}</div></div>`
         )
         .join("");
       const note = slide.flowNote ? `<p class="flow-note"${anim()}>${esc(slide.flowNote)}</p>` : "";
@@ -173,8 +205,12 @@
     },
 
     "image-left"(slide) {
-      return `<div class="col-img${slide.bleed ? " is-bleed" : ""}">
-          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}"${anim()}>
+      const below = slide.annot && slide.annot.pos === "below";
+      return `<div class="col-img${slide.bleed ? " is-bleed" : ""}${
+        below ? " has-caption" : ""
+      }"${anim()}>
+          ${slide.bleed ? `<img src="${slide.image}" alt="${esc(slide.imageAlt || "")}">` : shot(slide.image, slide.imageAlt)}
+          ${caption(slide)}
         </div>
         ${annotation(slide)}
         <div class="col-txt">
@@ -191,8 +227,18 @@
     },
 
     "image-top"(slide) {
-      return `<div class="band-img${slide.bleed ? " is-bleed" : ""}">
-          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}"${anim()}>
+      const below = slide.annot && slide.annot.pos === "below";
+      const aside = slide.trail
+        ? `<aside class="viz"${anim()}>${
+            slide.trailTitle ? `<p class="viz-t">${esc(slide.trailTitle)}</p>` : ""
+          }${trail(slide.trail)}</aside>`
+        : "";
+      return `<div class="band-img${slide.bleed ? " is-bleed" : ""}${
+        aside ? " has-aside" : ""
+      }${below ? " has-caption" : ""}"${anim()}>
+          ${slide.bleed ? `<img src="${slide.image}" alt="${esc(slide.imageAlt || "")}">` : shot(slide.image, slide.imageAlt)}
+          ${aside}
+          ${caption(slide)}
         </div>
         ${annotation(slide)}
         <div class="band-txt">
@@ -205,17 +251,10 @@
     // cima, o payload que a sustenta embaixo. A camada de baixo troca por passo.
     "image-stack"(slide) {
       const layers = (slide.stack || [])
-        .map(
-          (l, i) =>
-            `<img src="${l.image}" alt="${esc(l.imageAlt || "")}"${
-              i ? ` data-step="${i}"` : ""
-            }>`
-        )
+        .map((l, i) => shot(l.image, l.imageAlt, i ? ` data-step="${i}"` : ""))
         .join("");
       return `<div class="band-stack">
-          <div class="stack-top"${anim()}><img src="${slide.image}" alt="${esc(
-        slide.imageAlt || ""
-      )}"></div>
+          <div class="stack-top"${anim()}>${shot(slide.image, slide.imageAlt)}</div>
           <div class="stack-bottom"${anim()}>${layers}</div>
         </div>
         <div class="band-txt">
@@ -261,6 +300,54 @@
             ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
           </div>
           <div class="frame is-green"${anim()}>${media}</div>
+        </div>`;
+    },
+
+    // Linha do tempo: o que já está de pé (marco cheio) e o que vem depois
+    // (marco vazado). Diz "isto é uma fase" melhor do que dois cartões.
+    timeline(slide) {
+      const marks = (slide.marks_ || [])
+        .map(
+          (m, i) => `<li class="${esc(m.state || "next")}" style="--k:${i}"${anim()}>
+            <span class="tl-dot"></span>
+            <span class="tl-when">${esc(m.when)}</span>
+            <span class="tl-what">${esc(m.what)}</span>
+            ${(m.items || [])
+              .map((it) => `<span class="tl-item">${esc(it)}</span>`)
+              .join("")}
+          </li>`
+        )
+        .join("");
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">
+          ${heading(slide)}
+          ${slide.lead ? `<p class="lead"${anim()}>${esc(slide.lead)}</p>` : ""}
+          <ol class="tl">${marks}</ol>
+        </div>`;
+    },
+
+    // Equação: as parcelas viram blocos e os operadores ficam do tamanho que
+    // merecem. A aposta lê como conta, não como frase corrida.
+    equation(slide) {
+      const terms = (slide.terms || [])
+        .map(
+          (t, i) =>
+            `${i ? `<span class="op"${anim()}>+</span>` : ""}<span class="term"${anim()}>${esc(
+              t
+            )}</span>`
+        )
+        .join("");
+      const results = (slide.results || [])
+        .map((r) => `<span class="res"${anim()}>${esc(r)}</span>`)
+        .join("");
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">
+          ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
+          <div class="eq">${terms}</div>
+          <div class="eq-out">
+            <span class="op is-eq"${anim()}>=</span>
+            <div class="eq-res">${results}</div>
+          </div>
         </div>`;
     },
 
@@ -316,6 +403,27 @@
       if (!btn) return;
       go(Number(btn.dataset.goto));
       toggleOverview(false);
+    });
+  }
+
+  // `object-fit: contain` resolve o encaixe, mas deixa a caixa do <img> maior
+  // que a imagem — e aí canto arredondado e sombra desenham a caixa, não o
+  // print. Como o palco é fixo em 1920x1080, dá para calcular o tamanho final
+  // uma vez e aplicá-lo: a caixa passa a ser a imagem.
+  function fitShots() {
+    stage.querySelectorAll("[data-fit]").forEach((img) => {
+      const apply = () => {
+        const box = img.parentElement;
+        const cs = getComputedStyle(box);
+        const w = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        const h = box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        if (!w || !h || !img.naturalWidth) return;
+        const k = Math.min(w / img.naturalWidth, h / img.naturalHeight);
+        img.style.width = Math.round(img.naturalWidth * k) + "px";
+        img.style.height = Math.round(img.naturalHeight * k) + "px";
+      };
+      if (img.complete) apply();
+      else img.addEventListener("load", apply, { once: true });
     });
   }
 
@@ -561,6 +669,7 @@
   /* ---------- start ----------------------------------------------------- */
 
   build();
+  fitShots();
   resize();
   const fromHash = parseInt(location.hash.replace(/\D/g, ""), 10);
   go(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0, { first: true });
