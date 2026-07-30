@@ -1,0 +1,1281 @@
+@import url("fonts.css");
+
+/* =========================================================================
+   Apresentação AUVP Capital — Indicação V2
+   Tokens espelhados do Design System (produtosauvp.github.io/central/design-system)
+   Todas as cores em HSL, como manda o DS.
+   ========================================================================= */
+
+:root {
+  /* Marca — AUVP Capital */
+  --brand-dark: 110 78% 9%; /* fundo dos slides escuros */
+  --primary: 155 93% 11%; /* títulos sobre branco */
+  --secondary: 160 55% 18%;
+  --gold: 42 84% 63%; /* acento (barras, setas, números) */
+  --paper: 0 0% 100%;
+  --muted-fg: 110 10% 40%;
+  --border: 120 10% 88%;
+
+  /* Tipografia */
+  --font-display: "Anek Latin", sans-serif;
+  --font-body: "Roboto", sans-serif;
+  --font-ui: "Sora", sans-serif;
+
+  /* Palco de 1920x1080 (escala aplicada por JS) */
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+  --pad-x: 140px;
+
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23n)' opacity='0.5'/></svg>");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #000;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ---------- Palco ------------------------------------------------------- */
+
+#viewport {
+  position: fixed;
+  inset: 0;
+}
+
+#stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: top left;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: hsl(var(--paper));
+  color: hsl(var(--primary));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fundo escuro texturizado, igual ao template impresso:
+   verde profundo + leve halo mais claro + grão. */
+.slide.t-dark {
+  background-color: hsl(var(--brand-dark));
+  color: #fff;
+}
+
+.slide.t-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(100% 80% at 28% 22%, hsl(150 20% 16%) 0%, transparent 58%),
+    radial-gradient(70% 60% at 88% 92%, hsl(150 26% 13%) 0%, transparent 72%),
+    radial-gradient(120% 120% at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.34) 100%);
+  pointer-events: none;
+}
+
+.slide.t-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.085;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.slide > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Anéis concêntricos do canto inferior direito (capa e fecho) */
+.rings {
+  position: absolute;
+  right: -180px;
+  bottom: -300px;
+  width: 900px;
+  height: 900px;
+  z-index: 1;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.rings span {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+
+.rings span:nth-child(1) {
+  width: 100%;
+  height: 100%;
+}
+.rings span:nth-child(2) {
+  width: 82%;
+  height: 82%;
+}
+.rings span:nth-child(3) {
+  width: 64%;
+  height: 64%;
+}
+.rings span:nth-child(4) {
+  width: 46%;
+  height: 46%;
+}
+.rings span:nth-child(5) {
+  width: 28%;
+  height: 28%;
+}
+
+/* ---------- Cabeçalho / rodapé ----------------------------------------- */
+
+.chrome-top {
+  position: absolute;
+  top: 52px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 6;
+}
+
+.hdr-label {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.hdr-right {
+  display: flex;
+  align-items: center;
+  gap: 42px;
+}
+
+.hdr-date {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.hdr-logo {
+  width: 104px;
+  display: block;
+}
+
+.chrome-bottom {
+  position: absolute;
+  bottom: 40px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  z-index: 6;
+}
+
+.pg {
+  font-size: 24px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.confid {
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.28;
+}
+
+/* Cor do chrome conforme o fundo em que ele pousa */
+.slide.t-dark .chrome-top,
+.slide.t-dark .chrome-bottom {
+  color: #fff;
+}
+
+.slide.t-light .chrome-top,
+.slide.t-light .chrome-bottom {
+  color: hsl(var(--brand-dark));
+}
+
+/* Split com imagem à esquerda: rótulo sobre a foto (claro),
+   data e olho sobre o branco (escuro). */
+.slide.l-image-left .hdr-label {
+  color: #fff;
+}
+
+/* Cabeçalho sobre a faixa escura do topo (modelo 2 com imagem e com cards) */
+.slide.l-image-top .chrome-top,
+.slide.l-cards .chrome-top {
+  color: #fff;
+}
+
+/* ---------- Tipografia ------------------------------------------------- */
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.98;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: 26px;
+  line-height: 1.62;
+  max-width: 22em;
+}
+
+.slide.t-light .body {
+  color: hsl(var(--brand-dark));
+}
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
+
+.rule {
+  width: 286px;
+  height: 7px;
+  background: #fff;
+  border: 0;
+  margin: 0 0 62px;
+}
+
+.slide.t-light .rule {
+  background: hsl(var(--primary));
+}
+
+/* ---------- Capa ------------------------------------------------------- */
+
+.l-cover .cover-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 146px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-x) 0 48px;
+  z-index: 6;
+}
+
+.l-cover .cover-bar .wordmark {
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 500;
+  color: hsl(var(--brand-dark));
+  letter-spacing: 0.01em;
+}
+
+.l-cover .cover-bar img {
+  width: 104px;
+}
+
+.l-cover .cover-body {
+  position: absolute;
+  left: var(--pad-x);
+  right: 340px;
+  top: 340px;
+}
+
+.l-cover h1 {
+  font-size: 88px;
+}
+
+.l-cover .cover-sub {
+  margin-top: 44px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 40px;
+  letter-spacing: 0.005em;
+  line-height: 1.24;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 26em;
+}
+
+/* ---------- Declaração (pouco texto, tipo grande) ---------------------- */
+
+.l-statement .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-statement h2 {
+  font-size: 92px;
+  max-width: 20ch;
+}
+
+.l-statement h2.is-long {
+  font-size: 74px;
+  max-width: 24ch;
+}
+
+.l-statement .lines {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.l-statement .lines span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 86px;
+  line-height: 1.02;
+}
+
+.l-statement .lines span::before {
+  content: "";
+  display: inline-block;
+  width: 46px;
+  height: 8px;
+  margin: 0 30px 22px 0;
+  background: hsl(var(--gold));
+  vertical-align: middle;
+}
+
+.l-statement .kicker {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 38px;
+  color: hsl(var(--gold));
+  margin-bottom: 34px;
+}
+
+.l-statement .sub {
+  margin-top: 46px;
+  font-size: 30px;
+  line-height: 1.6;
+  max-width: 34em;
+  opacity: 0.82;
+}
+
+/* Palavras-marcadas dentro de uma declaração */
+.hl {
+  color: hsl(var(--gold));
+}
+
+.arrow {
+  color: hsl(var(--gold));
+  padding: 0 0.18em;
+}
+
+/* Fichas (times, entregas) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 20px;
+  margin-top: 58px;
+  max-width: 1640px;
+}
+
+.chips span {
+  font-family: var(--font-ui);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 16px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.slide.t-light .chips span {
+  border-color: hsl(var(--border));
+  color: hsl(var(--primary));
+}
+
+/* ---------- Números (pontuação verbal) --------------------------------- */
+
+.l-numbers .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-numbers h2 {
+  font-size: 66px;
+  margin-bottom: 78px;
+}
+
+.num-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 64px;
+}
+
+.num-grid > div {
+  border-top: 5px solid hsl(var(--gold));
+  padding-top: 34px;
+}
+
+.num-grid .n {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 92px;
+  line-height: 1;
+  color: hsl(var(--gold));
+}
+
+.num-grid .t {
+  margin-top: 22px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+/* ---------- Ciclo / fluxo ---------------------------------------------- */
+
+.l-flow .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-flow h2 {
+  font-size: 60px;
+  margin-bottom: 76px;
+  max-width: 26ch;
+}
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.flow .step {
+  flex: 1;
+  padding: 34px 72px 34px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0.22);
+  position: relative;
+}
+
+.flow .step:first-child {
+  border-top-color: hsl(var(--gold));
+}
+
+.flow .step .i {
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: hsl(var(--gold));
+}
+
+.flow .step .txt {
+  margin-top: 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.flow .step::after {
+  content: "→";
+  position: absolute;
+  right: 26px;
+  top: 30px;
+  font-size: 34px;
+  color: hsl(var(--gold));
+  opacity: 0.8;
+}
+
+.flow .step:last-child::after {
+  content: "↺";
+}
+
+.flow-note {
+  margin-top: 54px;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: hsl(var(--gold));
+}
+
+/* ---------- Slide com imagem — modelo 1 (imagem à esquerda) ------------ */
+
+.l-image-left .col-img {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 820px;
+  background-color: hsl(var(--brand-dark));
+  overflow: hidden;
+  /* Screenshot flutuando sobre o painel escuro: sobra respiro no topo para o
+     rótulo branco do cabeçalho ficar legível (uma foto sangrada escurece
+     sozinha; um print claro, não). Fotos usam `bleed: true`. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  padding: 168px 66px 96px;
+}
+
+.l-image-left .col-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.07;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.l-image-left .col-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.45);
+}
+
+/* Foto de verdade: sangra na coluna inteira, como no template. */
+.l-image-left .col-img.is-bleed {
+  display: block;
+  padding: 0;
+}
+
+.l-image-left .col-img.is-bleed img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.l-image-left .col-txt {
+  position: absolute;
+  left: 926px;
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-image-left h2 {
+  font-size: 62px;
+  color: hsl(var(--primary));
+  max-width: 16ch;
+}
+
+.l-image-left.t-dark h2 {
+  color: #fff;
+}
+
+.l-image-left .col-txt .body {
+  margin-top: 44px;
+}
+
+.l-image-left h2.quote {
+  font-size: 86px;
+  max-width: 13ch;
+}
+
+/* ---------- Slide com imagem — modelo 2 (imagem no topo) --------------- */
+
+.l-image-top .band-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 520px;
+  background-color: hsl(var(--brand-dark));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  padding: 132px var(--pad-x) 44px;
+}
+
+.l-image-top .band-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.07;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.l-image-top .band-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.45);
+}
+
+.l-image-top .band-img.is-bleed {
+  display: block;
+  padding: 0;
+}
+
+.l-image-top .band-img.is-bleed img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.l-image-top .band-txt {
+  position: absolute;
+  top: 520px;
+  bottom: 0;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 110px;
+  align-content: center;
+  padding-bottom: 40px;
+}
+
+.l-image-top h2 {
+  font-size: 62px;
+  color: hsl(var(--primary));
+}
+
+.l-image-top .body {
+  max-width: 24em;
+}
+
+/* Anotação com setinha fixa sobre a imagem */
+.annot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: hsl(var(--brand-dark));
+  background: hsl(var(--gold));
+  padding: 14px 24px;
+  border-radius: 999px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+.annot::before {
+  content: "→";
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* Imagem à esquerda: a pilha atravessa a borda direita do painel escuro. */
+.l-image-left .annot.pos-a {
+  left: 636px;
+  top: 210px;
+}
+.l-image-left .annot.pos-b {
+  left: 636px;
+  top: 530px;
+}
+.l-image-left .annot.pos-c {
+  left: 616px;
+  bottom: 296px;
+}
+
+/* Imagem no topo: a pilha se apoia na divisa entre a faixa escura e o branco. */
+.l-image-top .annot.pos-a {
+  left: 300px;
+  top: 470px;
+}
+.l-image-top .annot.pos-b {
+  left: 1160px;
+  top: 470px;
+}
+.l-image-top .annot.pos-c {
+  left: 730px;
+  top: 470px;
+}
+
+/* ---------- Slide de texto sem imagem — modelo 2 (topo escuro + cards) - */
+
+.l-cards .band-dark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 660px;
+  background-color: hsl(var(--brand-dark));
+  overflow: hidden;
+}
+
+.l-cards .band-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(110% 100% at 25% 20%, hsl(150 22% 17%) 0%, transparent 65%);
+}
+
+.l-cards .band-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.085;
+  mix-blend-mode: screen;
+}
+
+.l-cards .band-dark .inner {
+  position: relative;
+  z-index: 2;
+  padding: 176px var(--pad-x) 0;
+}
+
+.l-cards h2 {
+  font-size: 72px;
+  color: #fff;
+  max-width: 24ch;
+}
+
+.l-cards .lead {
+  margin-top: 40px;
+  font-size: 30px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 44em;
+}
+
+.l-cards .cards-label {
+  position: absolute;
+  bottom: 34px;
+  left: var(--pad-x);
+  z-index: 3;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.l-cards .cards {
+  position: absolute;
+  top: 740px;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: grid;
+  gap: 44px 56px;
+}
+
+/* Com 2 cartões a grade continua de 3 colunas: mantém a mesma largura de
+   cartão dos slides de 3 e 6, em vez de esticar cada um até a metade. */
+.l-cards .cards.n-2 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.l-cards .cards.n-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.l-cards .cards.n-6 {
+  grid-template-columns: repeat(3, 1fr);
+  top: 706px;
+  gap: 30px 56px;
+}
+
+.card {
+  border-left: 6px solid hsl(var(--gold));
+  padding: 4px 0 4px 28px;
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  text-transform: none;
+  color: hsl(var(--brand-dark));
+  line-height: 1.15;
+}
+
+.card p {
+  margin-top: 14px;
+  font-size: 21px;
+  line-height: 1.5;
+  color: hsl(var(--muted-fg));
+}
+
+.cards.n-6 .card h3 {
+  font-size: 30px;
+}
+
+.cards.n-6 .card p {
+  font-size: 19px;
+}
+
+/* ---------- Vídeo ------------------------------------------------------ */
+
+.l-video .wrap {
+  position: absolute;
+  inset: 150px var(--pad-x) 120px;
+  display: grid;
+  grid-template-columns: 520px 1fr;
+  gap: 90px;
+  align-items: center;
+}
+
+.l-video h2 {
+  font-size: 62px;
+}
+
+.l-video .sub {
+  margin-top: 34px;
+  font-size: 26px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.l-video .frame {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 20px;
+}
+
+.l-video .frame img,
+.l-video .frame video {
+  width: 100%;
+  display: block;
+}
+
+/* ---------- Fecho ------------------------------------------------------ */
+
+.l-closing .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 250px;
+}
+
+.l-closing h2 {
+  font-size: 58px;
+}
+
+.l-closing .deliver {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 44px;
+  margin-top: 66px;
+}
+
+.l-closing .deliver > div {
+  border-top: 5px solid hsl(var(--gold));
+  padding-top: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.l-closing .slogan {
+  margin-top: 96px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 62px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+  max-width: 24ch;
+}
+
+/* =========================================================================
+   Interface do apresentador (não faz parte do slide)
+   ========================================================================= */
+
+.ui {
+  font-family: var(--font-ui);
+  color: #fff;
+}
+
+#progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  background: hsl(var(--gold));
+  z-index: 60;
+  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hud {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#hud.is-visible {
+  opacity: 1;
+}
+
+#hud .count {
+  font-variant-numeric: tabular-nums;
+}
+
+#hud .timer {
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--gold));
+}
+
+#hud .timer.over {
+  color: hsl(0 80% 68%);
+}
+
+#hud .hint {
+  opacity: 0.55;
+}
+
+/* Notas do apresentador */
+#notes {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: 26px 34px 34px;
+  background: rgba(6, 12, 6, 0.94);
+  backdrop-filter: blur(14px);
+  border-top: 3px solid hsl(var(--gold));
+  transform: translateY(101%);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#notes.is-open {
+  transform: translateY(0);
+}
+
+#notes .n-head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+#notes .n-idx {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
+
+#notes .n-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+#notes .n-marks {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#notes .n-marks span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#notes .n-marks span.warn {
+  border-color: hsl(var(--gold));
+  color: hsl(var(--gold));
+}
+
+#notes .n-body {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.66;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 105ch;
+}
+
+#notes .n-body p + p {
+  margin-top: 12px;
+}
+
+#notes .n-body ul {
+  margin: 12px 0 0;
+  padding-left: 22px;
+}
+
+#notes .n-body li {
+  margin-bottom: 6px;
+}
+
+#notes .n-body em {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: normal;
+}
+
+/* Visão geral */
+#overview {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  grid-template-rows: auto 1fr;
+  background: rgba(4, 10, 4, 0.97);
+  backdrop-filter: blur(8px);
+  padding: 30px 34px 40px;
+}
+
+#overview.is-open {
+  display: grid;
+}
+
+#overview h4 {
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
+
+#overview .grid {
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  align-content: start;
+}
+
+#overview button {
+  text-align: left;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font: inherit;
+  transition: border-color 0.16s, background 0.16s;
+}
+
+#overview button:hover,
+#overview button:focus-visible {
+  border-color: hsl(var(--gold));
+  background: rgba(255, 255, 255, 0.09);
+  outline: none;
+}
+
+#overview button.is-current {
+  border-color: hsl(var(--gold));
+  background: rgba(240, 194, 78, 0.12);
+}
+
+#overview .o-idx {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: hsl(var(--gold));
+}
+
+#overview .o-title {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#overview .o-flag {
+  margin-top: 10px;
+  font-size: 12px;
+  color: hsl(var(--gold));
+}
+
+/* Ajuda */
+#help {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  place-items: center;
+  background: rgba(4, 10, 4, 0.86);
+  backdrop-filter: blur(6px);
+}
+
+#help.is-open {
+  display: grid;
+}
+
+#help .box {
+  background: #0b1a0b;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 34px 40px;
+  min-width: 460px;
+}
+
+#help h4 {
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
+
+#help dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 26px;
+  font-size: 15px;
+}
+
+#help dt {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: hsl(var(--gold));
+  white-space: nowrap;
+}
+
+#help dd {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Impressão / PDF -------------------------------------------- */
+
+@media print {
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
+  }
+
+  html,
+  body {
+    overflow: visible;
+    background: #fff;
+  }
+
+  #viewport {
+    position: static;
+  }
+
+  #stage {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none !important;
+  }
+
+  .slide {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    opacity: 1 !important;
+    visibility: visible !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  #hud,
+  #notes,
+  #overview,
+  #help,
+  #progress {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Vídeo curto do sistema">
+  <rect width="1280" height="720" fill="#EDEFEA"/>
+  <rect x="18" y="18" width="1244" height="684" fill="none" stroke="#C6CEC2" stroke-width="2" stroke-dasharray="14 10"/>
+  <g opacity="0.5"><circle cx="640" cy="330" r="86" fill="none" stroke="#023620" stroke-width="4"/><path d="M614 288 L692 330 L614 372 Z" fill="#023620"/></g>
+  <rect x="18" y="18" width="196" height="46" fill="#0B2905"/>
+  <text x="38" y="49" font-family="Roboto, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2" fill="#fff">VÍDEO</text>
+  <text x="640" y="624" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="30" font-weight="700" fill="#023620">Vídeo curto do sistema</text>
+  <text x="640" y="664" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="21" fill="#5A6558">60–90 s. Substitua por assets/video/demo.mp4</text><text x="640" y="694" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="21" fill="#5A6558">(ou aponte para o link do vídeo).</text>
+  <rect x="600" y="580" width="80" height="4" fill="#F0C24E"/>
+</svg>
