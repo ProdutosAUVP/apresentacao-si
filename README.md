@@ -28,6 +28,14 @@ canto, então 3/4 de cada anel sai da tela e só um quadrante aparece. A opacida
 cai conforme o raio cresce — o menor é o mais presente. Escolha o canto que
 estiver livre de texto e do cabeçalho.
 
+**O topo não se move.** A capa usa o mesmo `.chrome-top` dos demais slides — só
+troca o rótulo de seção pela marca e dispensa a data. Marca e olho ficam nas
+mesmas coordenadas nos 16 slides, então a virada não faz o topo pular.
+
+**Opacidade decrescente é a gramática do que se perde.** Vale para os anéis, para
+os degraus bloqueados da trilha e para os filetes do fluxo do slide 04, onde
+cada etapa perde força para mostrar o processo se dissolvendo.
+
 **Uma cor por equipe** no slide 02, com matizes diferentes mas luminosidade
 parecida: lê como sistema, não como arco-íris.
 
@@ -99,10 +107,14 @@ Já são as definitivas. Para trocar alguma: coloque o arquivo em `assets/img/`
 > nome.
 
 Prints entram **encaixados** num painel verde, com respiro em volta — é o que
-mantém o rótulo branco do cabeçalho legível sobre imagens claras. O
-`object-fit: contain` faz o print caber sem distorcer, inclusive ampliando um
-print pequeno. Para uma **foto** que deve sangrar o painel inteiro (como no
-template impresso), adicione `bleed: true`.
+mantém o rótulo branco do cabeçalho legível sobre imagens claras. Cada print
+mora num `.shot`, e o `fitShots()` calcula o tamanho final em pixels: a caixa do
+`<img>` passa a ser exatamente a imagem, o que faz o canto arredondado e a
+sombra acompanharem o print em vez de desenharem a caixa. Como o palco é fixo em
+1920×1080, esse cálculo roda uma vez só.
+
+Para uma **foto** que deve sangrar o painel inteiro (como no template impresso),
+adicione `bleed: true`.
 
 Se um print denso ficar pequeno demais no layout `image-top`, aumente a faixa
 com `band: 800` (o padrão é 620 px).
@@ -118,6 +130,22 @@ annot: { text: "identificador", pos: "b" },   // pos: a | b | c
 As três posições transbordam a borda da imagem de propósito, para a seta nunca
 cobrir o que ela aponta. `a` = alto, `b` = meio, `c` = baixo.
 
+`pos: "below"` põe a legenda **abaixo do print, centralizada com ele** (a seta
+vira ↑). É a forma preferida quando o print não tem um ponto único a apontar.
+
+Para um destaque mais forte que uma pílula, use `trail` no layout `image-top`:
+uma trilha de degraus ao lado do print, com o conquistado, o próximo em
+evidência e os seguintes perdendo força.
+
+```js
+trailTitle: "Na trilha, ela vê só:",
+trail: [
+  { label: "Tier 1", note: "Conquistado", state: "done" },
+  { label: "Tier 3 — Kit AUVP Premium", note: "Faltam 2", state: "next" },
+  { label: "Tier 4", state: "locked" },
+],
+```
+
 ### Layouts disponíveis
 
 Todos derivam dos modelos do template oficial:
@@ -132,6 +160,8 @@ Todos derivam dos modelos do template oficial:
 | `image-top` | Print em faixa no topo | `title`, `body`, `image`, `annot`, `band` |
 | `image-stack` | Duas imagens empilhadas na faixa (tela + payload) | `image`, `stack[]`, `title`, `body` |
 | `cards` | Faixa + cartões; verde só com `theme: "dark"` | `title`, `lead`, `cardsLabel`, `cards[{h,p}]`, `doc` |
+| `timeline` | Trilho do que já existe → do que vem | `title`, `lead`, `marks_[{state,when,what,items[]}]` |
+| `equation` | A aposta como conta, não como frase | `kicker`, `terms[]`, `results[]` |
 | `video` | Demo em vídeo (disponível, sem uso hoje) | `title`, `sub`, `video`, `poster` |
 | `closing` | Fecho com entregas + slogan | `title`, `deliver[]`, `slogan` |
 

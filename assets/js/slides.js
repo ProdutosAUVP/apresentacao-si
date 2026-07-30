@@ -74,7 +74,7 @@ const SLIDES = [
     quote: true,
     image: "assets/img/slide03 1.png",
     imageAlt: "Planilha com nomes soltos de embaixadores: Adair, Jean, Marcio, Meu Marido",
-    annot: { text: "nomes soltos, sem dono", pos: "c" },
+    annot: { text: "nomes soltos, sem dono", pos: "below" },
     stat: { n: "32%", t: "da nossa base tem registro assim — e não dá pra cruzar." },
     navTitle: "A surpresa",
     marks: ["⭐ surpresa / história", "📷 tela real de nomes soltos", "⚠️ conferir os 32%"],
@@ -220,9 +220,18 @@ const SLIDES = [
     band: 800, // print denso: tabela + trilha
     image: "assets/img/slide 12.png",
     imageAlt: "Portal do embaixador: indicações recentes e a trilha de progresso até o próximo tier",
-    annot: { text: "próximo degrau", pos: "c" },
+    // No lugar da pílula: a trilha como ela é vista — o conquistado, o próximo
+    // em destaque, e os seguintes perdendo força.
+    trailTitle: "Na trilha, ela vê só:",
+    trail: [
+      { label: "Tier 1", note: "Conquistado", state: "done" },
+      { label: "Tier 2", note: "Conquistado", state: "done" },
+      { label: "Tier 3 — Kit AUVP Premium", note: "Faltam 2 indicações", state: "next" },
+      { label: "Tier 4", state: "locked" },
+      { label: "Tier 5", state: "locked" },
+    ],
     navTitle: "Demo: o que o embaixador vê",
-    marks: ["📷 portal + WhatsApp", "➡️ setinha fixa"],
+    marks: ["📷 portal + trilha"],
     notes: `<p>“Ela vê quem usou o link e quem converteu. Na trilha, vê só o brinde da
       próxima indicação acumulada — o próximo degrau, não o da 5ª ou 10ª. Exemplo: fiz 1
       indicação e ganhei o brinde de ‘1 indicação’; na trilha aparece o brinde da 2ª, e só.
@@ -294,16 +303,31 @@ const SLIDES = [
 
   /* 13 ------------------------------------------------------------------ */
   {
-    layout: "cards",
+    layout: "timeline",
     theme: "light",
     section: "Escopo desta fase",
+    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.2, to: 0.04 },
     title: "Não é a V2 inteira. É o coração dela.",
-    cardsLabel: "Hoje × futuro:",
-    cards: [
-      { h: "Hoje", p: "Link rastreado + visibilidade automática. Ambiente admin inicial." },
+    lead: "O trilho cheio é o que já está de pé. O tracejado é o que vem depois.",
+    marks_: [
       {
-        h: "Futuro",
-        p: "Painel de admin pra conferência de brinde e conversão num lugar só, e automação com o ERP da logística para exibir o envio do brinde.",
+        state: "done",
+        when: "Hoje, no ar",
+        what: "Rastrear e dar visibilidade",
+        items: [
+          "Link rastreado, do clique à conversão",
+          "Visibilidade automática para o embaixador",
+          "Ambiente admin inicial",
+        ],
+      },
+      {
+        state: "next",
+        when: "Próxima fase",
+        what: "Operar num lugar só",
+        items: [
+          "Painel de admin para conferir brinde e conversão",
+          "Automação com o ERP da logística para exibir o envio do brinde",
+        ],
       },
     ],
     navTitle: "Escopo desta fase",
@@ -318,14 +342,13 @@ const SLIDES = [
 
   /* 14 ------------------------------------------------------------------ */
   {
-    layout: "statement",
+    layout: "equation",
     theme: "light",
     section: "Hipóteses",
-    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
+    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.2, to: 0.04 },
     kicker: "Estamos apostando que:",
-    titleHTML:
-      'rastrear <span class="hl">+</span> regras claras <span class="hl">+</span> brindes com esteira de gamificação <span class="hl">=</span> mais indicação, mais faturamento',
-    longTitle: true,
+    terms: ["Rastrear", "Regras claras", "Brindes com esteira de gamificação"],
+    results: ["Mais indicação", "Mais faturamento"],
     navTitle: "Hipóteses",
     marks: [],
     notes: `<p>Liste as apostas <strong>na voz</strong>:</p>
