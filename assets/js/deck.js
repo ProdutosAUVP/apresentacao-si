@@ -32,14 +32,44 @@
 
   const pad = (n) => String(n).padStart(2, "0");
 
-  // Layouts cujo rodapé pousa sobre área branca: o chrome de baixo fica escuro.
+  // Índice de animação: cada elemento marcado entra um pouco depois do anterior
+  let step = 0;
+  const anim = () => ` data-anim style="--i:${step++}"`;
+  const resetAnim = () => (step = 0);
+
+  // Layouts que sempre têm a metade de baixo branca: a raiz é clara e o verde
+  // fica confinado à faixa/painel.
   const LIGHT_ROOT = new Set(["cards", "image-top"]);
 
-  // O olho acompanha o fundo em que o cabeçalho pousa: faixa escura no topo
-  // (cards / imagem no topo) e slides escuros usam a versão branca; o resto,
-  // a preta — mesma lógica do template impresso.
+  /* ---------- anéis concêntricos ---------------------------------------- */
+
+  // O eixo do menor círculo pousa exatamente no canto pedido. Como todos são
+  // concêntricos, 3/4 de cada um sai da tela. A opacidade cai conforme o raio
+  // cresce, então o menor é o mais presente.
+  function rings(opts) {
+    const o = opts || {};
+    const corner = o.corner || "br";
+    const count = o.count || 6;
+    const base = o.base || 340; // diâmetro do menor
+    const step_ = o.step || 210; // quanto cresce a cada anel
+    const from = o.from || 0.5; // opacidade do menor
+    const to = o.to || 0.06; // opacidade do maior
+
+    let out = "";
+    for (let i = 0; i < count; i++) {
+      const size = base + i * step_;
+      const op = from + ((to - from) * i) / Math.max(1, count - 1);
+      out += `<i style="width:${size}px;height:${size}px;opacity:${op.toFixed(3)};--i:${i}"></i>`;
+    }
+    return `<div class="rings c-${esc(corner)}" aria-hidden="true">${out}</div>`;
+  }
+
+  /* ---------- chrome ---------------------------------------------------- */
+
+  // O olho acompanha o fundo em que o cabeçalho pousa.
   function headerLogo(slide) {
-    if (LIGHT_ROOT.has(slide.layout)) return LOGO_LIGHT;
+    if (slide.layout === "image-top") return LOGO_LIGHT;
+    if (slide.layout === "cards") return slide.theme === "dark" ? LOGO_LIGHT : LOGO_DARK;
     return slide.theme === "dark" ? LOGO_LIGHT : LOGO_DARK;
   }
 
@@ -62,95 +92,121 @@
     </footer>`;
   }
 
-  const rings = `<div class="rings" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>`;
-
   function annotation(slide) {
     if (!slide.annot) return "";
-    return `<div class="annot pos-${esc(slide.annot.pos || "a")}">${esc(slide.annot.text)}</div>`;
+    return `<div class="annot pos-${esc(slide.annot.pos || "a")}"${anim()}>${esc(
+      slide.annot.text
+    )}</div>`;
   }
 
   function heading(slide, tag) {
     const t = tag || "h2";
-    const cls = slide.longTitle ? ' class="is-long"' : slide.quote ? ' class="quote"' : "";
+    const cls = slide.longTitle ? "is-long" : slide.quote ? "quote" : "";
     const inner = slide.titleHTML ? slide.titleHTML : esc(slide.title || "");
-    return `<${t}${cls}>${inner}</${t}>`;
+    return `<${t} class="${cls}"${anim()}>${inner}</${t}>`;
+  }
+
+  function chips(slide) {
+    if (!slide.chips) return "";
+    const items = slide.chips
+      .map((c) => {
+        const label = typeof c === "string" ? c : c.label;
+        const color = typeof c === "string" ? "155 70% 24%" : c.color;
+        return `<span style="--c:${color}">${esc(label)}</span>`;
+      })
+      .join("");
+    return `<div class="chips"${anim()}>${items}</div>`;
   }
 
   /* ---------- layouts --------------------------------------------------- */
 
   const layouts = {
     cover(slide) {
-      return `${rings}
+      return `${rings(slide.rings || { corner: "br", from: 0.42 })}
         <div class="cover-bar">
           <span class="wordmark">${esc(slide.wordmark || "AUVP Capital")}</span>
           <img src="${LOGO_DARK}" alt="AUVP">
         </div>
         <div class="cover-body">
           <hr class="rule">
-          <h1>${esc(slide.title)}</h1>
-          ${slide.subtitle ? `<p class="cover-sub">${esc(slide.subtitle)}</p>` : ""}
+          <h1${anim()}>${esc(slide.title)}</h1>
+          ${slide.subtitle ? `<p class="cover-sub"${anim()}>${esc(slide.subtitle)}</p>` : ""}
         </div>`;
     },
 
     statement(slide) {
-      const kicker = slide.kicker ? `<p class="kicker">${esc(slide.kicker)}</p>` : "";
-      const lines = slide.lines
-        ? `<div class="lines">${slide.lines.map((l) => `<span>${esc(l)}</span>`).join("")}</div>`
-        : "";
+      const kicker = slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : "";
       const title = slide.title || slide.titleHTML ? heading(slide) : "";
-      const sub = slide.sub ? `<p class="sub">${esc(slide.sub)}</p>` : "";
-      return `<div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}</div>`;
+      const lines = slide.lines
+        ? `<div class="lines">${slide.lines
+            .map((l) => `<span${anim()}>${esc(l)}</span>`)
+            .join("")}</div>`
+        : "";
+      const sub = slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : "";
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}</div>`;
     },
 
     numbers(slide) {
       const items = (slide.items || [])
-        .map((it) => `<div><div class="n">${esc(it.n)}</div><div class="t">${esc(it.t)}</div></div>`)
+        .map(
+          (it) =>
+            `<div${anim()}><div class="n">${esc(it.n)}</div><div class="t">${esc(it.t)}</div></div>`
+        )
         .join("");
-      return `<div class="wrap">${heading(slide)}<div class="num-grid">${items}</div></div>`;
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">${heading(slide)}<div class="num-grid">${items}</div></div>`;
     },
 
     flow(slide) {
       const steps = (slide.steps || [])
         .map(
           (s, i) =>
-            `<div class="step"><div class="i">${pad(i + 1)}</div><div class="txt">${esc(s)}</div></div>`
+            `<div class="step"${anim()}><div class="i">${pad(i + 1)}</div><div class="txt">${esc(
+              s
+            )}</div></div>`
         )
         .join("");
-      const note = slide.flowNote ? `<p class="flow-note">${esc(slide.flowNote)}</p>` : "";
-      return `<div class="wrap">${heading(slide)}<div class="flow">${steps}</div>${note}</div>`;
+      const note = slide.flowNote ? `<p class="flow-note"${anim()}>${esc(slide.flowNote)}</p>` : "";
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">${heading(slide)}<div class="flow">${steps}</div>${note}</div>`;
     },
 
     "image-left"(slide) {
       return `<div class="col-img${slide.bleed ? " is-bleed" : ""}">
-          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}">
+          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}"${anim()}>
         </div>
         ${annotation(slide)}
         <div class="col-txt">
           ${heading(slide)}
-          ${slide.body ? `<p class="body">${esc(slide.body)}</p>` : ""}
+          ${slide.body ? `<p class="body"${anim()}>${esc(slide.body)}</p>` : ""}
         </div>`;
     },
 
     "image-top"(slide) {
       return `<div class="band-img${slide.bleed ? " is-bleed" : ""}">
-          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}">
+          <img src="${slide.image}" alt="${esc(slide.imageAlt || "")}"${anim()}>
         </div>
         ${annotation(slide)}
         <div class="band-txt">
           ${heading(slide)}
-          ${slide.body ? `<p class="body">${esc(slide.body)}</p>` : ""}
+          ${slide.body ? `<p class="body"${anim()}>${esc(slide.body)}</p>` : ""}
         </div>`;
     },
 
     cards(slide) {
+      const green = slide.theme === "dark";
       const cards = (slide.cards || [])
-        .map((c) => `<div class="card"><h3>${esc(c.h)}</h3><p>${esc(c.p)}</p></div>`)
+        .map(
+          (c) => `<div class="card"${anim()}><h3>${esc(c.h)}</h3><p>${esc(c.p)}</p></div>`
+        )
         .join("");
       const label = slide.cardsLabel
-        ? `<p class="cards-label">${esc(slide.cardsLabel)}</p>`
+        ? `<p class="cards-label"${anim()}>${esc(slide.cardsLabel)}</p>`
         : "";
-      const lead = slide.lead ? `<p class="lead">${esc(slide.lead)}</p>` : "";
-      return `<div class="band-dark">
+      const lead = slide.lead ? `<p class="lead"${anim()}>${esc(slide.lead)}</p>` : "";
+      return `<div class="band${green ? " is-green" : ""}">
+          ${green && slide.rings ? rings(slide.rings) : ""}
           <div class="inner">${heading(slide)}${lead}</div>
           ${label}
         </div>
@@ -166,41 +222,41 @@
       return `<div class="wrap">
           <div>
             ${heading(slide)}
-            ${slide.sub ? `<p class="sub">${esc(slide.sub)}</p>` : ""}
+            ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
           </div>
-          <div class="frame">${media}</div>
+          <div class="frame is-green"${anim()}>${media}</div>
         </div>`;
     },
 
     closing(slide) {
-      const deliver = (slide.deliver || []).map((d) => `<div>${esc(d)}</div>`).join("");
-      return `${rings}
+      const deliver = (slide.deliver || [])
+        .map((d) => `<div${anim()}>${esc(d)}</div>`)
+        .join("");
+      return `${rings(slide.rings || { corner: "br", from: 0.42 })}
         <div class="wrap">
           ${heading(slide)}
           <div class="deliver">${deliver}</div>
-          ${slide.slogan ? `<p class="slogan">${esc(slide.slogan)}</p>` : ""}
+          ${slide.slogan ? `<p class="slogan"${anim()}>${esc(slide.slogan)}</p>` : ""}
         </div>`;
     },
   };
-
-  function chips(slide) {
-    if (!slide.chips) return "";
-    return `<div class="chips">${slide.chips.map((c) => `<span>${esc(c)}</span>`).join("")}</div>`;
-  }
 
   /* ---------- montagem -------------------------------------------------- */
 
   function build() {
     document.title = DECK.title;
+
     stage.innerHTML = SLIDES.map((slide, i) => {
+      resetAnim();
       const theme = LIGHT_ROOT.has(slide.layout) ? "light" : slide.theme || "light";
+      const greenBand = slide.layout === "cards" && slide.theme === "dark";
       const render = layouts[slide.layout];
       const inner = render ? render(slide) : `<div class="wrap">${heading(slide)}</div>`;
-      return `<section class="slide l-${slide.layout} t-${theme}" data-i="${i}"
-        aria-label="Slide ${i + 1} de ${SLIDES.length}">${chromeTop(slide)}${inner}${chromeBottom(
-        slide,
-        i
-      )}</section>`;
+      return `<section class="slide l-${slide.layout} t-${theme}${
+        greenBand ? " has-green-band" : ""
+      }" data-i="${i}" aria-label="Slide ${i + 1} de ${SLIDES.length}">${chromeTop(
+        slide
+      )}${inner}${chromeBottom(slide, i)}</section>`;
     }).join("");
 
     overviewGrid.innerHTML = SLIDES.map((slide, i) => {
@@ -230,18 +286,38 @@
 
   function resize() {
     const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-    stage.style.transform = `translate(${Math.round((window.innerWidth - 1920 * s) / 2)}px, ${Math.round(
-      (window.innerHeight - 1080 * s) / 2
-    )}px) scale(${s})`;
+    stage.style.transform = `translate(${Math.round(
+      (window.innerWidth - 1920 * s) / 2
+    )}px, ${Math.round((window.innerHeight - 1080 * s) / 2)}px) scale(${s})`;
   }
 
   /* ---------- navegação ------------------------------------------------ */
 
-  function go(i) {
-    current = Math.max(0, Math.min(SLIDES.length - 1, i));
-    stage.querySelectorAll(".slide").forEach((el, k) => {
-      el.classList.toggle("is-active", k === current);
-    });
+  let leaveTimer;
+
+  function go(i, opts) {
+    const target = Math.max(0, Math.min(SLIDES.length - 1, i));
+    const first = (opts || {}).first;
+    if (target === current && !first) return;
+
+    const back = target < current;
+    stage.classList.toggle("nav-prev", back);
+
+    const slides = stage.querySelectorAll(".slide");
+    clearTimeout(leaveTimer);
+    slides.forEach((el) => el.classList.remove("is-leaving"));
+
+    // O slide que sai continua visível durante a transição, atrás do que
+    // entra — é o que faz a troca ler como movimento e não como piscada.
+    if (!first && slides[current]) slides[current].classList.add("is-leaving");
+
+    slides.forEach((el, k) => el.classList.toggle("is-active", k === target));
+    leaveTimer = setTimeout(() => {
+      slides.forEach((el) => el.classList.remove("is-leaving"));
+    }, 420);
+
+    current = target;
+
     document.getElementById("progress").style.width =
       ((current + 1) / SLIDES.length) * 100 + "%";
     hudCount.textContent = `${pad(current + 1)} / ${pad(SLIDES.length)}`;
@@ -249,12 +325,14 @@
     overviewGrid.querySelectorAll("button").forEach((b, k) => {
       b.classList.toggle("is-current", k === current);
     });
+
     if (history.replaceState) history.replaceState(null, "", "#" + (current + 1));
     else location.hash = current + 1;
-    // pausa qualquer vídeo que não seja o do slide atual
+
     stage.querySelectorAll("video").forEach((v) => {
       if (!v.closest(".slide").classList.contains("is-active")) v.pause();
     });
+
     flashHud();
   }
 
@@ -311,15 +389,14 @@
 
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const k = e.key;
 
-    if (k === "Escape") {
+    if (e.key === "Escape") {
       toggleOverview(false);
       help.classList.remove("is-open");
       return;
     }
 
-    switch (k) {
+    switch (e.key) {
       case "ArrowRight":
       case "ArrowDown":
       case "PageDown":
@@ -410,5 +487,5 @@
   build();
   resize();
   const fromHash = parseInt(location.hash.replace(/\D/g, ""), 10);
-  go(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0);
+  go(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0, { first: true });
 })();

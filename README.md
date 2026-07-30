@@ -10,6 +10,28 @@ Site estático, sem build e sem dependências. Estética, cores, fontes e logos 
 
 ---
 
+## Regras de design
+
+**O fundo padrão é branco.** O verde é pontual: marca só os quatro momentos de
+maior peso — capa (01), a virada da solução (08), a regra de ouro (13) e o fecho
+(19) — mais os painéis que emolduram print e vídeo. Mudar o `theme` de um slide
+para `"dark"` é uma decisão narrativa, não decorativa.
+
+**O verde nunca é chapado.** É sempre o `--green-grad`: o verde da marca descendo
+em degradê leve para um verde mais escuro, com uma camada de ruído por cima
+(`--grain`, 7% de opacidade) para texturizar. Os dois vivem no CSS — não escreva
+`background: hsl(var(--brand-dark))` direto em lugar nenhum.
+
+**Anéis decorativos** (`rings`): o eixo do círculo menor pousa exatamente num
+canto, então 3/4 de cada anel sai da tela e só um quadrante aparece. A opacidade
+cai conforme o raio cresce — o menor é o mais presente. Escolha o canto que
+estiver livre de texto e do cabeçalho.
+
+**Uma cor por equipe** no slide 02, com matizes diferentes mas luminosidade
+parecida: lê como sistema, não como arco-íris.
+
+---
+
 ## Rodar localmente
 
 Basta abrir o `index.html` no navegador. Se preferir servir:
@@ -109,7 +131,7 @@ Todos derivam dos modelos do template oficial:
 | `flow` | Ciclo / bola de neve | `title`, `steps[]`, `flowNote` |
 | `image-left` | Slide com imagem, modelo 1 | `title`, `body`, `image`, `annot`, `quote: true` |
 | `image-top` | Slide com imagem, modelo 2 | `title`, `body`, `image`, `annot` |
-| `cards` | Texto sem imagem, modelo 2 (faixa escura + cartões) | `title`, `lead`, `cardsLabel`, `cards[{h,p}]` (2, 3 ou 6) |
+| `cards` | Texto sem imagem, modelo 2 (faixa + cartões; verde só com `theme: "dark"`) | `title`, `lead`, `cardsLabel`, `cards[{h,p}]` (2, 3 ou 6) |
 | `video` | Demo em vídeo | `title`, `sub`, `video`, `poster` |
 | `closing` | Fecho com entregas + slogan | `title`, `deliver[]`, `slogan` |
 
@@ -119,6 +141,34 @@ aparecem no painel de notas) e `notes` (o roteiro da fala, aceita HTML simples).
 
 `titleHTML` existe para quando o título precisa de destaque interno —
 `<span class="hl">+</span>`, `<span class="arrow">→</span>` ou um `<br>`.
+
+### Anéis e fichas coloridas
+
+```js
+rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42, to: 0.06 },
+```
+
+`corner` é `br` | `bl` | `tr` | `tl`; `base` é o diâmetro do menor anel, `step` o
+quanto cada um cresce, e `from`/`to` a opacidade do menor e do maior. A cor vem
+do tema (branco sobre verde, verde sobre branco) — não precisa declarar.
+
+```js
+chips: [{ label: "Produto", color: "155 72% 22%" }],
+```
+
+`color` é HSL **sem** o `hsl()` em volta. O texto sai sempre branco, então
+mantenha a luminosidade em torno de 22–42% para o contraste se sustentar.
+
+### Animação
+
+A troca de slide é direcional (o conteúdo entra do lado para onde você está
+indo) e os elementos sobem escalonados, na ordem em que aparecem na marcação.
+Não há nada a configurar: o motor numera os elementos sozinho.
+
+Nenhum estado de repouso é invisível — quem esconde é o keyframe, com fill
+`backwards`. É isso que garante que desligar a animação (impressão,
+`prefers-reduced-motion`) devolva o slide inteiro visível, em vez de páginas em
+branco no PDF.
 
 ---
 

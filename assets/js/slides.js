@@ -13,6 +13,8 @@
      ...      campos específicos de cada layout (ver README)
      image    caminho do arquivo — TROQUE AQUI pelos prints definitivos
      annot    { text, pos } setinha fixa (➡️) sobre a imagem — pos: a | b | c
+     rings    { corner, count, base, step, from, to } anéis decorativos
+     chips    [{ label, color }] — color em HSL sem hsl(), ex.: "155 72% 22%"
      marks    marcadores exibidos no painel de notas (⭐ 📷 🎥 ⚠️ ➡️)
      notes    roteiro da fala (aceita HTML simples)
    ========================================================================= */
@@ -29,6 +31,7 @@ const SLIDES = [
     layout: "cover",
     theme: "dark",
     wordmark: "AUVP Capital",
+    rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
     title: "O nosso canal mais barato de aquisição estava quebrado.",
     subtitle: "Hoje você vai entender por quê — e o que consertamos.",
     navTitle: "Abertura (promessa)",
@@ -41,17 +44,19 @@ const SLIDES = [
   /* 02 ------------------------------------------------------------------ */
   {
     layout: "statement",
-    theme: "dark",
+    theme: "light",
     section: "Quem construiu",
     title: "Feito por muita gente.",
+    // Uma cor por equipe. Matizes diferentes, mas luminosidade parecida:
+    // lê como sistema, não como arco-íris. Texto sempre branco.
     chips: [
-      "Produto",
-      "Tech",
-      "Salesforce",
-      "Infra",
-      "Logística",
-      "Consultores",
-      "Atendimento",
+      { label: "Produto", color: "155 72% 22%" },
+      { label: "Tech", color: "192 64% 28%" },
+      { label: "Salesforce", color: "212 60% 38%" },
+      { label: "Infra", color: "258 38% 42%" },
+      { label: "Logística", color: "20 64% 40%" },
+      { label: "Consultores", color: "42 74% 34%" },
+      { label: "Atendimento", color: "338 48% 40%" },
     ],
     navTitle: "Quem construiu",
     marks: ["⭐ colaboradores no início", "⚠️ nomes a preencher"],
@@ -63,7 +68,7 @@ const SLIDES = [
   /* 03 ------------------------------------------------------------------ */
   {
     layout: "image-left",
-    theme: "dark",
+    theme: "light",
     section: "O problema",
     title: "“Meu marido me indicou.”",
     quote: true,
@@ -80,7 +85,7 @@ const SLIDES = [
   /* 04 ------------------------------------------------------------------ */
   {
     layout: "flow",
-    theme: "dark",
+    theme: "light",
     section: "O problema",
     title: "A bola de neve.",
     steps: [
@@ -104,6 +109,7 @@ const SLIDES = [
     layout: "statement",
     theme: "light",
     section: "O problema",
+    rings: { corner: "tr", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
     lines: ["Informação fragmentada.", "Zero rastreabilidade.", "Regras opacas."],
     navTitle: "O problema, em uma frase",
     marks: [],
@@ -115,7 +121,7 @@ const SLIDES = [
   /* 06 ------------------------------------------------------------------ */
   {
     layout: "numbers",
-    theme: "dark",
+    theme: "light",
     section: "Por que importa",
     title: "Três razões:",
     items: [
@@ -150,6 +156,7 @@ const SLIDES = [
     layout: "statement",
     theme: "dark",
     section: "A solução",
+    rings: { corner: "bl", count: 6, base: 320, step: 200, from: 0.4 },
     lines: ["Um link.", "Um lugar.", "Regras claras.", "Brinde que chega."],
     navTitle: "A solução",
     marks: ["⭐ a cerca em volta do conceito"],
@@ -220,7 +227,7 @@ const SLIDES = [
   /* 12 ------------------------------------------------------------------ */
   {
     layout: "video",
-    theme: "dark",
+    theme: "light",
     section: "Demo",
     title: "Está no ar — e zerado pra vocês testarem.",
     sub: "Link no chat. Sem nenhum dado ainda: é de propósito.",
@@ -239,6 +246,7 @@ const SLIDES = [
     layout: "cards",
     theme: "dark",
     section: "Regras",
+    rings: { corner: "br", count: 5, base: 260, step: 180, from: 0.36 },
     title: "Regra de ouro: sem link, sem indicação.",
     cardsLabel: "Como funciona:",
     cards: [
@@ -256,7 +264,7 @@ const SLIDES = [
   /* 14 ------------------------------------------------------------------ */
   {
     layout: "cards",
-    theme: "dark",
+    theme: "light",
     section: "Regras",
     title: "Vale a regra de ouro. E olhamos caso a caso.",
     lead: "“E os dados retroativos?” — a pergunta que vai aparecer.",
@@ -284,7 +292,7 @@ const SLIDES = [
   /* 15 ------------------------------------------------------------------ */
   {
     layout: "cards",
-    theme: "dark",
+    theme: "light",
     section: "Escopo desta fase",
     title: "Não é a V2 inteira. É o coração dela.",
     cardsLabel: "Hoje × futuro:",
@@ -305,6 +313,7 @@ const SLIDES = [
     layout: "statement",
     theme: "light",
     section: "Hipóteses",
+    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
     kicker: "Estamos apostando que:",
     titleHTML:
       'rastrear <span class="hl">+</span> regras claras <span class="hl">+</span> facilitar <span class="hl">=</span> mais indicação, menos reclamação',
@@ -324,7 +333,7 @@ const SLIDES = [
   /* 17 ------------------------------------------------------------------ */
   {
     layout: "numbers",
-    theme: "dark",
+    theme: "light",
     section: "Como saberemos",
     title: "Três provas:",
     items: [
@@ -343,7 +352,7 @@ const SLIDES = [
   /* 18 ------------------------------------------------------------------ */
   {
     layout: "cards",
-    theme: "dark",
+    theme: "light",
     section: "Onde cada time entra",
     title: "Sem todos dentro, não escala.",
     cardsLabel: "Pré-requisitos e donos:",
@@ -378,6 +387,7 @@ const SLIDES = [
     layout: "closing",
     theme: "dark",
     section: "O que entregamos",
+    rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
     title: "O que esta fase entregou:",
     deliver: ["Rastreabilidade real", "Portal único", "Regras claras", "Brinde operacional"],
     slogan: "“Cliente ativo é o nosso melhor vendedor.”",
