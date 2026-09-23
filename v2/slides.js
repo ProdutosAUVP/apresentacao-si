@@ -164,15 +164,15 @@ const SLIDES = [
     n: "6.753",
     t: "leads chegaram à base por indicação.",
     sub: "Média de ~780 por mês de janeiro a agosto.",
-    // Base total: soma das semanas de 29/dez a 26/abr no painel de leads
-    // (44.986, já inclui a indicação). Indicação jan–abr: 3.370 → 7,5%.
+    // Base total: painel de leads, mensal, jan–set/26 = 97.595 (já inclui a
+    // indicação; a barra de dez/25 do painel fica de fora). 6.753 ÷ 97.595 = 6,9%.
     share: {
-      title: "De janeiro a abril, em toda a base",
-      part: 3370,
-      partLabel: "Indicação: 3.370 (≈ 7,5%)",
-      rest: 41616,
-      restLabel: "Outras origens: ≈ 41,6 mil",
-      note: "Base total ≈ 45 mil leads no período.",
+      title: "Em toda a base, de janeiro a setembro",
+      part: 6753,
+      partLabel: "Indicação: 6.753 (≈ 7%)",
+      rest: 90842,
+      restLabel: "Outras origens: 90.842",
+      note: "Base total: 97.595 leads no período.",
     },
     barsTitle: "Leads por indicação · 2026",
     bars: [
@@ -191,17 +191,15 @@ const SLIDES = [
     marks: [
       "⭐ o volume que a base traz",
       "setembro ainda em andamento",
-      "⚠️ comparativo só vai até abril",
     ],
     notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
       que chegaram porque alguém que já é cliente recomendou. Dá uma média de quase 800 por
       mês.”</p>
-      <p>“E pra dar escala: de janeiro a abril entraram uns 45 mil leads na base, de todas
-      as origens. <strong>Cerca de 7,5%</strong> vieram por indicação, justamente o canal mais
+      <p>“E pra dar escala: este ano entraram quase 98 mil leads na base, de todas as
+      origens. <strong>Cerca de 7%</strong> vieram por indicação, justamente o canal mais
       barato.”</p>
-      <p><em>O comparativo usa o painel de leads por semana (29/dez a 26/abr), então é
-      aproximado. ⚠️ Com os dados de maio a setembro da base total, dá pra comparar o ano
-      inteiro.</em></p>
+      <p><em>A proporção fica entre 5,6% e 9,7% mês a mês (o pico é março). Fonte da base
+      total: painel de leads, visão mensal de jan a set/26.</em></p>
       <p><em>Setembro está em andamento (495 até agora): por isso a barra vazada. Não leia
       como queda.</em></p>
       <p><em>Fique no volume. Conversão e faturamento são números do Comercial: não entram
@@ -417,7 +415,7 @@ const SLIDES = [
       },
       {
         h: "6.753 recomendações em 2026",
-        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7,5% dos leads da base de jan a abr.",
+        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7% de todos os leads da base.",
       },
       {
         h: "O brinde é de quem indicou",
