@@ -1,5 +1,5 @@
 /* =========================================================================
-   Conteúdo da apresentação — Sistema de Indicação · time de Novos Negócios
+   Conteúdo da apresentação — Indica AUVP · time de Novos Negócios
    -------------------------------------------------------------------------
    Publicada em /v2/. Design e motor (assets/css, assets/js/deck.js) são os
    mesmos da apresentação principal — aqui muda só o conteúdo.
@@ -18,7 +18,7 @@
    ========================================================================= */
 
 const DECK = {
-  title: "Sistema de Indicação — Novos Negócios · AUVP Capital",
+  title: "Indica AUVP — Novos Negócios · AUVP",
   date: "[data]", // ⚠️ preencher antes de apresentar (aparece no topo de todos os slides)
   targetMinutes: 25, // ⚠️ a copy diz "[X] minutos" — ajustar quando a duração for definida
 };
@@ -28,10 +28,10 @@ const SLIDES = [
   {
     layout: "cover",
     theme: "dark",
-    wordmark: "AUVP Capital",
+    wordmark: "AUVP",
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
-    title: "O Sistema de Indicação.",
-    subtitle: "O que é, o que não é e como vocês entram nele no dia a dia.",
+    title: "Indica AUVP.",
+    subtitle: "O nosso sistema de indicação: o que é, o que não é e como vocês entram nele no dia a dia.",
     navTitle: "Abertura (promessa)",
     marks: ["⭐ promessa em três partes", "⚠️ duração: [X] minutos"],
     notes: `<p>“Em <strong>[X] minutos</strong>, vocês saem sabendo três coisas: o que é o
@@ -142,7 +142,7 @@ const SLIDES = [
     layout: "statement",
     theme: "light",
     section: "O que não é",
-    title: "O SI não é:",
+    title: "O Indica AUVP não é:",
     linesStyle: "no",
     lines: [
       "Um painel que o indicado acessa antes de comprar",
@@ -182,26 +182,26 @@ const SLIDES = [
       {
         tone: "green",
         icon: "gift",
-        tag: "Novo · SI",
+        tag: "Novo · Indica AUVP",
         name: "Link de indicação",
         rows: [{ who: "Só para quem indicou", what: "Brinde" }],
       },
     ],
     alert:
-      "Na frente do cliente, são sistemas diferentes: não apresente o link família como parte do SI.",
+      "Na frente do cliente, são sistemas diferentes: não apresente o link família como parte do Indica AUVP.",
     navTitle: "Os dois links",
-    marks: ["⭐ ponto mais sensível da apresentação", "⚠️ indicado pelo link SI tem benefício?"],
+    marks: ["⭐ ponto mais sensível da apresentação", "⚠️ indicado pelo link do Indica AUVP tem benefício?"],
     notes: `<p>“O link família continua sendo o que sempre foi: <strong>desconto pra quem está
       entrando</strong>. O que muda é que as conversões dele agora também contam como
       indicação pro embaixador.”</p>
-      <p>“Uma atenção importante: <strong>não tratem o link família como parte do SI na frente
+      <p>“Uma atenção importante: <strong>não tratem o link família como parte do Indica AUVP na frente
       do cliente</strong>, porque são sistemas diferentes. Por trás, os dois beneficiam o
-      embaixador, só que com focos diferentes: o família no desconto, o SI no brinde.”</p>
+      embaixador, só que com focos diferentes: o família no desconto, o Indica AUVP no brinde.”</p>
       <p>“Evitem falar disso abertamente com o indicado. A distinção é operacional nossa, não
       precisa virar explicação pro cliente final.”</p>
       <p><em>Cores diferentes de propósito (areia × verde): ninguém deve ler os dois como duas
       formas de fazer a mesma coisa. Termine lendo a faixa de alerta.</em></p>
-      <p><em>⚠️ Confirmar: quem entra pelo link de indicação (SI) recebe algum benefício? A
+      <p><em>⚠️ Confirmar: quem entra pelo link de indicação (Indica AUVP) recebe algum benefício? A
       copy diz “brinde só pra quem indicou” — o bloco verde mostra só isso.</em></p>`,
   },
 
@@ -354,15 +354,16 @@ const SLIDES = [
     theme: "dark",
     section: "Contato",
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
-    title: "Dúvida sobre o sistema? Fala comigo.",
-    deliver: ["[seu nome]", "[contato]"],
-    slogan: "Ponto único para dúvidas de regra do SI.",
+    title: "Dúvida sobre o Indica AUVP? Procure o time de Produto.",
+    deliver: ["Ariadne", "Ana Beatriz", "Armando"],
+    slogan: "Ponto único para dúvidas de regra do Indica AUVP.",
     navTitle: "Encerramento (contato)",
-    marks: ["⚠️ nome e canal de contato"],
-    notes: `<p>Feche reforçando que você é o <strong>ponto único de contato</strong> para
-      dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
-      sistema.</p>
-      <p><em>⚠️ Preencher nome e canal de contato em <code>deliver</code>.</em></p>`,
+    marks: ["⭐ ponto único de contato"],
+    notes: `<p>“Dúvida sobre o sistema? Pode procurar a Ariadne, a Ana Beatriz ou o Armando,
+      do time de Produto.”</p>
+      <p>Feche reforçando que o time de Produto é o <strong>ponto único de contato</strong>
+      para dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
+      sistema.</p>`,
   },
 
   /* 15 — apoio --------------------------------------------------------- */
