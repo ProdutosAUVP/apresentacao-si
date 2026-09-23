@@ -66,7 +66,7 @@ const SLIDES = [
         people: "Witor Lomazzi e João Lima",
         lead: "Cauê",
       },
-      { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Antonelli" },
+      { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Paulo Ala" },
       {
         label: "Consultoria",
         color: "42 74% 34%",
@@ -507,14 +507,21 @@ const SLIDES = [
     layout: "image-top",
     theme: "light",
     section: "Apoio à demo",
-    title: "Onde vocês geram o link no Salesforce.",
-    body: "O campo do link fica na conta da pessoa.",
-    image: "v2/img/print-salesforce.svg",
-    imageAlt: "Salesforce: campo do link de indicação na conta da pessoa",
+    title: "Onde vocês encontram o link no Salesforce.",
+    band: 800, // print alto: mais espaço para ficar legível
+    body: "Na conta da pessoa, o card “Códigos de Indicações” traz o link e o dono do código.",
+    image: "v2/img/print-salesforce.png",
+    imageAlt: "Conta de um aluno no Salesforce, com dados pessoais borrados: à direita, o card AUVP Família com o botão Gerar Link Família e, destacado em vermelho, o card Códigos de Indicações com o código, o link e o proprietário",
     navTitle: "Apoio: link no Salesforce",
-    marks: ["📷 plano B da demo", "⚠️ print a inserir"],
+    marks: ["📷 plano B da demo", "📷 dados pessoais borrados no print"],
     notes: `<p><em>Slide de apoio — use só se a demo ao vivo travar.</em></p>
-      <p><em>⚠️ Trocar o espaço reservado pelo print definitivo em
-      <code>v2/img/</code>.</em></p>`,
+      <p>Pontos para mostrar no print:</p>
+      <ul>
+        <li>o card <strong>Códigos de Indicações</strong> (em vermelho), na conta da pessoa:
+        código, link e proprietário;</li>
+        <li>logo acima, o card <strong>AUVP Família</strong>, com o botão Gerar Link Família:
+        é o outro link, o do desconto (slide 07). São cards separados, como os dois
+        sistemas.</li>
+      </ul>`,
   },
 ];
