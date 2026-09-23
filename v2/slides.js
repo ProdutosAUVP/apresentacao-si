@@ -26,7 +26,7 @@ const DECK = {
 };
 
 const SLIDES = [
-  /* 01 ------------------------------------------------------------------ */
+  /* 01 ------------------------------------------------------------------- */
   {
     layout: "cover",
     theme: "dark",
@@ -39,11 +39,11 @@ const SLIDES = [
     notes: `<p>“Em <strong>[X] minutos</strong>, vocês saem sabendo três coisas: o que é o
       sistema, o que ele não é, e como vocês entram nele no dia a dia.”</p>
       <p><em>A promessa está no subtítulo: aponte para ela. As três partes voltam na ordem —
-      “o que é” (slides 03–05), “o que não é” (06) e “como vocês entram” (07 em diante).</em></p>
+      “o que é” (slides 03–06), “o que não é” (07) e “como vocês entram” (08 em diante).</em></p>
       <p><em>⚠️ Definir a duração e ajustar <code>targetMinutes</code> no topo do arquivo.</em></p>`,
   },
 
-  /* 02 ------------------------------------------------------------------ */
+  /* 02 ------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -87,7 +87,7 @@ const SLIDES = [
       reconhecimento ganha um momento próprio, sem disputar atenção.</em></p>`,
   },
 
-  /* 03 ------------------------------------------------------------------ */
+  /* 03 ------------------------------------------------------------------- */
   {
     layout: "image-left",
     theme: "light",
@@ -109,27 +109,7 @@ const SLIDES = [
       em <code>image</code>.</em></p>`,
   },
 
-  /* 04 ------------------------------------------------------------------ */
-  {
-    layout: "figure",
-    theme: "light",
-    section: "Objetivo de negócio",
-    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
-    kicker: "Hoje,",
-    n: "XX%",
-    t: "do nosso faturamento vem de indicação.",
-    navTitle: "O objetivo de negócio",
-    marks: ["⭐ o número que justifica o investimento", "⚠️ % de faturamento e período"],
-    notes: `<p>Entregue o número e pare. Depois:</p>
-      <p>“Esse número é o motivo pelo qual investimos nisso. Não é programa de
-      relacionamento, é <strong>canal de receita validado</strong>.”</p>
-      <p><em>⚠️ Pendente: valor atualizado e período de referência (2026 completo ou último
-      trimestre) e se já inclui Consultoria além da Escola. Quando chegar, troque
-      <code>n</code> e, se precisar, diga o período no <code>kicker</code>
-      (ex.: “Em 2026,”).</em></p>`,
-  },
-
-  /* 05 ------------------------------------------------------------------ */
+  /* 04 ------------------------------------------------------------------- */
   {
     layout: "loop",
     theme: "light",
@@ -145,9 +125,8 @@ const SLIDES = [
     hl: 3, // Referral
     back: 0, // volta para Aquisição
     backLabel: "cliente satisfeito vira novo cliente",
-    pending: "⚠️ Dado consolidado sobre MGM (benchmark de mercado ou referência interna) — a inserir",
     navTitle: "O que é (MGM / AARRR)",
-    marks: ["⭐ o funil que vira ciclo", "⚠️ dado consolidado de MGM"],
+    marks: ["⭐ o funil que vira ciclo"],
     notes: `<p>“No modelo AARRR — Aquisição, Ativação, Retenção, <strong>Referral</strong>,
       Receita — a indicação é o estágio que fecha o ciclo. Ela pega quem já é cliente
       satisfeito e transforma em novo cliente.”</p>
@@ -155,11 +134,72 @@ const SLIDES = [
       a seta de volta até Aquisição com a mão.</em></p>
       <p>“É uma estratégia de aquisição consolidada no mercado, e aqui a gente aplica de forma
       bem diluída, sem agressividade.”</p>
-      <p><em>⚠️ O quadro tracejado é o lugar do dado consolidado de MGM. Quando chegar,
-      substitua o texto de <code>pending</code> pelo dado — ou remova o campo.</em></p>`,
+      <p><em>Os dois próximos slides são a referência interna do MGM: quantos leads a base
+      trouxe em 2026 e quanto custa cada um.</em></p>`,
   },
 
-  /* 06 ------------------------------------------------------------------ */
+  /* 05 ------------------------------------------------------------------- */
+  {
+    layout: "figure",
+    theme: "light",
+    section: "Indicação em números",
+    kicker: "Em 2026, até setembro,",
+    n: "6.753",
+    t: "leads chegaram à base por indicação.",
+    sub: "Média de ~780 por mês de janeiro a agosto.",
+    barsTitle: "Leads por indicação · 2026",
+    bars: [
+      { x: "Jan", v: 865, label: "865" },
+      { x: "Fev", v: 694, label: "694" },
+      { x: "Mar", v: 1076, label: "1.076" },
+      { x: "Abr", v: 735, label: "735" },
+      { x: "Mai", v: 858, label: "858" },
+      { x: "Jun", v: 588, label: "588" },
+      { x: "Jul", v: 763, label: "763" },
+      { x: "Ago", v: 679, label: "679" },
+      { x: "Set", v: 495, label: "495", partial: true },
+    ],
+    barsNote: "* Setembro em andamento.",
+    navTitle: "Leads por indicação em 2026",
+    marks: ["⭐ o volume que a base traz", "⚠️ setembro parcial: atualizar no dia"],
+    notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
+      que chegaram porque alguém que já é cliente recomendou. Dá uma média de quase 800 por
+      mês.”</p>
+      <p><em>Setembro está em andamento (495 até agora): por isso a barra vazada. Não leia
+      como queda.</em></p>
+      <p><em>Fique no volume. Conversão e faturamento são números do Comercial: não entram
+      nesta apresentação.</em></p>
+      <p><em>Fonte: matriz mensal de indicação (jan–set/26).</em></p>`,
+  },
+
+  /* 06 ------------------------------------------------------------------- */
+  {
+    // Racional (fora da tela e das notas, porque usa a conversão, que é dado do
+    // Comercial): 6.753 leads ÷ 1.044 convertidos em 2026 ≈ 6,5 leads por indicação
+    // confirmada. Custo da jaqueta ÷ 6,5 ≈ R$ 30 por lead (jaqueta ≈ R$ 195).
+    layout: "equation",
+    theme: "light",
+    section: "Custo por lead",
+    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.2, to: 0.04 },
+    kicker: "Quanto custa um lead de indicação?",
+    op: "÷",
+    terms: ["Custo do brinde da 1ª indicação: a jaqueta", "Leads que chegam até uma indicação ser confirmada"],
+    results: ["≈ R$ 30", "por lead"],
+    sub: "O brinde só é pago quando a indicação é confirmada. Lead que não fecha não gera custo de brinde.",
+    navTitle: "Custo por lead (≈ R$ 30)",
+    marks: ["⭐ o racional do custo", "⚠️ confirmar o custo da jaqueta"],
+    notes: `<p>“Quanto custa pra gente um lead que chega por indicação? Em torno de
+      <strong>R$ 30</strong>.”</p>
+      <p>“O racional: o único custo direto é o brinde, e o brinde só sai quando a indicação é
+      confirmada. Hoje o brinde da primeira indicação é a <strong>jaqueta</strong>. Pego o custo
+      da jaqueta e divido por todos os leads que chegam até uma indicação ser confirmada: dá
+      uns R$ 30 por lead.”</p>
+      <p>“Ou seja: o custo está amarrado ao resultado. Lead que não fecha não custa brinde.”</p>
+      <p><em>Não cite a taxa de conversão: é dado do Comercial. Se perguntarem, o racional
+      fica em “custo da jaqueta dividido pelos leads até uma confirmação”.</em></p>`,
+  },
+
+  /* 07 ------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -183,7 +223,7 @@ const SLIDES = [
       vocês já conhecem”.</em></p>`,
   },
 
-  /* 07 ------------------------------------------------------------------ */
+  /* 08 ------------------------------------------------------------------- */
   {
     layout: "compare",
     theme: "light",
@@ -224,7 +264,7 @@ const SLIDES = [
       copy diz “brinde só pra quem indicou” — o bloco verde mostra só isso.</em></p>`,
   },
 
-  /* 08 ------------------------------------------------------------------ */
+  /* 09 ------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
@@ -252,10 +292,10 @@ const SLIDES = [
       <p>“Fora do período de março, a regra do slide anterior vale direto. Essa exceção existe
       só pra não distorcer os números daquela campanha específica.”</p>
       <p><em>Na copy original este slide repetia “conversão do link família também conta” —
-      que já está no slide 07. Aqui ele mostra só a exceção.</em></p>`,
+      que já está no slide 08. Aqui ele mostra só a exceção.</em></p>`,
   },
 
-  /* 09 ------------------------------------------------------------------ */
+  /* 10 ------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "dark",
@@ -271,7 +311,7 @@ const SLIDES = [
       entrada de novos membros. Pode expandir conforme os resultados aparecerem.”</p>`,
   },
 
-  /* 10 ------------------------------------------------------------------ */
+  /* 11 ------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
@@ -301,7 +341,7 @@ const SLIDES = [
       Fechado e Ganho → brinde). Os dados retroativos, que são exceção, ficaram para depois.</em></p>`,
   },
 
-  /* 11 ------------------------------------------------------------------ */
+  /* 12 ------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
@@ -331,7 +371,7 @@ const SLIDES = [
       o envio (não até a entrega)?</em></p>`,
   },
 
-  /* 12 ------------------------------------------------------------------ */
+  /* 13 ------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -352,7 +392,46 @@ const SLIDES = [
       Confirmar qual vale e alinhar os dois.</em></p>`,
   },
 
-  /* 13 ------------------------------------------------------------------ */
+  /* 14 ------------------------------------------------------------------- */
+  {
+    layout: "cards",
+    theme: "light",
+    section: "No dia a dia",
+    title: "Na conversa, o valor já chegou antes de vocês.",
+    lead: "Quem vem por indicação ouviu de alguém de confiança que o produto vale a pena. Usem isso.",
+    cardsLabel: "Como usar:",
+    cards: [
+      {
+        h: "Abram pela indicação",
+        p: "“Quem te indicou já é aluno. O que ele te contou?” O valor aparece na voz de quem o cliente confia.",
+      },
+      {
+        h: "Respondam “vale a pena?”",
+        p: "Com a base: só em 2026, 6.753 pessoas chegaram porque um aluno recomendou.",
+      },
+      {
+        h: "Não prometam brinde",
+        p: "O brinde é de quem indicou. Com o indicado, falem do produto, não do programa.",
+      },
+    ],
+    navTitle: "Como usar na conversa",
+    marks: ["⭐ oportunidade de venda", "⚠️ sugestões de abordagem: validar com o Comercial"],
+    notes: `<p>“O que isso muda pra vocês? Quem chega por indicação já ouviu, de alguém em quem
+      confia, que o produto vale a pena. Vocês não começam do zero.”</p>
+      <p>Passe pelos três cartões:</p>
+      <ul>
+        <li><strong>Abram pela indicação:</strong> perguntar o que quem indicou contou faz o
+        cliente repetir o valor com as palavras dele.</li>
+        <li><strong>“Vale a pena?”:</strong> a resposta está na base: 6.753 pessoas chegaram
+        este ano porque um aluno recomendou.</li>
+        <li><strong>Não prometam brinde:</strong> o brinde é do embaixador. Com o indicado, a
+        conversa é sobre o produto (mesma regra do slide dos dois links).</li>
+      </ul>
+      <p><em>⚠️ As frases dos cartões são sugestões de abordagem. Vale validar com a liderança
+      do Comercial antes de apresentar.</em></p>`,
+  },
+
+  /* 15 ------------------------------------------------------------------- */
   {
     layout: "numbers",
     theme: "dark",
@@ -364,7 +443,7 @@ const SLIDES = [
       { n: "2", t: "Visão de vocês no Salesforce" },
     ],
     navTitle: "Demo ao vivo (transição)",
-    marks: ["🎥 demo fora do deck", "⚠️ plano B: prints de apoio (slides 15–16)"],
+    marks: ["🎥 demo fora do deck", "⚠️ plano B: prints de apoio (slides 17–18)"],
     notes: `<p>“Até aqui foi o contexto, agora eu mostro na tela.”</p>
       <p>“<strong>Primeiro</strong> a visão do embaixador, exatamente como ele vai ver o link,
       o status e o brinde. <strong>Depois</strong> eu mostro onde vocês geram o link de
@@ -372,10 +451,10 @@ const SLIDES = [
       pessoa. Vou mostrar exatamente onde procurar.”</p>
       <p><em>Este slide é só a transição: a demo acontece fora do deck, direto no sistema e no
       Salesforce. Se o compartilhamento travar (como na apresentação do Atendimento em julho),
-      vá para os slides de apoio 15 e 16 — tecla <code>End</code> leva ao último.</em></p>`,
+      vá para os slides de apoio 17 e 18 — tecla <code>End</code> leva ao último.</em></p>`,
   },
 
-  /* 14 ------------------------------------------------------------------ */
+  /* 16 ------------------------------------------------------------------- */
   {
     layout: "closing",
     theme: "dark",
@@ -396,7 +475,7 @@ const SLIDES = [
       sistema.</p>`,
   },
 
-  /* 15 — apoio --------------------------------------------------------- */
+  /* 17 — apoio ----------------------------------------------------------- */
   {
     layout: "image-top",
     theme: "light",
@@ -412,7 +491,7 @@ const SLIDES = [
       <code>v2/img/</code>.</em></p>`,
   },
 
-  /* 16 — apoio --------------------------------------------------------- */
+  /* 18 — apoio ----------------------------------------------------------- */
   {
     layout: "image-top",
     theme: "light",

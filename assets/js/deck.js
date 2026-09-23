@@ -160,6 +160,27 @@
     return `<div class="teams"${anim()}>${items}</div>`;
   }
 
+  // Barras mês a mês ao lado do número grande: uma série só, uma cor, valor
+  // em cima de cada barra. `partial: true` marca o mês em andamento (vazado).
+  function bars(slide) {
+    if (!slide.bars) return "";
+    const max = Math.max(...slide.bars.map((b) => b.v));
+    const cols = slide.bars
+      .map(
+        (b) => `<div class="bar${b.partial ? " is-partial" : ""}">
+          <span class="bar-v">${esc(b.label || b.v)}</span>
+          <span class="bar-fill" style="height:${((b.v / max) * 82).toFixed(1)}%"></span>
+          <span class="bar-x">${esc(b.x)}${b.partial ? "*" : ""}</span>
+        </div>`
+      )
+      .join("");
+    return `<figure class="bars"${anim()}>
+        ${slide.barsTitle ? `<figcaption class="bars-t">${esc(slide.barsTitle)}</figcaption>` : ""}
+        <div class="bars-plot" role="img" aria-label="${esc(slide.barsTitle || "")}">${cols}</div>
+        ${slide.barsNote ? `<p class="bars-note">${esc(slide.barsNote)}</p>` : ""}
+      </figure>`;
+  }
+
   // Dado que ainda não chegou: fica visível no slide (tracejado), para não
   // passar despercebido no ensaio. Some quando o campo `pending` sai.
   function pending(slide) {
@@ -212,12 +233,15 @@
     // logo abaixo.
     figure(slide) {
       return `${slide.rings ? rings(slide.rings) : ""}
-        <div class="wrap">
-          ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
-          <div class="fig-n"${anim()}>${esc(slide.n)}</div>
-          <p class="fig-t"${anim()}>${esc(slide.t)}</p>
-          ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
-          ${pending(slide)}
+        <div class="wrap${slide.bars ? " has-bars" : ""}">
+          <div class="fig-main">
+            ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
+            <div class="fig-n"${anim()}>${esc(slide.n)}</div>
+            <p class="fig-t"${anim()}>${esc(slide.t)}</p>
+            ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
+            ${pending(slide)}
+          </div>
+          ${bars(slide)}
         </div>`;
     },
 
@@ -468,7 +492,7 @@
       const terms = (slide.terms || [])
         .map(
           (t, i) =>
-            `${i ? `<span class="op"${anim()}>+</span>` : ""}<span class="term"${anim()}>${esc(
+            `${i ? `<span class="op"${anim()}>${esc(slide.op || "+")}</span>` : ""}<span class="term"${anim()}>${esc(
               t
             )}</span>`
         )
@@ -484,6 +508,7 @@
             <span class="op is-eq"${anim()}>=</span>
             <div class="eq-res">${results}</div>
           </div>
+          ${slide.sub ? `<p class="eq-sub"${anim()}>${esc(slide.sub)}</p>` : ""}
         </div>`;
     },
 
