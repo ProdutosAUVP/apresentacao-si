@@ -145,6 +145,19 @@
     return `<div class="chips"${anim()}>${items}</div>`;
   }
 
+  // Dado que ainda não chegou: fica visível no slide (tracejado), para não
+  // passar despercebido no ensaio. Some quando o campo `pending` sai.
+  function pending(slide) {
+    if (!slide.pending) return "";
+    return `<p class="pending"${anim()}>${esc(slide.pending)}</p>`;
+  }
+
+  // Ícones dos blocos comparados — traço simples, herdam a cor do bloco
+  const ICONS = {
+    tag: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24.5V8a2 2 0 0 1 2-2h16.5L42 23.5 23.5 42z"/><circle cx="15" cy="15" r="3.2"/><path d="M19 31l12-12"/></svg>`,
+    gift: `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="16" width="36" height="9" rx="1.5"/><path d="M9 25v17h30V25M24 16v26"/><path d="M24 16c-3-7-12-9-12-3 0 3 5 3 12 3zM24 16c3-7 12-9 12-3 0 3-5 3-12 3z"/></svg>`,
+  };
+
   /* ---------- layouts --------------------------------------------------- */
 
   const layouts = {
@@ -169,14 +182,119 @@
     statement(slide) {
       const kicker = slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : "";
       const title = slide.title || slide.titleHTML ? heading(slide) : "";
+      // linesStyle "no": lista do que NÃO é — marcador ✕ e corpo menor
       const lines = slide.lines
-        ? `<div class="lines">${slide.lines
+        ? `<div class="lines${slide.linesStyle === "no" ? " is-no" : ""}">${slide.lines
             .map((l) => `<span${anim()}>${esc(l)}</span>`)
             .join("")}</div>`
         : "";
       const sub = slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : "";
       return `${slide.rings ? rings(slide.rings) : ""}
-        <div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}</div>`;
+        <div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}${pending(slide)}</div>`;
+    },
+
+    // Um número que carrega o slide sozinho: o número enorme, o que ele mede
+    // logo abaixo.
+    figure(slide) {
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">
+          ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
+          <div class="fig-n"${anim()}>${esc(slide.n)}</div>
+          <p class="fig-t"${anim()}>${esc(slide.t)}</p>
+          ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
+          ${pending(slide)}
+        </div>`;
+    },
+
+    // Etapas em linha com uma delas em destaque e uma seta de volta ao começo:
+    // o funil que vira ciclo (AARRR → Referral alimenta Aquisição).
+    loop(slide) {
+      const items = slide.items || [];
+      const hl = slide.hl || 0;
+      const back = slide.back || 0;
+      const cols = items
+        .map(
+          (it, i) => `<div class="lp-col${i === hl ? " is-hl" : ""}${
+            i === back ? " is-back" : ""
+          }"${anim()}><span class="lp-k">${esc(it.k)}</span><span class="lp-t">${esc(
+            it.t
+          )}</span></div>`
+        )
+        .join("");
+      // a seta sai da etapa em destaque e volta à primeira, por baixo
+      const n = Math.max(1, items.length);
+      const a = Math.min(hl, back);
+      const b = Math.max(hl, back);
+      const arc = `<div class="lp-arc" style="left:${((a + 0.5) / n) * 100}%;width:${
+        ((b - a) / n) * 100
+      }%"${anim()}>${slide.backLabel ? `<span>${esc(slide.backLabel)}</span>` : ""}</div>`;
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">
+          ${heading(slide)}
+          <div class="lp" style="--n:${n}">${cols}${arc}</div>
+          ${pending(slide)}
+        </div>`;
+    },
+
+    // Dois blocos lado a lado, de cores diferentes, para ninguém ler os dois
+    // como duas formas de fazer a mesma coisa. `alert` fecha com a orientação.
+    compare(slide) {
+      const blocks = (slide.blocks || [])
+        .map(
+          (b) => `<div class="cmp-b cmp-${esc(b.tone || "green")}"${anim()}>
+            <div class="cmp-head">
+              ${b.icon && ICONS[b.icon] ? `<span class="cmp-ico">${ICONS[b.icon]}</span>` : ""}
+              <div>
+                ${b.tag ? `<span class="cmp-tag">${esc(b.tag)}</span>` : ""}
+                <h3>${esc(b.name)}</h3>
+              </div>
+            </div>
+            <ul>${(b.rows || [])
+              .map(
+                (r) =>
+                  `<li><span class="cmp-who">${esc(r.who)}</span><span class="cmp-what">${esc(
+                    r.what
+                  )}</span></li>`
+              )
+              .join("")}</ul>
+          </div>`
+        )
+        .join("");
+      return `<div class="wrap">
+          ${heading(slide)}
+          <div class="cmp">${blocks}</div>
+          ${slide.alert ? `<p class="cmp-alert"${anim()}>${esc(slide.alert)}</p>` : ""}
+        </div>`;
+    },
+
+    // Trilho horizontal de marcos. state: "on" (cheio), "hl" (o que importa),
+    // "off" (não conta / não aparece — vazado e apagado). `span` desenha uma
+    // chave de prazo entre dois marcos; `foot` é a linha de ressalva.
+    track(slide) {
+      const nodes = slide.nodes || [];
+      const n = Math.max(1, nodes.length);
+      const list = nodes
+        .map(
+          (nd, i) => `<li class="s-${esc(nd.state || "on")}" style="--k:${i}"${anim()}>
+            <span class="tk-dot"></span>
+            <span class="tk-lab">${esc(nd.label)}</span>
+            ${nd.note ? `<span class="tk-note">${esc(nd.note)}</span>` : ""}
+          </li>`
+        )
+        .join("");
+      const span = slide.span
+        ? `<div class="tk-span" style="left:${(slide.span.from / n) * 100}%;width:calc(${
+            ((slide.span.to - slide.span.from) / n) * 100
+          }% + 5px)"${anim()}><span>${esc(slide.span.label)}</span></div>`
+        : "";
+      return `${slide.rings ? rings(slide.rings) : ""}
+        <div class="wrap">
+          ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
+          ${heading(slide)}
+          ${slide.lead ? `<p class="lead"${anim()}>${esc(slide.lead)}</p>` : ""}
+          <div class="tk${span ? " has-span" : ""}" style="--n:${n}">${span}<ol>${list}</ol></div>
+          ${slide.foot ? `<p class="tk-foot"${anim()}>${esc(slide.foot)}</p>` : ""}
+        </div>`;
     },
 
     numbers(slide) {

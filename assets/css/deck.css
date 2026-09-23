@@ -1374,6 +1374,535 @@ p {
   color: var(--accent);
 }
 
+/* ---------- Lista do que NÃO é (statement com linesStyle "no") --------- */
+
+.l-statement h2 + .lines {
+  margin-top: 64px;
+}
+
+.l-statement .lines.is-no {
+  gap: 34px;
+}
+
+.l-statement .lines.is-no span {
+  font-size: 54px;
+  line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+}
+
+/* ✕ no lugar do filete: lê como negação antes de ler a frase */
+.l-statement .lines.is-no span::before {
+  content: "✕";
+  flex: none;
+  width: auto;
+  height: auto;
+  margin: 0 34px 0 0;
+  background: none;
+  font-size: 0.8em;
+  color: var(--accent);
+}
+
+/* ---------- Dado pendente (tracejado, visível no ensaio) --------------- */
+
+.pending {
+  display: inline-block;
+  margin-top: 56px;
+  padding: 18px 30px;
+  border: 3px dashed hsl(var(--gold-ink) / 0.6);
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.slide.t-dark .pending {
+  border-color: hsl(var(--gold) / 0.7);
+}
+
+/* ---------- Número grande (figure) ------------------------------------- */
+
+.l-figure .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-figure .kicker {
+  margin-bottom: 0;
+}
+
+.l-figure .fig-n {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 340px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.l-figure .fig-t {
+  margin-top: 10px;
+  padding-left: 30px;
+  border-left: 8px solid var(--rule);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 58px;
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--ink);
+  max-width: 24ch;
+}
+
+.l-figure .sub {
+  margin-top: 40px;
+  font-size: 30px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+
+.l-figure .pending {
+  margin-top: 40px;
+}
+
+/* ---------- Funil que vira ciclo (loop) -------------------------------- */
+
+.l-loop .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-loop h2 {
+  font-size: 62px;
+  max-width: 34ch;
+}
+
+.lp {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  margin-top: 84px;
+  padding-bottom: 150px;
+}
+
+.lp-col {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 5px solid hsl(var(--border));
+  padding-top: 28px;
+}
+
+.lp-k {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 150px;
+  line-height: 0.9;
+  color: hsl(var(--primary) / 0.16);
+}
+
+.lp-t {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* As duas pontas do ciclo ganham peso: quem indica e quem entra */
+.lp-col.is-back {
+  border-top-color: hsl(var(--primary) / 0.5);
+}
+
+.lp-col.is-back .lp-k {
+  color: hsl(var(--primary) / 0.55);
+}
+
+.lp-col.is-back .lp-t {
+  color: var(--ink);
+}
+
+.lp-col.is-hl {
+  border-top: 8px solid var(--rule);
+  padding-top: 25px;
+}
+
+.lp-col.is-hl .lp-k {
+  color: var(--accent);
+}
+
+.lp-col.is-hl .lp-t {
+  color: var(--ink);
+}
+
+/* A seta de volta: um "U" por baixo, da etapa em destaque até a primeira,
+   com a ponta subindo na primeira */
+.lp-arc {
+  position: absolute;
+  bottom: 40px;
+  height: 64px;
+  border: 5px solid var(--rule);
+  border-top: 0;
+  border-radius: 0 0 26px 26px;
+}
+
+.lp-arc::before {
+  content: "";
+  position: absolute;
+  left: -16.5px;
+  top: -22px;
+  border: 14px solid transparent;
+  border-bottom: 20px solid var(--rule);
+  border-top: 0;
+}
+
+.lp-arc span {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  transform: translateX(-50%);
+  padding: 0 24px;
+  background: hsl(var(--paper));
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.l-loop .pending {
+  margin-top: 8px;
+}
+
+/* ---------- Dois blocos comparados (compare) --------------------------- */
+
+.l-compare .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 170px;
+  bottom: 110px;
+  display: flex;
+  flex-direction: column;
+}
+
+.l-compare h2 {
+  font-size: 56px;
+  max-width: 30ch;
+}
+
+.cmp {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  margin-top: 52px;
+  min-height: 0;
+}
+
+.cmp-b {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 44px 52px;
+}
+
+/* Verde: o bloco do SI, na cor da marca */
+.cmp-green {
+  background-image: var(--green-grad);
+  color: #fff;
+  --cmp-ink: #fff;
+  --cmp-soft: rgba(255, 255, 255, 0.78);
+  --cmp-accent: hsl(var(--gold));
+}
+
+.cmp-green::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.07;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Areia: o link família, fora do verde de propósito */
+.cmp-sand {
+  background: hsl(42 70% 94%);
+  border: 2px solid hsl(var(--gold) / 0.55);
+  --cmp-ink: hsl(var(--primary));
+  --cmp-soft: hsl(var(--muted-fg));
+  --cmp-accent: hsl(var(--gold-ink));
+}
+
+.cmp-head {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.cmp-ico svg {
+  display: block;
+  width: 84px;
+  height: 84px;
+  fill: none;
+  stroke: var(--cmp-accent);
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.cmp-tag {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cmp-accent);
+}
+
+.cmp-b h3 {
+  margin-top: 8px;
+  font-size: 64px;
+  color: var(--cmp-ink);
+}
+
+.cmp-b ul {
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+}
+
+.cmp-b li {
+  padding: 22px 0;
+  border-top: 2px solid color-mix(in srgb, var(--cmp-ink) 16%, transparent);
+}
+
+.cmp-who {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cmp-soft);
+}
+
+.cmp-what {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--cmp-ink);
+}
+
+.cmp-alert {
+  margin-top: 40px;
+  padding: 22px 30px 22px 84px;
+  position: relative;
+  border-left: 8px solid hsl(var(--gold));
+  background: hsl(var(--gold) / 0.14);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: hsl(var(--primary));
+}
+
+.cmp-alert::before {
+  content: "!";
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: hsl(var(--gold));
+  color: hsl(var(--brand-dark));
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* ---------- Trilho de marcos (track) ----------------------------------- */
+
+.l-track .wrap {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.l-track h2 {
+  font-size: 64px;
+  max-width: 24ch;
+}
+
+.l-track .lead {
+  margin-top: 30px;
+  font-size: 30px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 40em;
+}
+
+.tk {
+  position: relative;
+  margin-top: 96px;
+}
+
+.tk.has-span {
+  padding-top: 90px;
+}
+
+.tk ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+}
+
+.tk li {
+  position: relative;
+  padding: 58px 40px 0 0;
+}
+
+/* o trilho: liga cada marco ao próximo */
+.tk li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 13px;
+  height: 5px;
+  background: var(--rule);
+}
+
+.tk li:last-child::before {
+  right: auto;
+  width: 0;
+}
+
+/* ...e chega tracejado e apagado num marco que não conta */
+.tk li:has(+ .s-off)::before {
+  background: none;
+  height: 0;
+  border-top: 5px dashed hsl(var(--gold) / 0.5);
+}
+
+.tk-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background: var(--rule);
+}
+
+.tk li.s-hl .tk-dot {
+  left: -10px;
+  top: -10px;
+  width: 51px;
+  height: 51px;
+  box-shadow: 0 0 0 10px hsl(var(--gold) / 0.22);
+}
+
+.tk li.s-off .tk-dot {
+  background: hsl(var(--paper));
+  border: 5px solid hsl(var(--gold) / 0.5);
+}
+
+.tk-lab {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 1.06;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.tk li.s-hl .tk-lab {
+  font-size: 54px;
+}
+
+.tk li.s-off .tk-lab {
+  color: hsl(var(--primary) / 0.38);
+}
+
+.tk-note {
+  display: block;
+  margin-top: 16px;
+  font-size: 25px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 20em;
+}
+
+.tk li.s-hl .tk-note {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* A chave do prazo, por cima dos marcos que ela cobre */
+.tk-span {
+  position: absolute;
+  top: 0;
+  height: 44px;
+  border: 5px solid hsl(var(--primary));
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  /* JS dá a largura de centro a centro; soma um marco para fechar nas bolinhas */
+  margin-left: 13px;
+}
+
+.tk-span span {
+  position: absolute;
+  left: 50%;
+  top: -34px;
+  transform: translateX(-50%);
+  padding: 0 26px;
+  background: hsl(var(--paper));
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+
+.tk-foot {
+  margin-top: 76px;
+  padding-left: 30px;
+  border-left: 6px solid hsl(var(--border));
+  font-size: 28px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 44em;
+}
+
 /* =========================================================================
    Animação
    Nenhum estado-base é invisível: o repouso é opacity 1. Quem esconde é o

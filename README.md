@@ -271,6 +271,14 @@ versão principal. Uma mudança visual vale para as duas. Só o conteúdo é sep
 edite `v2/slides.js` e coloque os prints em `v2/img/`, referenciando-os a partir
 da raiz (`"v2/img/arquivo.png"`).
 
+A V2 é a versão para o time de **Novos Negócios (Comercial)**. Ela usa quatro
+layouts a mais, que também ficam disponíveis para a versão principal: `figure`
+(número grande), `loop` (etapas com seta de volta — o AARRR), `compare` (dois
+blocos de cores diferentes — os dois links) e `track` (trilho de marcos, com
+chave de prazo opcional). O `statement` ganhou `linesStyle: "no"` (lista com ✕) e
+o campo `pending`, que mostra na tela, tracejado, um dado que ainda falta. Os
+campos de cada um estão no cabeçalho de `v2/slides.js`.
+
 Os slides são desenhados num palco fixo de **1920×1080** e escalados por
 transform para caber na tela. É o que garante que o tamanho de fonte na tela é o
 mesmo em qualquer monitor, e que o PDF sai idêntico ao que se vê.

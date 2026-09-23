@@ -1,32 +1,26 @@
 /* =========================================================================
-   Conteúdo da apresentação — Indicação V2 · versão V2 (outro público)
+   Conteúdo da apresentação — Sistema de Indicação · time de Novos Negócios
    -------------------------------------------------------------------------
    Publicada em /v2/. Design e motor (assets/css, assets/js/deck.js) são os
    mesmos da apresentação principal — aqui muda só o conteúdo.
    Prints desta versão ficam em v2/img/ → use caminhos "v2/img/arquivo.png".
 
-   ESTE É O ÚNICO ARQUIVO QUE VOCÊ PRECISA EDITAR para trocar textos,
-   imagens e notas de fala.
+   Fonte única do texto: SI_Apresentacao_NovosNegocios_Copy.md.
+   Nada aqui foi inventado; o que falta está marcado com ⚠️ em `marks` (aparece
+   na visão geral, tecla G) e, quando precisa estar na tela, em `pending`.
 
-   Campos de cada slide:
-     layout   cover | statement | numbers | flow | image-left | image-top |
-              cards | video | closing
-     theme    "dark" (verde profundo) ou "light" (branco)
-     section  rótulo do cabeçalho
-     title    título na tela (vai para MAIÚSCULAS pelo CSS)
-     ...      campos específicos de cada layout (ver README)
-     image    caminho do arquivo — TROQUE AQUI pelos prints definitivos
-     annot    { text, pos } setinha fixa (➡️) sobre a imagem — pos: a | b | c
-     rings    { corner, count, base, step, from, to } anéis decorativos
-     chips    [{ label, color }] — color em HSL sem hsl(), ex.: "155 72% 22%"
-     marks    marcadores exibidos no painel de notas (⭐ 📷 🎥 ⚠️ ➡️)
-     notes    roteiro da fala (aceita HTML simples)
+   Campos de cada slide: ver README. Layouts novos desta versão:
+     figure   número enorme + o que ele mede            n, t, kicker, sub
+     loop     etapas em linha com seta de volta          items[{k,t}], hl, back, backLabel
+     compare  dois blocos de cores diferentes            blocks[{tone,icon,tag,name,rows[{who,what}]}], alert
+     track    trilho de marcos (on | hl | off)           nodes[{label,note,state}], span{from,to,label}, foot
+     statement ganhou  linesStyle: "no"  (lista com ✕) e  pending
    ========================================================================= */
 
 const DECK = {
-  title: "Indicação V2 — AUVP Capital",
-  date: "Julho de 2026", // ⚠️ conferir antes de apresentar
-  targetMinutes: 25, // usado pelo cronômetro do apresentador
+  title: "Sistema de Indicação — Novos Negócios · AUVP Capital",
+  date: "[data]", // ⚠️ preencher antes de apresentar (aparece no topo de todos os slides)
+  targetMinutes: 25, // ⚠️ a copy diz "[X] minutos" — ajustar quando a duração for definida
 };
 
 const SLIDES = [
@@ -36,13 +30,15 @@ const SLIDES = [
     theme: "dark",
     wordmark: "AUVP Capital",
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
-    title: "O nosso canal mais barato de aquisição estava quebrado.",
-    subtitle: "Hoje você vai entender por quê — e o que consertamos.",
+    title: "O Sistema de Indicação.",
+    subtitle: "O que é, o que não é e como vocês entram nele no dia a dia.",
     navTitle: "Abertura (promessa)",
-    marks: ["⭐ ideia saliente"],
-    notes: `<p>“Em ~25 minutos vocês vão sair sabendo três coisas: qual era a dor real da
-      indicação, o que a V2 resolve, e onde cada time entra. Não vou passar sobre o sistema
-      ponto a ponto, somente o que precisa estar claro para todos.”</p>`,
+    marks: ["⭐ promessa em três partes", "⚠️ duração: [X] minutos"],
+    notes: `<p>“Em <strong>[X] minutos</strong>, vocês saem sabendo três coisas: o que é o
+      sistema, o que ele não é, e como vocês entram nele no dia a dia.”</p>
+      <p><em>A promessa está no subtítulo: aponte para ela. As três partes voltam na ordem —
+      “o que é” (slides 03–05), “o que não é” (06) e “como vocês entram” (07 em diante).</em></p>
+      <p><em>⚠️ Definir a duração e ajustar <code>targetMinutes</code> no topo do arquivo.</em></p>`,
   },
 
   /* 02 ------------------------------------------------------------------ */
@@ -51,353 +47,353 @@ const SLIDES = [
     theme: "light",
     section: "Quem construiu",
     title: "Feito por muita gente.",
-    // Uma cor por equipe. Matizes diferentes, mas luminosidade parecida:
-    // lê como sistema, não como arco-íris. Texto sempre branco.
+    // Mesmas cores por equipe da apresentação principal
     chips: [
       { label: "Produto", color: "155 72% 22%" },
       { label: "Tech", color: "192 64% 28%" },
       { label: "Salesforce", color: "212 60% 38%" },
       { label: "Infra", color: "258 38% 42%" },
       { label: "Logística", color: "20 64% 40%" },
-      { label: "Consultores", color: "42 74% 34%" },
+      { label: "Consultoria", color: "42 74% 34%" },
       { label: "Atendimento", color: "338 48% 40%" },
     ],
     navTitle: "Quem construiu",
-    marks: ["⭐ colaboradores no início", "⚠️ nomes a preencher"],
-    notes: `<p>Credite <strong>nominalmente</strong> quem puxou cada frente.</p>
-      <p><em>⚠️ Preencher antes de apresentar: nome da pessoa responsável por cada
-      time acima.</em></p>`,
+    marks: ["⭐ reconhecimento"],
+    notes: `<p>“Antes de tudo: muita gente construiu isso. Produto, Tech, Salesforce, Infra,
+      Logística, Consultoria e Atendimento. E eu sou a responsável pelo produto.”</p>
+      <p><em>Separado da capa de propósito: a capa fica com a promessa, e o
+      reconhecimento ganha um momento próprio, sem disputar atenção.</em></p>`,
   },
 
   /* 03 ------------------------------------------------------------------ */
   {
     layout: "image-left",
     theme: "light",
-    section: "O problema",
-    title: "“Meu marido me indicou.”",
-    quote: true,
+    section: "Por que existe",
+    title: "Nosso canal de aquisição mais barato. E o mais difícil de rastrear.",
     image: "assets/img/slide03 1.png",
     imageAlt: "Planilha com nomes soltos de embaixadores: Adair, Jean, Marcio, Meu Marido",
-    annot: { text: "nomes soltos, sem dono", pos: "below" },
-    stat: { n: "32%", t: "da nossa base tem registro assim — e não dá pra cruzar." },
-    navTitle: "A surpresa",
-    marks: ["⭐ surpresa / história", "📷 tela real de nomes soltos", "⚠️ conferir os 32%"],
-    notes: `<p>“Na V -1 a captação era por formulário, só o nome. A gente recebia dezenas de
-      ‘João’, ‘Márcio’, ‘meu marido me indicou’. Não dava pra rastrear quem indicou quem.”</p>
-      <p><em>Deixe a tela falar 2–3 segundos antes de explicar. É o momento que gruda.</em></p>
-      <p>Depois entregue o número: “<strong>32% da nossa base</strong> tem registro assim.
-      Não é exceção, é um terço da base que a gente não consegue cruzar.”</p>
-      <p><em>⚠️ Conferir a base e a data de apuração dos 32%.</em></p>`,
+    annot: { text: "campo de texto livre: nomes sem dono", pos: "below" },
+    body: "Antes: campo de texto livre. Agora: link com identificador único.",
+    navTitle: "Por que ele existe",
+    marks: ["⭐ “meu marido me indicou”", "📷 print da planilha (o mesmo da versão original)"],
+    notes: `<p>“Antes do sistema, indicação era um campo de texto livre. A gente recebia
+      <strong>‘meu marido me indicou’</strong> e não tinha como comprovar nem pagar direito
+      quem indicou de verdade. Isso virava reclamação e retrabalho.”</p>
+      <p><em>Aponte o “Meu Marido.” na planilha e deixe a tela falar 2 segundos.</em></p>
+      <p>“Resolvemos rastreabilidade: não é mais formulário, é <strong>link com
+      identificador único</strong>.”</p>
+      <p><em>O print é o mesmo da apresentação do Atendimento. Se vier um print novo, troque
+      em <code>image</code>.</em></p>`,
   },
 
   /* 04 ------------------------------------------------------------------ */
   {
-    layout: "flow",
+    layout: "figure",
     theme: "light",
-    section: "O problema",
-    title: "A bola de neve.",
-    steps: [
-      "Fontes que não se cruzavam",
-      "Apuração na mão",
-      "Atraso",
-      "Reclamação",
-      "Mais trabalho",
-    ],
-    flowNote: "…e o ciclo recomeça.",
-    navTitle: "A bola de neve",
-    marks: ["⭐ história (ciclo)"],
-    notes: `<p>Conte como ciclo: “Sem rastreabilidade, apurar brinde era manual e moroso.
-      O atraso virava reclamação, a reclamação virava retrabalho, o retrabalho gerava mais
-      atraso. ‘Cadê meu brinde?’ virou rotina no atendimento.”</p>
-      <p><em>Winston: repita a ideia-ciclo — recupera quem se distraiu.</em></p>`,
+    section: "Objetivo de negócio",
+    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
+    kicker: "Hoje,",
+    n: "XX%",
+    t: "do nosso faturamento vem de indicação.",
+    navTitle: "O objetivo de negócio",
+    marks: ["⭐ o número que justifica o investimento", "⚠️ % de faturamento e período"],
+    notes: `<p>Entregue o número e pare. Depois:</p>
+      <p>“Esse número é o motivo pelo qual investimos nisso. Não é programa de
+      relacionamento, é <strong>canal de receita validado</strong>.”</p>
+      <p><em>⚠️ Pendente: valor atualizado e período de referência (2026 completo ou último
+      trimestre) e se já inclui Consultoria além da Escola. Quando chegar, troque
+      <code>n</code> e, se precisar, diga o período no <code>kicker</code>
+      (ex.: “Em 2026,”).</em></p>`,
   },
 
   /* 05 ------------------------------------------------------------------ */
   {
-    layout: "statement",
+    layout: "loop",
     theme: "light",
-    section: "O problema",
-    rings: { corner: "tr", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
-    lines: ["Informação fragmentada.", "Zero rastreabilidade.", "Regras opacas."],
-    navTitle: "O problema, em uma frase",
-    marks: [],
-    notes: `<p>Detalhe os dois lados <strong>na voz</strong> — o embaixador perdido
-      (não sabe se/quando ganha) e o time afogado (cruza fontes na mão).
-      Não coloque isso na tela.</p>`,
+    section: "O que é",
+    title: "Member Get Member: o “R” de Referral virando Aquisição de novo.",
+    items: [
+      { k: "A", t: "Aquisição" },
+      { k: "A", t: "Ativação" },
+      { k: "R", t: "Retenção" },
+      { k: "R", t: "Referral" },
+      { k: "R", t: "Receita" },
+    ],
+    hl: 3, // Referral
+    back: 0, // volta para Aquisição
+    backLabel: "cliente satisfeito vira novo cliente",
+    pending: "⚠️ Dado consolidado sobre MGM (benchmark de mercado ou referência interna) — a inserir",
+    navTitle: "O que é (MGM / AARRR)",
+    marks: ["⭐ o funil que vira ciclo", "⚠️ dado consolidado de MGM"],
+    notes: `<p>“No modelo AARRR — Aquisição, Ativação, Retenção, <strong>Referral</strong>,
+      Receita — a indicação é o estágio que fecha o ciclo. Ela pega quem já é cliente
+      satisfeito e transforma em novo cliente.”</p>
+      <p><em>Percorra as letras da esquerda para a direita e pare no “R” dourado. Depois siga
+      a seta de volta até Aquisição com a mão.</em></p>
+      <p>“É uma estratégia de aquisição consolidada no mercado, e aqui a gente aplica de forma
+      bem diluída, sem agressividade.”</p>
+      <p><em>⚠️ O quadro tracejado é o lugar do dado consolidado de MGM. Quando chegar,
+      substitua o texto de <code>pending</code> pelo dado — ou remova o campo.</em></p>`,
   },
 
   /* 06 ------------------------------------------------------------------ */
   {
-    layout: "numbers",
+    layout: "statement",
     theme: "light",
-    section: "Por que importa",
-    title: "Três razões:",
-    items: [
-      { n: "1", t: "Menos retrabalho" },
-      { n: "2", t: "Canal barato de conversão" },
-      { n: "3", t: "+5% de faturamento" },
+    section: "O que não é",
+    title: "O SI não é:",
+    linesStyle: "no",
+    lines: [
+      "Um painel que o indicado acessa antes de comprar",
+      "Argumento para “empurrar” quem está em dúvida",
+      "A mesma coisa que promoções comerciais pontuais",
     ],
-    navTitle: "Por que importa",
-    marks: ["⭐ pontuação verbal (numeração)", "⚠️ base e janela dos 5%"],
-    notes: `<p>Use os números como pontuação: “Razão um… razão dois… razão três.”
-      Sustente cada uma. “Indicação é uma via barata e de qualidade dentro da nossa esteira;
-      mesmo com brinde, compensa.”</p>
-      <p><em>⚠️ Confirmar base e janela dos 5%.</em></p>`,
+    sub: "O foco é dar visibilidade ao embaixador.",
+    navTitle: "O que não é",
+    marks: ["⭐ a cerca em volta do conceito"],
+    notes: `<p>Leia os três itens em voz alta, um por vez.</p>
+      <p>“O foco do sistema é dar visibilidade pro embaixador. Ele acompanha suas indicações
+      e o recebimento do brinde. <strong>O indicado não vê nada disso</strong>; só quando ele
+      mesmo se torna aluno é que ganha sua própria visão de embaixador.”</p>
+      <p>“Do nosso lado, o foco é trabalhar esse canal de aquisição. Não é ferramenta de
+      conversão direta com quem ainda não comprou.”</p>
+      <p><em>O item 3 é a ponte para o próximo slide: “e falando em promoção — o link família
+      vocês já conhecem”.</em></p>`,
   },
 
   /* 07 ------------------------------------------------------------------ */
   {
-    layout: "statement",
-    theme: "dark",
-    section: "A solução",
-    rings: { corner: "bl", count: 6, base: 320, step: 200, from: 0.4 },
-    lines: ["Um link.", "Um lugar.", "Regras claras.", "Brinde que chega."],
-    navTitle: "A solução",
-    marks: ["⭐ a cerca em volta do conceito"],
-    notes: `<p>Defina a cerca: o que a V2 é e o que não é — “não é um programa de brindes;
-      é um <strong>canal de aquisição rastreável</strong>.”</p>
-      <p>Apresente os 4 pilares aqui <strong>na voz</strong>:</p>
-      <ul>
-        <li>unificação</li>
-        <li>gamificação clara</li>
-        <li>autonomia operacional</li>
-        <li>base pra novos formatos</li>
-      </ul>`,
+    layout: "compare",
+    theme: "light",
+    section: "Os dois links",
+    title: "O link família vocês já conhecem. Agora também existe o link de indicação.",
+    blocks: [
+      {
+        tone: "sand",
+        icon: "tag",
+        tag: "Já existia",
+        name: "Link família",
+        rows: [
+          { who: "Para quem está entrando", what: "Desconto" },
+          { who: "Para o embaixador", what: "Conta como indicação" },
+        ],
+      },
+      {
+        tone: "green",
+        icon: "gift",
+        tag: "Novo · SI",
+        name: "Link de indicação",
+        rows: [{ who: "Só para quem indicou", what: "Brinde" }],
+      },
+    ],
+    alert:
+      "Na frente do cliente, são sistemas diferentes: não apresente o link família como parte do SI.",
+    navTitle: "Os dois links",
+    marks: ["⭐ ponto mais sensível da apresentação", "⚠️ indicado pelo link SI tem benefício?"],
+    notes: `<p>“O link família continua sendo o que sempre foi: <strong>desconto pra quem está
+      entrando</strong>. O que muda é que as conversões dele agora também contam como
+      indicação pro embaixador.”</p>
+      <p>“Uma atenção importante: <strong>não tratem o link família como parte do SI na frente
+      do cliente</strong>, porque são sistemas diferentes. Por trás, os dois beneficiam o
+      embaixador, só que com focos diferentes: o família no desconto, o SI no brinde.”</p>
+      <p>“Evitem falar disso abertamente com o indicado. A distinção é operacional nossa, não
+      precisa virar explicação pro cliente final.”</p>
+      <p><em>Cores diferentes de propósito (areia × verde): ninguém deve ler os dois como duas
+      formas de fazer a mesma coisa. Termine lendo a faixa de alerta.</em></p>
+      <p><em>⚠️ Confirmar: quem entra pelo link de indicação (SI) recebe algum benefício? A
+      copy diz “brinde só pra quem indicou” — o bloco verde mostra só isso.</em></p>`,
   },
 
   /* 08 ------------------------------------------------------------------ */
   {
-    layout: "image-top",
+    layout: "track",
     theme: "light",
-    section: "Demo",
-    title: "O link é gerado no Salesforce com rastreabilidade.",
-    image: "assets/img/slide 09.png",
-    imageAlt: "Portal do embaixador: menu lateral, seleção de produto e o link pronto para copiar ou enviar no WhatsApp",
-    annot: { text: "só os produtos que a pessoa tem", pos: "c" },
-    navTitle: "Demo: onde nasce o link",
-    marks: ["📷 menu do Minha AUVP", "➡️ setinha fixa"],
-    notes: `<p>“O menu só mostra o produto que a pessoa realmente tem — Escola, Consultoria,
-      ou os dois. Sem produto, não existe link. A esteira de brinde da Escola é uma; a da
-      Consultoria é outra. Por ora o link se gera aqui no Hub; menu global e comunidade vão
-      passar a redirecionar pra cá.”</p>`,
+    section: "Os dois links",
+    title: "Exceção: campanha de março.",
+    lead: "Nas conversões do link família feitas na campanha, a contagem começa na 2ª.",
+    nodes: [
+      { label: "1ª conversão", note: "Não conta como indicação.", state: "off" },
+      { label: "2ª conversão em diante", note: "Conta como indicação.", state: "hl" },
+    ],
+    foot: "Fora de março, vale a regra do slide anterior: toda conversão do link família conta.",
+    navTitle: "Exceção de março",
+    marks: [],
+    notes: `<p>“Conversão do link família também conta como indicação. A exceção é a campanha
+      de março: ali, só conta a partir da <strong>2ª conversão</strong> do link família
+      daquele período.”</p>
+      <p>“Fora do período de março, a regra do slide anterior vale direto. Essa exceção existe
+      só pra não distorcer os números daquela campanha específica.”</p>
+      <p><em>Na copy original este slide repetia “conversão do link família também conta” —
+      que já está no slide 07. Aqui ele mostra só a exceção.</em></p>`,
   },
 
   /* 09 ------------------------------------------------------------------ */
   {
-    layout: "image-stack",
-    theme: "light",
-    section: "Demo",
-    title: "Cada link tem um código. Cada indicação tem dono.",
-    body: "Lembram do “meu marido me indicou”? Acabou.",
-    image: "assets/img/slide 10.png",
-    imageAlt: "O link pronto no portal do embaixador",
-    // A camada de baixo é a mesma imagem com uma seta a mais: revelar o passo
-    // parece a seta aparecendo, não a imagem trocando.
-    stack: [
-      {
-        image: "assets/img/Seta1_slide10.png",
-        imageAlt: "Retorno do Salesforce, com a seta apontando para o link",
-      },
-      {
-        image: "assets/img/Seta2_slide10.png",
-        imageAlt: "O mesmo retorno, agora com a segunda seta apontando para o código",
-      },
-    ],
-    navTitle: "Demo: rastreável de verdade",
-    marks: ["⭐ callback da surpresa", "📷 tela + payload", "➡️ setas em dois tempos"],
-    notes: `<p>Este slide tem <strong>um passo</strong>: a primeira seta já vem na tela,
-      apontando para o link. Aperte “próximo” <strong>uma vez</strong> e a segunda seta
-      aparece, no código — só então vire o slide.</p>
-      <p>“Lembram do ‘meu marido me indicou’? Acabou. O link que a pessoa copia lá em cima
-      é este objeto aqui embaixo: cada link carrega um identificador — dá pra saber quem
-      clicou e quem converteu, automaticamente. E a mesma estrutura serve pra qualquer
-      produto novo, inclusive um de brindes.”</p>
-      <p><em>Amarra no Slide 3 — Winston: fechar o ciclo.</em></p>`,
+    layout: "statement",
+    theme: "dark",
+    section: "Regra de ouro",
+    rings: { corner: "bl", count: 6, base: 320, step: 200, from: 0.4 },
+    title: "Sem produto, sem link.",
+    sub: "O link é vinculado ao produto na conta da pessoa. Sem produto ativo, o sistema não gera nada.",
+    navTitle: "Regra de ouro",
+    marks: ["⭐ a regra que precisa grudar"],
+    notes: `<p>“Isso não é uma regra de negócio arbitrária, é <strong>infraestrutura</strong>:
+      o link só existe porque está tecnicamente atrelado ao produto na conta da pessoa.”</p>
+      <p>“Hoje limitamos a quem já é cliente pra controlar o investimento em brinde frente à
+      entrada de novos membros. Pode expandir conforme os resultados aparecerem.”</p>`,
   },
 
   /* 10 ------------------------------------------------------------------ */
   {
-    layout: "image-top",
+    layout: "track",
     theme: "light",
-    section: "Demo",
-    title: "Acompanha, e compartilha em 2 toques.",
-    band: 800, // print denso: tabela + trilha
-    image: "assets/img/slide 12.png",
-    imageAlt: "Portal do embaixador: indicações recentes e a trilha de progresso até o próximo tier",
-    // No lugar da pílula: a trilha como ela é vista — o conquistado, o próximo
-    // em destaque, e os seguintes perdendo força.
-    trailTitle: "Na trilha, ela vê só:",
-    trail: [
-      { label: "Tier 1", note: "Conquistado", state: "done" },
-      { label: "Tier 2", note: "Conquistado", state: "done" },
-      { label: "Tier 3 — Kit AUVP Premium", note: "Faltam 2 indicações", state: "next" },
-      { label: "Tier 4", state: "locked" },
-      { label: "Tier 5", state: "locked" },
+    section: "O que o embaixador vê",
+    title: "Indicação confirmada = “Fechado e Ganho”.",
+    lead: "O embaixador não acompanha o funil. Ele vê duas datas:",
+    nodes: [
+      { label: "Virou Lead", note: "Data em que o indicado entrou como Lead.", state: "on" },
+      {
+        label: "Fechado e Ganho",
+        note: "Data da indicação confirmada.",
+        state: "hl",
+      },
     ],
-    navTitle: "Demo: o que o embaixador vê",
-    marks: ["📷 portal + trilha"],
-    notes: `<p>“Ela vê quem usou o link e quem converteu. Na trilha, vê só o brinde da
-      próxima indicação acumulada — o próximo degrau, não o da 5ª ou 10ª. Exemplo: fiz 1
-      indicação e ganhei o brinde de ‘1 indicação’; na trilha aparece o brinde da 2ª, e só.
-      Pra compartilhar, um toque no WhatsApp: escolhe o contato e vai com a mensagem
-      pronta.”</p>`,
+    foot: "Não avançou? O motivo não aparece para o embaixador.",
+    navTitle: "O que o embaixador vê",
+    marks: ["⚠️ gap conhecido: reembolso no Salesforce"],
+    notes: `<p>“O embaixador não acompanha o funil de vocês, ele só vê duas datas: quando o
+      indicado entrou como <strong>Lead</strong>, e quando fechou como <strong>‘Fechado e
+      Ganho’</strong>.”</p>
+      <p>“Se não converteu, o sistema não expõe o motivo; isso fica entre o Indicado e o
+      Embaixador, não é informação que exibimos.”</p>
+      <p>Ponto de atenção interno: “Hoje o Salesforce ainda não captura status de
+      <strong>reembolso</strong> corretamente, estamos ajustando isso pós-lançamento. Tratem
+      como um gap conhecido, não como bug surpresa.”</p>
+      <p><em>Ordem ajustada: este slide e o próximo seguem a jornada depois do link (Lead →
+      Fechado e Ganho → brinde). Os dados retroativos, que são exceção, ficaram para depois.</em></p>`,
   },
 
   /* 11 ------------------------------------------------------------------ */
   {
-    layout: "cards",
-    theme: "dark",
-    section: "Regras",
-    rings: { corner: "br", count: 5, base: 260, step: 180, from: 0.36 },
-    title: "Regra de ouro: sem link, sem indicação.",
-    lead: "E estamos publicando o Regulamento do Programa de Indicação AUVP.",
-    doc: {
-      image: "assets/img/slide 13.png",
-      alt: "Primeira página do Regulamento do Programa de Indicação AUVP",
-      caption: "Regulamento oficial",
-    },
-    cardsLabel: "Como funciona:",
-    cards: [
-      { h: "Link só com produto", p: "Sem Escola ou Consultoria ativa, não existe link." },
-      { h: "Só se gera no Hub", p: "O ‘Minha AUVP’ é a origem única do link." },
-      { h: "Menu global e comunidade", p: "Passam a redirecionar para o Hub." },
+    layout: "track",
+    theme: "light",
+    section: "Prazo do brinde",
+    title: "Brinde: até 35 dias após a indicação confirmada.",
+    lead: "Existe validação antes do envio.",
+    nodes: [
+      { label: "Indicação confirmada", note: "Fechado e Ganho.", state: "on" },
+      {
+        label: "Validação",
+        note: "Evita crédito para quem compra e cancela em 7 dias.",
+        state: "hl",
+      },
+      { label: "Envio do brinde", state: "on" },
     ],
-    navTitle: "As regras que evitam confusão",
-    marks: ["⭐ a cerca"],
-    notes: `<p>Defina o que conta e o que não conta. “Isso protege a pessoa certa e evita o
-      espertinho. O <strong>Regulamento do Programa de Indicação AUVP</strong> já está sendo
-      escrito: geração de link, validação, conduta, vedação a spam, proteção de dados e
-      concessão de recompensas. Tira a dúvida na origem — menos ‘isso conta?’ na fila do
-      atendimento.”</p>`,
+    span: { from: 0, to: 2, label: "até 35 dias" },
+    navTitle: "Prazo e validação do brinde",
+    marks: ["⚠️ 35 dias contam a partir do “Fechado e Ganho”?"],
+    notes: `<p>“O brinde sai em <strong>até 35 dias</strong> após a confirmação da
+      conversão.”</p>
+      <p>“Colocamos uma janela de validação de propósito. Ela existe pra evitar quem confirma
+      a compra, recebe o crédito de indicação, e cancela em 7 dias. Isso não é desconfiança do
+      cliente, é <strong>proteção do programa</strong>.”</p>
+      <p><em>Continua o trilho do slide anterior: começa onde ele terminou, no “Fechado e
+      Ganho”.</em></p>
+      <p><em>⚠️ Confirmar: “confirmação da conversão” = “Fechado e Ganho”? E os 35 dias são até
+      o envio (não até a entrega)?</em></p>`,
   },
 
   /* 12 ------------------------------------------------------------------ */
   {
-    layout: "cards",
+    layout: "statement",
     theme: "light",
-    section: "Regras",
-    title: "Vale a regra de ouro. E olhamos caso a caso.",
-    lead: "“E os dados retroativos?” — a pergunta que vai aparecer.",
-    cardsLabel: "Dois caminhos:",
-    cards: [
-      {
-        h: "Com rastreio",
-        p: "Entra como “em análise” → conferimos → liberamos.",
-      },
-      {
-        h: "Sem rastreio",
-        p: "Reivindicação em até 90 dias da entrada do indicado na base.",
-      },
-      {
-        h: "Canal oficial",
-        p: "As reivindicações entram pelo Userback — um caminho só, rastreado.",
-      },
-    ],
-    navTitle: "“E os dados retroativos?”",
-    marks: ["⭐ a cerca / FAQ que vai aparecer"],
-    notes: `<p>“Meu maior medo é pagar brinde duplicado por falta de rastreio antigo. Então:
-      o que já temos rastreado entra na tela como ‘em análise’ — a logística (João) confere e
-      libera, e a pessoa vê que já ganhou, sem pedir de novo. Quem chega alegando direito sem
-      link vinculado é caso a caso, com prazo de 90 dias após o indicado entrar na base.
-      É manual e chatinho só no começo; depois automatiza. Tudo isso vai num documento pra
-      não gerar dúvida no usuário.”</p>
-      <p>“E tem um caminho só pra pedir: o <strong>Userback</strong>. Fora dele, não entra —
-      é o que evita a reivindicação se perder em três canais diferentes.”</p>`,
+    section: "Dados retroativos",
+    rings: { corner: "tr", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
+    kicker: "E as indicações antigas, sem link?",
+    title: "Quem vincula é o Atendimento.",
+    sub: "Existe um campo de vínculo para dados retroativos, mas não é operado pelo Comercial. Se o cliente perguntar, encaminhe para o Atendimento.",
+    navTitle: "Dados retroativos",
+    marks: ["⭐ o encaminhamento", "⚠️ a tela de vínculo já existe ou “vai existir”?"],
+    notes: `<p>“Vai existir uma tela pra conectar indicações antigas sem rastreio. Isso é fluxo
+      do <strong>Atendimento</strong>, não do Comercial.”</p>
+      <p>“Se um cliente perguntar sobre indicação antiga, o encaminhamento é pra lá, não pra
+      vocês tentarem resolver na hora.”</p>
+      <p><em>O título virou a ação (“quem vincula é o Atendimento”): é a frase que o Comercial
+      precisa lembrar.</em></p>
+      <p><em>⚠️ A copy diz “existe um campo” na tela e “vai existir uma tela” na fala.
+      Confirmar qual vale e alinhar os dois.</em></p>`,
   },
 
   /* 13 ------------------------------------------------------------------ */
   {
-    layout: "timeline",
-    theme: "light",
-    section: "Escopo desta fase",
-    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.2, to: 0.04 },
-    title: "Não é a V2 inteira. É o coração dela.",
-    lead: "O trilho cheio é o que já está de pé. O tracejado é o que vem depois.",
-    marks_: [
-      {
-        state: "done",
-        when: "Hoje, no ar",
-        what: "Rastrear e dar visibilidade",
-        items: [
-          "Link rastreado, do clique à conversão",
-          "Visibilidade automática para o embaixador",
-          "Ambiente admin inicial",
-        ],
-      },
-      {
-        state: "next",
-        when: "Próxima fase",
-        what: "Operar num lugar só",
-        items: [
-          "Painel de admin para conferir brinde e conversão",
-          "Automação com o ERP da logística para exibir o envio do brinde",
-        ],
-      },
+    layout: "numbers",
+    theme: "dark",
+    section: "Agora, na prática",
+    rings: { corner: "br", count: 5, base: 260, step: 180, from: 0.36 },
+    title: "Vamos ver funcionando.",
+    items: [
+      { n: "1", t: "Visão do embaixador" },
+      { n: "2", t: "Visão de vocês no Salesforce" },
     ],
-    navTitle: "Escopo desta fase",
-    marks: [],
-    notes: `<p>“Sendo transparente: não é a V2 inteira — é o coração dela. O painel onde
-      vocês conferem brinde e conversão num lugar só está em desenvolvimento; paramos por
-      prioridade e vamos retomar. Hoje já existe um ambiente admin inicial. O que entregamos
-      de fato é <strong>rastrear</strong> e <strong>dar visibilidade automática</strong>.”</p>
-      <p>“Depois dele vem a automação com o ERP da logística, pra pessoa ver o envio do
-      brinde sem ninguém ter que consultar e responder.”</p>`,
+    navTitle: "Demo ao vivo (transição)",
+    marks: ["🎥 demo fora do deck", "⚠️ plano B: prints de apoio (slides 15–16)"],
+    notes: `<p>“Até aqui foi o contexto, agora eu mostro na tela.”</p>
+      <p>“<strong>Primeiro</strong> a visão do embaixador, exatamente como ele vai ver o link,
+      o status e o brinde. <strong>Depois</strong> eu mostro onde vocês geram o link de
+      indicação dentro do Salesforce, lembrando que o campo do link fica atrelado à conta da
+      pessoa. Vou mostrar exatamente onde procurar.”</p>
+      <p><em>Este slide é só a transição: a demo acontece fora do deck, direto no sistema e no
+      Salesforce. Se o compartilhamento travar (como na apresentação do Atendimento em julho),
+      vá para os slides de apoio 15 e 16 — tecla <code>End</code> leva ao último.</em></p>`,
   },
 
   /* 14 ------------------------------------------------------------------ */
   {
-    layout: "equation",
-    theme: "light",
-    section: "Hipóteses",
-    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.2, to: 0.04 },
-    kicker: "Estamos apostando que:",
-    terms: ["Rastrear", "Regras claras", "Brindes com esteira de gamificação"],
-    results: ["Mais indicação", "Mais faturamento"],
-    navTitle: "Hipóteses",
-    marks: [],
-    notes: `<p>Liste as apostas <strong>na voz</strong>:</p>
-      <ul>
-        <li>clientes querem indicar — falta atrito baixo e prêmio claro;</li>
-        <li>gamificação e pertencimento fazem indicar de novo;</li>
-        <li>o canal escala e contribui pro faturamento.</li>
-      </ul>
-      <p>Deixe claro que são <strong>apostas</strong> — e que o próximo slide é como
-      testamos.</p>`,
-  },
-
-  /* 15 ------------------------------------------------------------------ */
-  {
-    layout: "numbers",
-    theme: "light",
-    section: "Como saberemos",
-    title: "Três provas:",
-    items: [
-      { n: "1", t: "Cai reclamação de brinde" },
-      { n: "2", t: "+5% no canal" },
-      { n: "3", t: "Comunidade indica de novo" },
-    ],
-    navTitle: "Como saberemos se deu certo",
-    marks: ["⭐ pontuação verbal", "⚠️ baselines de tickets e receita"],
-    notes: `<p>Amarre cada prova a uma promessa do começo: “Estas três linhas são o que eu
-      prometi lá no Slide 1. Se elas se moverem, a fase valeu.”</p>
-      <p><em>⚠️ Preciso de baseline de (1) tickets/mês sobre brinde e (2) receita atual do
-      canal.</em></p>`,
-  },
-
-  /* 16 ------------------------------------------------------------------ */
-  {
     layout: "closing",
     theme: "dark",
-    section: "O que entregamos",
+    section: "Contato",
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
-    title: "O que esta fase entregou:",
-    deliver: ["Rastreabilidade real", "Portal único", "Regras claras", "Brinde operacional"],
-    slogan: "“Membro engajado é o nosso maior ativo.”",
-    navTitle: "O que entregamos (fecho)",
-    marks: ["⭐ slogan + fecho"],
-    notes: `<p>Feche com o slogan e uma saudação ao tempo do público (“valeu pelos 25
-      minutos”).</p>
-      <p><strong>Não</strong> termine com “obrigada, perguntas?”. A tela final é a lista de
-      contribuições; as perguntas acontecem por cima dela.</p>`,
+    title: "Dúvida sobre o sistema? Fala comigo.",
+    deliver: ["[seu nome]", "[contato]"],
+    slogan: "Ponto único para dúvidas de regra do SI.",
+    navTitle: "Encerramento (contato)",
+    marks: ["⚠️ nome e canal de contato"],
+    notes: `<p>Feche reforçando que você é o <strong>ponto único de contato</strong> para
+      dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
+      sistema.</p>
+      <p><em>⚠️ Preencher nome e canal de contato em <code>deliver</code>.</em></p>`,
+  },
+
+  /* 15 — apoio --------------------------------------------------------- */
+  {
+    layout: "image-top",
+    theme: "light",
+    section: "Apoio à demo",
+    title: "Visão do embaixador.",
+    body: "Link, status e brinde.",
+    image: "v2/img/print-embaixador.svg",
+    imageAlt: "Portal do embaixador: link, status das indicações e brinde",
+    navTitle: "Apoio: visão do embaixador",
+    marks: ["📷 plano B da demo", "⚠️ print a inserir"],
+    notes: `<p><em>Slide de apoio — use só se a demo ao vivo travar.</em></p>
+      <p><em>⚠️ Trocar o espaço reservado pelo print definitivo em
+      <code>v2/img/</code>.</em></p>`,
+  },
+
+  /* 16 — apoio --------------------------------------------------------- */
+  {
+    layout: "image-top",
+    theme: "light",
+    section: "Apoio à demo",
+    title: "Onde vocês geram o link no Salesforce.",
+    body: "O campo do link fica na conta da pessoa.",
+    image: "v2/img/print-salesforce.svg",
+    imageAlt: "Salesforce: campo do link de indicação na conta da pessoa",
+    navTitle: "Apoio: link no Salesforce",
+    marks: ["📷 plano B da demo", "⚠️ print a inserir"],
+    notes: `<p><em>Slide de apoio — use só se a demo ao vivo travar.</em></p>
+      <p><em>⚠️ Trocar o espaço reservado pelo print definitivo em
+      <code>v2/img/</code>.</em></p>`,
   },
 ];
