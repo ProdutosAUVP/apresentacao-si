@@ -157,7 +157,48 @@
         </div>`
       )
       .join("");
-    return `<div class="teams"${anim()}>${items}</div>`;
+    return `<div class="teams n-${slide.teams.length}"${anim()}>${items}</div>`;
+  }
+
+  // Barras mês a mês ao lado do número grande: uma série só, uma cor, valor
+  // em cima de cada barra. `partial: true` marca o mês em andamento (vazado).
+  function bars(slide) {
+    if (!slide.bars) return "";
+    const max = Math.max(...slide.bars.map((b) => b.v));
+    const cols = slide.bars
+      .map(
+        (b) => `<div class="bar${b.partial ? " is-partial" : ""}">
+          <span class="bar-v">${esc(b.label || b.v)}</span>
+          <span class="bar-fill" style="height:${((b.v / max) * 82).toFixed(1)}%"></span>
+          <span class="bar-x">${esc(b.x)}${b.partial ? "*" : ""}</span>
+        </div>`
+      )
+      .join("");
+    return `<figure class="bars"${anim()}>
+        ${slide.barsTitle ? `<figcaption class="bars-t">${esc(slide.barsTitle)}</figcaption>` : ""}
+        <div class="bars-plot" role="img" aria-label="${esc(slide.barsTitle || "")}">${cols}</div>
+        ${slide.barsNote ? `<p class="bars-note">${esc(slide.barsNote)}</p>` : ""}
+      </figure>`;
+  }
+
+  // Fatia do todo: uma barra 100% com a parte em destaque e o resto recessivo.
+  // share: { title, part, partLabel, rest, restLabel, note }
+  function share(slide) {
+    const sh = slide.share;
+    if (!sh) return "";
+    const pct = (sh.part / (sh.part + sh.rest)) * 100;
+    return `<div class="share"${anim()}>
+        ${sh.title ? `<p class="share-t">${esc(sh.title)}</p>` : ""}
+        <div class="share-bar" role="img" aria-label="${esc(sh.partLabel)}; ${esc(sh.restLabel)}">
+          <span class="share-part" style="width:${pct.toFixed(1)}%"></span>
+          <span class="share-rest"></span>
+        </div>
+        <div class="share-legend">
+          <span class="is-part">${esc(sh.partLabel)}</span>
+          <span>${esc(sh.restLabel)}</span>
+        </div>
+        ${sh.note ? `<p class="share-note">${esc(sh.note)}</p>` : ""}
+      </div>`;
   }
 
   // Dado que ainda não chegou: fica visível no slide (tracejado), para não
@@ -212,12 +253,16 @@
     // logo abaixo.
     figure(slide) {
       return `${slide.rings ? rings(slide.rings) : ""}
-        <div class="wrap">
-          ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
-          <div class="fig-n"${anim()}>${esc(slide.n)}</div>
-          <p class="fig-t"${anim()}>${esc(slide.t)}</p>
-          ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
-          ${pending(slide)}
+        <div class="wrap${slide.bars ? " has-bars" : ""}">
+          <div class="fig-main">
+            ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
+            <div class="fig-n"${anim()}>${esc(slide.n)}</div>
+            <p class="fig-t"${anim()}>${esc(slide.t)}</p>
+            ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
+            ${share(slide)}
+            ${pending(slide)}
+          </div>
+          ${bars(slide)}
         </div>`;
     },
 
@@ -468,7 +513,7 @@
       const terms = (slide.terms || [])
         .map(
           (t, i) =>
-            `${i ? `<span class="op"${anim()}>+</span>` : ""}<span class="term"${anim()}>${esc(
+            `${i ? `<span class="op"${anim()}>${esc(slide.op || "+")}</span>` : ""}<span class="term"${anim()}>${esc(
               t
             )}</span>`
         )
@@ -484,6 +529,7 @@
             <span class="op is-eq"${anim()}>=</span>
             <div class="eq-res">${results}</div>
           </div>
+          ${slide.sub ? `<p class="eq-sub"${anim()}>${esc(slide.sub)}</p>` : ""}
         </div>`;
     },
 

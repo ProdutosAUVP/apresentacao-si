@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Espaço reservado: Visão do embaixador">
-  <rect width="1600" height="900" fill="#EDEFEA"/>
-  <rect x="18" y="18" width="1564" height="864" fill="none" stroke="#C6CEC2" stroke-width="2" stroke-dasharray="14 10"/>
-  <rect x="18" y="18" width="220" height="46" fill="#0B2905"/>
-  <text x="38" y="49" font-family="Roboto, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2" fill="#fff">PRINT</text>
-  <text x="800" y="440" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="44" font-weight="700" fill="#023620">Visão do embaixador</text>
-  <rect x="760" y="470" width="80" height="4" fill="#F0C24E"/>
-  <text x="800" y="530" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="26" fill="#5A6558">Substitua por v2/img/print-embaixador.png (plano B da demo ao vivo)</text>
-</svg>

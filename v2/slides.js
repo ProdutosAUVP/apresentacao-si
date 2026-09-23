@@ -26,7 +26,7 @@ const DECK = {
 };
 
 const SLIDES = [
-  /* 01 ------------------------------------------------------------------ */
+  /* 01 -------------------------------------------------------------------- */
   {
     layout: "cover",
     theme: "dark",
@@ -43,7 +43,7 @@ const SLIDES = [
       <p><em>⚠️ Definir a duração e ajustar <code>targetMinutes</code> no topo do arquivo.</em></p>`,
   },
 
-  /* 02 ------------------------------------------------------------------ */
+  /* 02 -------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -67,9 +67,9 @@ const SLIDES = [
       },
       { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Antonelli" },
       {
-        label: "Consultoria · Relacionamento",
+        label: "Consultoria",
         color: "42 74% 34%",
-        people: "Lilian e Débora",
+        people: "Relacionamento: Lilian e Débora",
       },
       {
         label: "Atendimento",
@@ -77,17 +77,23 @@ const SLIDES = [
         people: "Equipe toda, com foco em Ana Souza e Flávio Prado",
         lead: "Déia",
       },
+      {
+        label: "Jurídico",
+        color: "258 38% 42%",
+        people: "Thaiene Araújo e Camila Emily",
+        lead: "Thais Almeida",
+      },
     ],
     navTitle: "Quem construiu",
     marks: ["⭐ reconhecimento nominal"],
     notes: `<p>“Antes de tudo: muita gente construiu isso.” Credite <strong>pelo nome</strong>,
       equipe por equipe: Produto, Tech, Salesforce e Infra, Logística, o Relacionamento da
-      Consultoria e o Atendimento — “e eu sou a responsável pelo produto.”</p>
+      Consultoria, o Atendimento e o Jurídico — “e eu sou a responsável pelo produto.”</p>
       <p><em>Separado da capa de propósito: a capa fica com a promessa, e o
       reconhecimento ganha um momento próprio, sem disputar atenção.</em></p>`,
   },
 
-  /* 03 ------------------------------------------------------------------ */
+  /* 03 -------------------------------------------------------------------- */
   {
     layout: "image-left",
     theme: "light",
@@ -109,27 +115,7 @@ const SLIDES = [
       em <code>image</code>.</em></p>`,
   },
 
-  /* 04 ------------------------------------------------------------------ */
-  {
-    layout: "figure",
-    theme: "light",
-    section: "Objetivo de negócio",
-    rings: { corner: "br", count: 5, base: 300, step: 230, from: 0.22, to: 0.04 },
-    kicker: "Hoje,",
-    n: "XX%",
-    t: "do nosso faturamento vem de indicação.",
-    navTitle: "O objetivo de negócio",
-    marks: ["⭐ o número que justifica o investimento", "⚠️ % de faturamento e período"],
-    notes: `<p>Entregue o número e pare. Depois:</p>
-      <p>“Esse número é o motivo pelo qual investimos nisso. Não é programa de
-      relacionamento, é <strong>canal de receita validado</strong>.”</p>
-      <p><em>⚠️ Pendente: valor atualizado e período de referência (2026 completo ou último
-      trimestre) e se já inclui Consultoria além da Escola. Quando chegar, troque
-      <code>n</code> e, se precisar, diga o período no <code>kicker</code>
-      (ex.: “Em 2026,”).</em></p>`,
-  },
-
-  /* 05 ------------------------------------------------------------------ */
+  /* 04 -------------------------------------------------------------------- */
   {
     layout: "loop",
     theme: "light",
@@ -145,9 +131,8 @@ const SLIDES = [
     hl: 3, // Referral
     back: 0, // volta para Aquisição
     backLabel: "cliente satisfeito vira novo cliente",
-    pending: "⚠️ Dado consolidado sobre MGM (benchmark de mercado ou referência interna) — a inserir",
     navTitle: "O que é (MGM / AARRR)",
-    marks: ["⭐ o funil que vira ciclo", "⚠️ dado consolidado de MGM"],
+    marks: ["⭐ o funil que vira ciclo"],
     notes: `<p>“No modelo AARRR — Aquisição, Ativação, Retenção, <strong>Referral</strong>,
       Receita — a indicação é o estágio que fecha o ciclo. Ela pega quem já é cliente
       satisfeito e transforma em novo cliente.”</p>
@@ -155,11 +140,75 @@ const SLIDES = [
       a seta de volta até Aquisição com a mão.</em></p>
       <p>“É uma estratégia de aquisição consolidada no mercado, e aqui a gente aplica de forma
       bem diluída, sem agressividade.”</p>
-      <p><em>⚠️ O quadro tracejado é o lugar do dado consolidado de MGM. Quando chegar,
-      substitua o texto de <code>pending</code> pelo dado — ou remova o campo.</em></p>`,
+      <p><strong>Se precisar explicar o AARRR para quem não conhece:</strong> é o “mapa da
+      jornada do cliente”. Ele ajuda a responder “em qual parte do funil eu estou perdendo
+      gente, e onde eu deveria focar meu esforço agora?”. Serve para diagnosticar em qual
+      etapa está o gargalo <strong>antes</strong> de sair construindo funcionalidade; sem esse
+      diagnóstico, o time corre o risco de investir esforço no lugar errado do funil.</p>
+      <p>“É por isso que o sistema tem as regras que tem: primeiro a gente mede o crescimento
+      e o impacto dentro da AUVP Escola. Com resultado, dá pra flexibilizar regras e até
+      melhorar os brindes.”</p>
+      <p><em>Essa última frase conversa com a regra de ouro (slide 09): “pode expandir
+      conforme os resultados aparecerem”.</em></p>
+      <p><em>O próximo slide é a referência interna do MGM: quantos leads a base trouxe em
+      2026.</em></p>`,
   },
 
-  /* 06 ------------------------------------------------------------------ */
+  /* 05 -------------------------------------------------------------------- */
+  {
+    layout: "figure",
+    theme: "light",
+    section: "Indicação em números",
+    kicker: "Em 2026, até setembro,",
+    n: "6.753",
+    t: "leads chegaram à base por indicação.",
+    sub: "Média de ~780 por mês de janeiro a agosto.",
+    // Base total: soma das semanas de 29/dez a 26/abr no painel de leads
+    // (44.986, já inclui a indicação). Indicação jan–abr: 3.370 → 7,5%.
+    share: {
+      title: "De janeiro a abril, em toda a base",
+      part: 3370,
+      partLabel: "Indicação: 3.370 (≈ 7,5%)",
+      rest: 41616,
+      restLabel: "Outras origens: ≈ 41,6 mil",
+      note: "Base total ≈ 45 mil leads no período.",
+    },
+    barsTitle: "Leads por indicação · 2026",
+    bars: [
+      { x: "Jan", v: 865, label: "865" },
+      { x: "Fev", v: 694, label: "694" },
+      { x: "Mar", v: 1076, label: "1.076" },
+      { x: "Abr", v: 735, label: "735" },
+      { x: "Mai", v: 858, label: "858" },
+      { x: "Jun", v: 588, label: "588" },
+      { x: "Jul", v: 763, label: "763" },
+      { x: "Ago", v: 679, label: "679" },
+      { x: "Set", v: 495, label: "495", partial: true },
+    ],
+    barsNote: "* Setembro em andamento.",
+    navTitle: "Leads por indicação em 2026",
+    marks: [
+      "⭐ o volume que a base traz",
+      "⚠️ setembro parcial: atualizar no dia",
+      "⚠️ comparativo só vai até abril",
+    ],
+    notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
+      que chegaram porque alguém que já é cliente recomendou. Dá uma média de quase 800 por
+      mês.”</p>
+      <p>“E pra dar escala: de janeiro a abril entraram uns 45 mil leads na base, de todas
+      as origens. <strong>Cerca de 7,5%</strong> vieram por indicação, justamente o canal mais
+      barato.”</p>
+      <p><em>O comparativo usa o painel de leads por semana (29/dez a 26/abr), então é
+      aproximado. ⚠️ Com os dados de maio a setembro da base total, dá pra comparar o ano
+      inteiro.</em></p>
+      <p><em>Setembro está em andamento (495 até agora): por isso a barra vazada. Não leia
+      como queda.</em></p>
+      <p><em>Fique no volume. Conversão e faturamento são números do Comercial: não entram
+      nesta apresentação.</em></p>
+      <p><em>Fonte: matriz mensal de indicação (jan–set/26).</em></p>`,
+  },
+
+  /* 06 -------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -183,7 +232,7 @@ const SLIDES = [
       vocês já conhecem”.</em></p>`,
   },
 
-  /* 07 ------------------------------------------------------------------ */
+  /* 07 -------------------------------------------------------------------- */
   {
     layout: "compare",
     theme: "light",
@@ -224,7 +273,7 @@ const SLIDES = [
       copy diz “brinde só pra quem indicou” — o bloco verde mostra só isso.</em></p>`,
   },
 
-  /* 08 ------------------------------------------------------------------ */
+  /* 08 -------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
@@ -255,7 +304,7 @@ const SLIDES = [
       que já está no slide 07. Aqui ele mostra só a exceção.</em></p>`,
   },
 
-  /* 09 ------------------------------------------------------------------ */
+  /* 09 -------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "dark",
@@ -271,7 +320,7 @@ const SLIDES = [
       entrada de novos membros. Pode expandir conforme os resultados aparecerem.”</p>`,
   },
 
-  /* 10 ------------------------------------------------------------------ */
+  /* 10 -------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
@@ -301,12 +350,12 @@ const SLIDES = [
       Fechado e Ganho → brinde). Os dados retroativos, que são exceção, ficaram para depois.</em></p>`,
   },
 
-  /* 11 ------------------------------------------------------------------ */
+  /* 11 -------------------------------------------------------------------- */
   {
     layout: "track",
     theme: "light",
     section: "Prazo do brinde",
-    title: "Brinde: até 35 dias após a indicação confirmada.",
+    title: "Brinde: até 30 dias úteis após a indicação confirmada.",
     lead: "Existe validação antes do envio.",
     nodes: [
       { label: "Indicação confirmada", note: "Fechado e Ganho.", state: "on" },
@@ -317,21 +366,21 @@ const SLIDES = [
       },
       { label: "Envio do brinde", state: "on" },
     ],
-    span: { from: 0, to: 2, label: "até 35 dias" },
+    span: { from: 0, to: 2, label: "até 30 dias úteis" },
     navTitle: "Prazo e validação do brinde",
-    marks: ["⚠️ 35 dias contam a partir do “Fechado e Ganho”?"],
-    notes: `<p>“O brinde sai em <strong>até 35 dias</strong> após a confirmação da
+    marks: ["⚠️ 30 dias úteis contam a partir do “Fechado e Ganho”?"],
+    notes: `<p>“O brinde sai em <strong>até 30 dias úteis</strong> após a confirmação da
       conversão.”</p>
       <p>“Colocamos uma janela de validação de propósito. Ela existe pra evitar quem confirma
       a compra, recebe o crédito de indicação, e cancela em 7 dias. Isso não é desconfiança do
       cliente, é <strong>proteção do programa</strong>.”</p>
       <p><em>Continua o trilho do slide anterior: começa onde ele terminou, no “Fechado e
       Ganho”.</em></p>
-      <p><em>⚠️ Confirmar: “confirmação da conversão” = “Fechado e Ganho”? E os 35 dias são até
+      <p><em>⚠️ Confirmar: “confirmação da conversão” = “Fechado e Ganho”? E os 30 dias úteis são até
       o envio (não até a entrega)?</em></p>`,
   },
 
-  /* 12 ------------------------------------------------------------------ */
+  /* 12 -------------------------------------------------------------------- */
   {
     layout: "statement",
     theme: "light",
@@ -352,7 +401,41 @@ const SLIDES = [
       Confirmar qual vale e alinhar os dois.</em></p>`,
   },
 
-  /* 13 ------------------------------------------------------------------ */
+  /* 13 -------------------------------------------------------------------- */
+  {
+    layout: "cards",
+    theme: "light",
+    section: "No dia a dia",
+    title: "Quem chega por indicação já ouviu falar bem de nós.",
+    lead: "Informação que vocês têm a partir de agora, para usar na conversa como fizer sentido.",
+    cardsLabel: "O que vocês têm em mãos:",
+    cards: [
+      {
+        h: "A recomendação de um aluno",
+        p: "Todo lead de indicação chega por alguém que já é cliente e conhece o produto por dentro.",
+      },
+      {
+        h: "6.753 recomendações em 2026",
+        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7,5% dos leads da base de jan a abr.",
+      },
+      {
+        h: "O brinde é de quem indicou",
+        p: "O brinde do Indica AUVP vai para o embaixador. O indicado não recebe brinde pelo programa.",
+      },
+    ],
+    navTitle: "O que muda na conversa",
+    marks: ["⭐ informação, não roteiro"],
+    notes: `<p>“O que isso muda pra vocês? Quem chega por indicação já ouviu, de alguém em quem
+      confia, que o produto vale a pena. Vocês não começam do zero.”</p>
+      <p>“Aqui eu trago a informação. Como ela entra na conversa, vocês e os especialistas do
+      time sabem melhor do que eu: pode ser uma oportunidade de venda ou um apoio numa objeção
+      sobre o valor do produto.”</p>
+      <p><em>Não sugira frases nem abordagens: a condução da conversa é do Comercial. Os três
+      cartões são só fatos: a origem do lead, o volume e a regra do brinde (a mesma do slide
+      dos dois links).</em></p>`,
+  },
+
+  /* 14 -------------------------------------------------------------------- */
   {
     layout: "numbers",
     theme: "dark",
@@ -364,7 +447,7 @@ const SLIDES = [
       { n: "2", t: "Visão de vocês no Salesforce" },
     ],
     navTitle: "Demo ao vivo (transição)",
-    marks: ["🎥 demo fora do deck", "⚠️ plano B: prints de apoio (slides 15–16)"],
+    marks: ["🎥 demo fora do deck", "⚠️ plano B: prints de apoio (slides 16–17)"],
     notes: `<p>“Até aqui foi o contexto, agora eu mostro na tela.”</p>
       <p>“<strong>Primeiro</strong> a visão do embaixador, exatamente como ele vai ver o link,
       o status e o brinde. <strong>Depois</strong> eu mostro onde vocês geram o link de
@@ -372,10 +455,10 @@ const SLIDES = [
       pessoa. Vou mostrar exatamente onde procurar.”</p>
       <p><em>Este slide é só a transição: a demo acontece fora do deck, direto no sistema e no
       Salesforce. Se o compartilhamento travar (como na apresentação do Atendimento em julho),
-      vá para os slides de apoio 15 e 16 — tecla <code>End</code> leva ao último.</em></p>`,
+      vá para os slides de apoio 16 e 17 — tecla <code>End</code> leva ao último.</em></p>`,
   },
 
-  /* 14 ------------------------------------------------------------------ */
+  /* 15 -------------------------------------------------------------------- */
   {
     layout: "closing",
     theme: "dark",
@@ -396,23 +479,29 @@ const SLIDES = [
       sistema.</p>`,
   },
 
-  /* 15 — apoio --------------------------------------------------------- */
+  /* 16 — apoio ------------------------------------------------------------ */
   {
     layout: "image-top",
     theme: "light",
     section: "Apoio à demo",
     title: "Visão do embaixador.",
-    body: "Link, status e brinde.",
-    image: "v2/img/print-embaixador.svg",
-    imageAlt: "Portal do embaixador: link, status das indicações e brinde",
+    band: 800, // print largo: mais altura para ficar legível
+    body: "O link único, pronto para copiar ou enviar pelo WhatsApp, e os primeiros passos.",
+    image: "v2/img/print-embaixador.png",
+    imageAlt: "Início do portal do embaixador: link único com botões Copiar e WhatsApp, aviso de que a indicação só conta se a compra vier do link, e a lista de primeiros passos",
     navTitle: "Apoio: visão do embaixador",
-    marks: ["📷 plano B da demo", "⚠️ print a inserir"],
+    marks: ["📷 plano B da demo"],
     notes: `<p><em>Slide de apoio — use só se a demo ao vivo travar.</em></p>
-      <p><em>⚠️ Trocar o espaço reservado pelo print definitivo em
-      <code>v2/img/</code>.</em></p>`,
+      <p>Pontos para mostrar no print:</p>
+      <ul>
+        <li>o <strong>link único</strong> no topo, com os botões Copiar e WhatsApp;</li>
+        <li>o aviso: a indicação só conta se a compra vier do link dele;</li>
+        <li>os <strong>primeiros passos</strong>, começando por aceitar o Regulamento do
+        Programa.</li>
+      </ul>`,
   },
 
-  /* 16 — apoio --------------------------------------------------------- */
+  /* 17 — apoio ------------------------------------------------------------ */
   {
     layout: "image-top",
     theme: "light",
