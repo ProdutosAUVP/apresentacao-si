@@ -22,7 +22,7 @@
 const DECK = {
   title: "Indica AUVP — Novos Negócios · AUVP",
   date: "23-09-2026", // aparece no topo de todos os slides
-  targetMinutes: 25, // ⚠️ a copy diz "[X] minutos" — ajustar quando a duração for definida
+  targetMinutes: 15, // 15 min de fala; as dúvidas vêm depois, fora do cronômetro
 };
 
 const SLIDES = [
@@ -35,12 +35,13 @@ const SLIDES = [
     title: "Indica AUVP.",
     subtitle: "O nosso sistema de indicação: o que é, o que não é e como vocês entram nele no dia a dia.",
     navTitle: "Abertura (promessa)",
-    marks: ["⭐ promessa em três partes", "⚠️ duração: [X] minutos"],
-    notes: `<p>“Em <strong>[X] minutos</strong>, vocês saem sabendo três coisas: o que é o
+    marks: ["⭐ promessa em três partes"],
+    notes: `<p>“Em <strong>15 minutos</strong>, vocês saem sabendo três coisas: o que é o
       sistema, o que ele não é, e como vocês entram nele no dia a dia.”</p>
       <p><em>A promessa está no subtítulo: aponte para ela. As três partes voltam na ordem —
       “o que é” (slides 03–05), “o que não é” (06) e “como vocês entram” (07 em diante).</em></p>
-      <p><em>⚠️ Definir a duração e ajustar <code>targetMinutes</code> no topo do arquivo.</em></p>`,
+      <p><em>São 15 minutos de fala e depois um tempo para dúvidas. O cronômetro (tecla
+      <code>T</code>) fica vermelho aos 15 minutos.</em></p>`,
   },
 
   /* 02 -------------------------------------------------------------------- */
@@ -65,7 +66,7 @@ const SLIDES = [
         people: "Witor Lomazzi e João Lima",
         lead: "Cauê",
       },
-      { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Antonelli" },
+      { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Paulo Ala" },
       {
         label: "Consultoria",
         color: "42 74% 34%",
@@ -163,15 +164,15 @@ const SLIDES = [
     n: "6.753",
     t: "leads chegaram à base por indicação.",
     sub: "Média de ~780 por mês de janeiro a agosto.",
-    // Base total: soma das semanas de 29/dez a 26/abr no painel de leads
-    // (44.986, já inclui a indicação). Indicação jan–abr: 3.370 → 7,5%.
+    // Base total: painel de leads, mensal, jan–set/26 = 97.595 (já inclui a
+    // indicação; a barra de dez/25 do painel fica de fora). 6.753 ÷ 97.595 = 6,9%.
     share: {
-      title: "De janeiro a abril, em toda a base",
-      part: 3370,
-      partLabel: "Indicação: 3.370 (≈ 7,5%)",
-      rest: 41616,
-      restLabel: "Outras origens: ≈ 41,6 mil",
-      note: "Base total ≈ 45 mil leads no período.",
+      title: "Em toda a base, de janeiro a setembro",
+      part: 6753,
+      partLabel: "Indicação: 6.753 (≈ 7%)",
+      rest: 90842,
+      restLabel: "Outras origens: 90.842",
+      note: "Base total: 97.595 leads no período.",
     },
     barsTitle: "Leads por indicação · 2026",
     bars: [
@@ -189,18 +190,16 @@ const SLIDES = [
     navTitle: "Leads por indicação em 2026",
     marks: [
       "⭐ o volume que a base traz",
-      "⚠️ setembro parcial: atualizar no dia",
-      "⚠️ comparativo só vai até abril",
+      "setembro ainda em andamento",
     ],
     notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
       que chegaram porque alguém que já é cliente recomendou. Dá uma média de quase 800 por
       mês.”</p>
-      <p>“E pra dar escala: de janeiro a abril entraram uns 45 mil leads na base, de todas
-      as origens. <strong>Cerca de 7,5%</strong> vieram por indicação, justamente o canal mais
+      <p>“E pra dar escala: este ano entraram quase 98 mil leads na base, de todas as
+      origens. <strong>Cerca de 7%</strong> vieram por indicação, justamente o canal mais
       barato.”</p>
-      <p><em>O comparativo usa o painel de leads por semana (29/dez a 26/abr), então é
-      aproximado. ⚠️ Com os dados de maio a setembro da base total, dá pra comparar o ano
-      inteiro.</em></p>
+      <p><em>A proporção fica entre 5,6% e 9,7% mês a mês (o pico é março). Fonte da base
+      total: painel de leads, visão mensal de jan a set/26.</em></p>
       <p><em>Setembro está em andamento (495 até agora): por isso a barra vazada. Não leia
       como queda.</em></p>
       <p><em>Fique no volume. Conversão e faturamento são números do Comercial: não entram
@@ -416,7 +415,7 @@ const SLIDES = [
       },
       {
         h: "6.753 recomendações em 2026",
-        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7,5% dos leads da base de jan a abr.",
+        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7% de todos os leads da base.",
       },
       {
         h: "O brinde é de quem indicou",
@@ -476,7 +475,9 @@ const SLIDES = [
       avisar que eu passo o processo.”</p>
       <p>Feche reforçando que o time de Produto é o <strong>ponto único de contato</strong>
       para dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
-      sistema.</p>`,
+      sistema.</p>
+      <p><em>Aqui termina a fala (15 minutos). Deixe este slide na tela e abra para as
+      dúvidas: os contatos ficam visíveis enquanto o time pergunta.</em></p>`,
   },
 
   /* 16 — apoio ------------------------------------------------------------ */
@@ -506,14 +507,21 @@ const SLIDES = [
     layout: "image-top",
     theme: "light",
     section: "Apoio à demo",
-    title: "Onde vocês geram o link no Salesforce.",
-    body: "O campo do link fica na conta da pessoa.",
-    image: "v2/img/print-salesforce.svg",
-    imageAlt: "Salesforce: campo do link de indicação na conta da pessoa",
+    title: "Onde vocês encontram o link no Salesforce.",
+    band: 800, // print alto: mais espaço para ficar legível
+    body: "Na conta da pessoa, o card “Códigos de Indicações” traz o link e o dono do código.",
+    image: "v2/img/print-salesforce.png",
+    imageAlt: "Conta de um aluno no Salesforce, com dados pessoais borrados: à direita, o card AUVP Família com o botão Gerar Link Família e, destacado em vermelho, o card Códigos de Indicações com o código, o link e o proprietário",
     navTitle: "Apoio: link no Salesforce",
-    marks: ["📷 plano B da demo", "⚠️ print a inserir"],
+    marks: ["📷 plano B da demo", "📷 dados pessoais borrados no print"],
     notes: `<p><em>Slide de apoio — use só se a demo ao vivo travar.</em></p>
-      <p><em>⚠️ Trocar o espaço reservado pelo print definitivo em
-      <code>v2/img/</code>.</em></p>`,
+      <p>Pontos para mostrar no print:</p>
+      <ul>
+        <li>o card <strong>Códigos de Indicações</strong> (em vermelho), na conta da pessoa:
+        código, link e proprietário;</li>
+        <li>logo acima, o card <strong>AUVP Família</strong>, com o botão Gerar Link Família:
+        é o outro link, o do desconto (slide 07). São cards separados, como os dois
+        sistemas.</li>
+      </ul>`,
   },
 ];
