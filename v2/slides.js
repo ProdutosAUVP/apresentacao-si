@@ -13,13 +13,15 @@
      figure   número enorme + o que ele mede            n, t, kicker, sub
      loop     etapas em linha com seta de volta          items[{k,t}], hl, back, backLabel
      compare  dois blocos de cores diferentes            blocks[{tone,icon,tag,name,rows[{who,what}]}], alert
-     track    trilho de marcos (on | hl | off)           nodes[{label,note,state}], span{from,to,label}, foot
-     statement ganhou  linesStyle: "no"  (lista com ✕) e  pending
+     track    trilho de marcos (on | hl | off)           nodes[{label,note,state}], span{from,to,label}
+                                                         ou spans[...], foot
+     statement ganhou  linesStyle: "no"  (lista com ✕), teams[{label,color,people,lead}] e pending
+     closing  ganhou  sub (linha de apoio antes do slogan)
    ========================================================================= */
 
 const DECK = {
   title: "Indica AUVP — Novos Negócios · AUVP",
-  date: "[data]", // ⚠️ preencher antes de apresentar (aparece no topo de todos os slides)
+  date: "23-09-2026", // aparece no topo de todos os slides
   targetMinutes: 25, // ⚠️ a copy diz "[X] minutos" — ajustar quando a duração for definida
 };
 
@@ -47,20 +49,40 @@ const SLIDES = [
     theme: "light",
     section: "Quem construiu",
     title: "Feito por muita gente.",
-    // Mesmas cores por equipe da apresentação principal
-    chips: [
-      { label: "Produto", color: "155 72% 22%" },
-      { label: "Tech", color: "192 64% 28%" },
-      { label: "Salesforce", color: "212 60% 38%" },
-      { label: "Infra", color: "258 38% 42%" },
-      { label: "Logística", color: "20 64% 40%" },
-      { label: "Consultoria", color: "42 74% 34%" },
-      { label: "Atendimento", color: "338 48% 40%" },
+    // Mesmas cores por equipe da apresentação principal. Salesforce e Infra
+    // aparecem juntos porque são as mesmas pessoas.
+    teams: [
+      {
+        label: "Produto",
+        color: "155 72% 22%",
+        people: "Elane, Ariadne, Ana Beatriz e Armando",
+        lead: "Beatriz (Bia) e Daniel",
+      },
+      { label: "Tech", color: "192 64% 28%", people: "Vitor Manoel", lead: "Wendell" },
+      {
+        label: "Salesforce + Infra",
+        color: "212 60% 38%",
+        people: "Witor Lomazzi e João Lima",
+        lead: "Cauê",
+      },
+      { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Antonelli" },
+      {
+        label: "Consultoria · Relacionamento",
+        color: "42 74% 34%",
+        people: "Lilian e Débora",
+      },
+      {
+        label: "Atendimento",
+        color: "338 48% 40%",
+        people: "Equipe toda, com foco em Ana Souza e Flávio Prado",
+        lead: "Déia",
+      },
     ],
     navTitle: "Quem construiu",
-    marks: ["⭐ reconhecimento"],
-    notes: `<p>“Antes de tudo: muita gente construiu isso. Produto, Tech, Salesforce, Infra,
-      Logística, Consultoria e Atendimento. E eu sou a responsável pelo produto.”</p>
+    marks: ["⭐ reconhecimento nominal"],
+    notes: `<p>“Antes de tudo: muita gente construiu isso.” Credite <strong>pelo nome</strong>,
+      equipe por equipe: Produto, Tech, Salesforce e Infra, Logística, o Relacionamento da
+      Consultoria e o Atendimento — “e eu sou a responsável pelo produto.”</p>
       <p><em>Separado da capa de propósito: a capa fica com a promessa, e o
       reconhecimento ganha um momento próprio, sem disputar atenção.</em></p>`,
   },
@@ -146,19 +168,18 @@ const SLIDES = [
     linesStyle: "no",
     lines: [
       "Um painel que o indicado acessa antes de comprar",
-      "Argumento para “empurrar” quem está em dúvida",
       "A mesma coisa que promoções comerciais pontuais",
     ],
     sub: "O foco é dar visibilidade ao embaixador.",
     navTitle: "O que não é",
     marks: ["⭐ a cerca em volta do conceito"],
-    notes: `<p>Leia os três itens em voz alta, um por vez.</p>
+    notes: `<p>Leia os dois itens em voz alta, um por vez.</p>
       <p>“O foco do sistema é dar visibilidade pro embaixador. Ele acompanha suas indicações
       e o recebimento do brinde. <strong>O indicado não vê nada disso</strong>; só quando ele
       mesmo se torna aluno é que ganha sua própria visão de embaixador.”</p>
       <p>“Do nosso lado, o foco é trabalhar esse canal de aquisição. Não é ferramenta de
       conversão direta com quem ainda não comprou.”</p>
-      <p><em>O item 3 é a ponte para o próximo slide: “e falando em promoção — o link família
+      <p><em>O item 2 é a ponte para o próximo slide: “e falando em promoção — o link família
       vocês já conhecem”.</em></p>`,
   },
 
@@ -187,8 +208,6 @@ const SLIDES = [
         rows: [{ who: "Só para quem indicou", what: "Brinde" }],
       },
     ],
-    alert:
-      "Na frente do cliente, são sistemas diferentes: não apresente o link família como parte do Indica AUVP.",
     navTitle: "Os dois links",
     marks: ["⭐ ponto mais sensível da apresentação", "⚠️ indicado pelo link do Indica AUVP tem benefício?"],
     notes: `<p>“O link família continua sendo o que sempre foi: <strong>desconto pra quem está
@@ -200,7 +219,7 @@ const SLIDES = [
       <p>“Evitem falar disso abertamente com o indicado. A distinção é operacional nossa, não
       precisa virar explicação pro cliente final.”</p>
       <p><em>Cores diferentes de propósito (areia × verde): ninguém deve ler os dois como duas
-      formas de fazer a mesma coisa. Termine lendo a faixa de alerta.</em></p>
+      formas de fazer a mesma coisa.</em></p>
       <p><em>⚠️ Confirmar: quem entra pelo link de indicação (Indica AUVP) recebe algum benefício? A
       copy diz “brinde só pra quem indicou” — o bloco verde mostra só isso.</em></p>`,
   },
@@ -211,17 +230,25 @@ const SLIDES = [
     theme: "light",
     section: "Os dois links",
     title: "Exceção: campanha de março.",
-    lead: "Nas conversões do link família feitas na campanha, a contagem começa na 2ª.",
+    lead: "Nas conversões do link família feitas na campanha, cada par vale 1 indicação.",
     nodes: [
-      { label: "1ª conversão", note: "Não conta como indicação.", state: "off" },
-      { label: "2ª conversão em diante", note: "Conta como indicação.", state: "hl" },
+      { label: "1ª conversão", state: "on" },
+      { label: "2ª conversão", note: "Fecha o par.", state: "hl" },
+      { label: "3ª conversão", state: "on" },
+      { label: "4ª conversão", note: "Fecha o par.", state: "hl" },
+    ],
+    spans: [
+      { from: 0, to: 1, label: "1 indicação" },
+      { from: 2, to: 3, label: "1 indicação" },
     ],
     foot: "Fora de março, vale a regra do slide anterior: toda conversão do link família conta.",
     navTitle: "Exceção de março",
     marks: [],
     notes: `<p>“Conversão do link família também conta como indicação. A exceção é a campanha
-      de março: ali, só conta a partir da <strong>2ª conversão</strong> do link família
-      daquele período.”</p>
+      de março: ali, as conversões do link família contam <strong>em pares</strong> — a cada
+      2 conversões, 1 indicação.”</p>
+      <p><em>Exemplo, se perguntarem: 4 conversões no link família em março = 2 indicações;
+      3 conversões = 1 indicação (a 3ª espera o par).</em></p>
       <p>“Fora do período de março, a regra do slide anterior vale direto. Essa exceção existe
       só pra não distorcer os números daquela campanha específica.”</p>
       <p><em>Na copy original este slide repetia “conversão do link família também conta” —
@@ -356,11 +383,14 @@ const SLIDES = [
     rings: { corner: "br", count: 6, base: 340, step: 210, from: 0.42 },
     title: "Dúvida sobre o Indica AUVP? Procure o time de Produto.",
     deliver: ["Ariadne", "Ana Beatriz", "Armando"],
+    sub: "Para acionar Infra ou Tech, existe um fluxo. Quem quiser conhecer, é só me avisar que eu passo o processo.",
     slogan: "Ponto único para dúvidas de regra do Indica AUVP.",
     navTitle: "Encerramento (contato)",
     marks: ["⭐ ponto único de contato"],
     notes: `<p>“Dúvida sobre o sistema? Pode procurar a Ariadne, a Ana Beatriz ou o Armando,
       do time de Produto.”</p>
+      <p>“Pra acionar o time de Infra ou de Tech, é por um fluxo. Quem quiser saber mais, só me
+      avisar que eu passo o processo.”</p>
       <p>Feche reforçando que o time de Produto é o <strong>ponto único de contato</strong>
       para dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
       sistema.</p>`,

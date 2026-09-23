@@ -145,6 +145,21 @@
     return `<div class="chips"${anim()}>${items}</div>`;
   }
 
+  // Créditos com nome: a ficha colorida da equipe, as pessoas e a liderança
+  function teams(slide) {
+    if (!slide.teams) return "";
+    const items = slide.teams
+      .map(
+        (t) => `<div class="team" style="--c:${t.color || "155 70% 24%"}">
+          <span class="team-tag">${esc(t.label)}</span>
+          <span class="team-people">${esc(t.people || "")}</span>
+          ${t.lead ? `<span class="team-lead">Liderança: ${esc(t.lead)}</span>` : ""}
+        </div>`
+      )
+      .join("");
+    return `<div class="teams"${anim()}>${items}</div>`;
+  }
+
   // Dado que ainda não chegou: fica visível no slide (tracejado), para não
   // passar despercebido no ensaio. Some quando o campo `pending` sai.
   function pending(slide) {
@@ -190,7 +205,7 @@
         : "";
       const sub = slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : "";
       return `${slide.rings ? rings(slide.rings) : ""}
-        <div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}${pending(slide)}</div>`;
+        <div class="wrap">${kicker}${title}${lines}${sub}${chips(slide)}${teams(slide)}${pending(slide)}</div>`;
     },
 
     // Um número que carrega o slide sozinho: o número enorme, o que ele mede
@@ -282,11 +297,14 @@
           </li>`
         )
         .join("");
-      const span = slide.span
-        ? `<div class="tk-span" style="left:${(slide.span.from / n) * 100}%;width:calc(${
-            ((slide.span.to - slide.span.from) / n) * 100
-          }% + 5px)"${anim()}><span>${esc(slide.span.label)}</span></div>`
-        : "";
+      // `span` (uma chave) ou `spans` (várias, ex.: pares de conversões)
+      const span = (slide.spans || (slide.span ? [slide.span] : []))
+        .map(
+          (sp) => `<div class="tk-span" style="left:${(sp.from / n) * 100}%;width:calc(${
+            ((sp.to - sp.from) / n) * 100
+          }% + 5px)"${anim()}><span>${esc(sp.label)}</span></div>`
+        )
+        .join("");
       return `${slide.rings ? rings(slide.rings) : ""}
         <div class="wrap">
           ${slide.kicker ? `<p class="kicker"${anim()}>${esc(slide.kicker)}</p>` : ""}
@@ -477,6 +495,7 @@
         <div class="wrap">
           ${heading(slide)}
           <div class="deliver">${deliver}</div>
+          ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
           ${slide.slogan ? `<p class="slogan"${anim()}>${esc(slide.slogan)}</p>` : ""}
         </div>`;
     },

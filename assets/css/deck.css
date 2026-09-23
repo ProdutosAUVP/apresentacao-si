@@ -1604,7 +1604,8 @@ p {
 }
 
 .cmp {
-  flex: 1;
+  /* altura pelo conteúdo: sem faixa de alerta, esticar deixaria os blocos ocos */
+  flex: 0 1 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 56px;
@@ -1901,6 +1902,65 @@ p {
   line-height: 1.5;
   color: var(--ink-soft);
   max-width: 44em;
+}
+
+/* ---------- Créditos com nome (statement com teams) ------------------ */
+
+.l-statement h2 + .teams {
+  margin-top: 60px;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px 56px;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.team-tag {
+  font-family: var(--font-ui);
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: hsl(var(--c));
+  color: #fff;
+  box-shadow: 0 8px 20px hsl(var(--c) / 0.26);
+}
+
+.team-people {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.team-lead {
+  font-size: 22px;
+  color: var(--ink-soft);
+}
+
+/* ---------- Fecho: linha de apoio entre os nomes e o slogan ------------ */
+
+.l-closing .sub {
+  margin-top: 56px;
+  font-size: 30px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 40em;
+}
+
+.l-closing .sub + .slogan {
+  margin-top: 64px;
 }
 
 /* =========================================================================
