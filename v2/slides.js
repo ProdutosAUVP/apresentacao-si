@@ -22,7 +22,7 @@
 const DECK = {
   title: "Indica AUVP — Novos Negócios · AUVP",
   date: "23-09-2026", // aparece no topo de todos os slides
-  targetMinutes: 25, // ⚠️ a copy diz "[X] minutos" — ajustar quando a duração for definida
+  targetMinutes: 15, // 15 min de fala; as dúvidas vêm depois, fora do cronômetro
 };
 
 const SLIDES = [
@@ -35,12 +35,13 @@ const SLIDES = [
     title: "Indica AUVP.",
     subtitle: "O nosso sistema de indicação: o que é, o que não é e como vocês entram nele no dia a dia.",
     navTitle: "Abertura (promessa)",
-    marks: ["⭐ promessa em três partes", "⚠️ duração: [X] minutos"],
-    notes: `<p>“Em <strong>[X] minutos</strong>, vocês saem sabendo três coisas: o que é o
+    marks: ["⭐ promessa em três partes"],
+    notes: `<p>“Em <strong>15 minutos</strong>, vocês saem sabendo três coisas: o que é o
       sistema, o que ele não é, e como vocês entram nele no dia a dia.”</p>
       <p><em>A promessa está no subtítulo: aponte para ela. As três partes voltam na ordem —
       “o que é” (slides 03–05), “o que não é” (06) e “como vocês entram” (07 em diante).</em></p>
-      <p><em>⚠️ Definir a duração e ajustar <code>targetMinutes</code> no topo do arquivo.</em></p>`,
+      <p><em>São 15 minutos de fala e depois um tempo para dúvidas. O cronômetro (tecla
+      <code>T</code>) fica vermelho aos 15 minutos.</em></p>`,
   },
 
   /* 02 -------------------------------------------------------------------- */
@@ -189,7 +190,7 @@ const SLIDES = [
     navTitle: "Leads por indicação em 2026",
     marks: [
       "⭐ o volume que a base traz",
-      "⚠️ setembro parcial: atualizar no dia",
+      "setembro ainda em andamento",
       "⚠️ comparativo só vai até abril",
     ],
     notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
@@ -476,7 +477,9 @@ const SLIDES = [
       avisar que eu passo o processo.”</p>
       <p>Feche reforçando que o time de Produto é o <strong>ponto único de contato</strong>
       para dúvidas de regra. Isso evita que o Comercial crie a própria interpretação sobre o
-      sistema.</p>`,
+      sistema.</p>
+      <p><em>Aqui termina a fala (15 minutos). Deixe este slide na tela e abra para as
+      dúvidas: os contatos ficam visíveis enquanto o time pergunta.</em></p>`,
   },
 
   /* 16 — apoio ------------------------------------------------------------ */
