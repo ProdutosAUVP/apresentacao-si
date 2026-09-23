@@ -255,7 +255,29 @@ assets/js/slides.js           ← O CONTEÚDO (textos, imagens, notas)
 assets/js/deck.js             Motor: renderiza, navega, notas, cronômetro
 assets/brand/olho-*.svg       Logos oficiais (branco, preto, amarelo)
 assets/img/                   Imagens dos slides (hoje: placeholders)
+v2/index.html                 Casca da versão V2 (outro público)
+v2/slides.js                  ← O CONTEÚDO da V2
+v2/img/                       Prints da V2
 ```
+
+### Versão V2 — `/v2/`
+
+Mesma apresentação, com copy e prints para outro público, no ar em
+https://produtosauvp.github.io/apresentacao-si/v2/.
+
+Design e motor são **compartilhados**: `v2/index.html` usa `<base href="../">`,
+então carrega os mesmos `assets/css`, fontes, logos e `assets/js/deck.js` da
+versão principal. Uma mudança visual vale para as duas. Só o conteúdo é separado:
+edite `v2/slides.js` e coloque os prints em `v2/img/`, referenciando-os a partir
+da raiz (`"v2/img/arquivo.png"`).
+
+A V2 é a versão para o time de **Novos Negócios (Comercial)**. Ela usa quatro
+layouts a mais, que também ficam disponíveis para a versão principal: `figure`
+(número grande), `loop` (etapas com seta de volta — o AARRR), `compare` (dois
+blocos de cores diferentes — os dois links) e `track` (trilho de marcos, com
+chave de prazo opcional). O `statement` ganhou `linesStyle: "no"` (lista com ✕) e
+o campo `pending`, que mostra na tela, tracejado, um dado que ainda falta. Os
+campos de cada um estão no cabeçalho de `v2/slides.js`.
 
 Os slides são desenhados num palco fixo de **1920×1080** e escalados por
 transform para caber na tela. É o que garante que o tamanho de fonte na tela é o
