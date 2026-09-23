@@ -476,7 +476,9 @@
       b.classList.toggle("is-current", k === current);
     });
 
-    if (history.replaceState) history.replaceState(null, "", "#" + (current + 1));
+    // caminho explícito: com <base href> (ex.: /v2/), "#n" sozinho resolveria para a raiz
+    if (history.replaceState)
+      history.replaceState(null, "", location.pathname + location.search + "#" + (current + 1));
     else location.hash = current + 1;
 
     stage.querySelectorAll("video").forEach((v) => {
