@@ -157,7 +157,7 @@
         </div>`
       )
       .join("");
-    return `<div class="teams"${anim()}>${items}</div>`;
+    return `<div class="teams n-${slide.teams.length}"${anim()}>${items}</div>`;
   }
 
   // Barras mês a mês ao lado do número grande: uma série só, uma cor, valor
@@ -179,6 +179,26 @@
         <div class="bars-plot" role="img" aria-label="${esc(slide.barsTitle || "")}">${cols}</div>
         ${slide.barsNote ? `<p class="bars-note">${esc(slide.barsNote)}</p>` : ""}
       </figure>`;
+  }
+
+  // Fatia do todo: uma barra 100% com a parte em destaque e o resto recessivo.
+  // share: { title, part, partLabel, rest, restLabel, note }
+  function share(slide) {
+    const sh = slide.share;
+    if (!sh) return "";
+    const pct = (sh.part / (sh.part + sh.rest)) * 100;
+    return `<div class="share"${anim()}>
+        ${sh.title ? `<p class="share-t">${esc(sh.title)}</p>` : ""}
+        <div class="share-bar" role="img" aria-label="${esc(sh.partLabel)}; ${esc(sh.restLabel)}">
+          <span class="share-part" style="width:${pct.toFixed(1)}%"></span>
+          <span class="share-rest"></span>
+        </div>
+        <div class="share-legend">
+          <span class="is-part">${esc(sh.partLabel)}</span>
+          <span>${esc(sh.restLabel)}</span>
+        </div>
+        ${sh.note ? `<p class="share-note">${esc(sh.note)}</p>` : ""}
+      </div>`;
   }
 
   // Dado que ainda não chegou: fica visível no slide (tracejado), para não
@@ -239,6 +259,7 @@
             <div class="fig-n"${anim()}>${esc(slide.n)}</div>
             <p class="fig-t"${anim()}>${esc(slide.t)}</p>
             ${slide.sub ? `<p class="sub"${anim()}>${esc(slide.sub)}</p>` : ""}
+            ${share(slide)}
             ${pending(slide)}
           </div>
           ${bars(slide)}

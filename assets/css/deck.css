@@ -2070,6 +2070,73 @@ p {
   max-width: 44em;
 }
 
+/* ---------- Fatia do todo (figure com share) --------------------------- */
+
+.share {
+  margin-top: 44px;
+  max-width: 720px;
+}
+
+.share-t {
+  font-family: var(--font-ui);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.share-bar {
+  display: flex;
+  gap: 3px;
+  height: 26px;
+}
+
+.share-part {
+  background: var(--rule);
+  border-radius: 4px 0 0 4px;
+}
+
+.share-rest {
+  flex: 1;
+  background: hsl(var(--primary) / 0.12);
+  border-radius: 0 4px 4px 0;
+}
+
+.share-legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 14px;
+  font-size: 22px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.share-legend .is-part {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.share-note {
+  margin-top: 10px;
+  font-size: 18px;
+  color: var(--ink-soft);
+}
+
+/* Créditos com 7 equipes: 4 colunas para caber em duas linhas */
+.teams.n-7,
+.teams.n-8 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 44px 44px;
+}
+
+.teams.n-7 .team-people,
+.teams.n-8 .team-people {
+  font-size: 30px;
+}
+
 /* =========================================================================
    Animação
    Nenhum estado-base é invisível: o repouso é opacity 1. Quem esconde é o

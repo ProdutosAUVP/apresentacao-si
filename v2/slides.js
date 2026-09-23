@@ -67,9 +67,9 @@ const SLIDES = [
       },
       { label: "Logística", color: "20 64% 40%", people: "Maria Luiza", lead: "João Antonelli" },
       {
-        label: "Consultoria · Relacionamento",
+        label: "Consultoria",
         color: "42 74% 34%",
-        people: "Lilian e Débora",
+        people: "Relacionamento: Lilian e Débora",
       },
       {
         label: "Atendimento",
@@ -77,12 +77,18 @@ const SLIDES = [
         people: "Equipe toda, com foco em Ana Souza e Flávio Prado",
         lead: "Déia",
       },
+      {
+        label: "Jurídico",
+        color: "258 38% 42%",
+        people: "Thaiene Araújo e Camila Emily",
+        lead: "Thais Almeida",
+      },
     ],
     navTitle: "Quem construiu",
     marks: ["⭐ reconhecimento nominal"],
     notes: `<p>“Antes de tudo: muita gente construiu isso.” Credite <strong>pelo nome</strong>,
       equipe por equipe: Produto, Tech, Salesforce e Infra, Logística, o Relacionamento da
-      Consultoria e o Atendimento — “e eu sou a responsável pelo produto.”</p>
+      Consultoria, o Atendimento e o Jurídico — “e eu sou a responsável pelo produto.”</p>
       <p><em>Separado da capa de propósito: a capa fica com a promessa, e o
       reconhecimento ganha um momento próprio, sem disputar atenção.</em></p>`,
   },
@@ -134,6 +140,16 @@ const SLIDES = [
       a seta de volta até Aquisição com a mão.</em></p>
       <p>“É uma estratégia de aquisição consolidada no mercado, e aqui a gente aplica de forma
       bem diluída, sem agressividade.”</p>
+      <p><strong>Se precisar explicar o AARRR para quem não conhece:</strong> é o “mapa da
+      jornada do cliente”. Ele ajuda a responder “em qual parte do funil eu estou perdendo
+      gente, e onde eu deveria focar meu esforço agora?”. Serve para diagnosticar em qual
+      etapa está o gargalo <strong>antes</strong> de sair construindo funcionalidade; sem esse
+      diagnóstico, o time corre o risco de investir esforço no lugar errado do funil.</p>
+      <p>“É por isso que o sistema tem as regras que tem: primeiro a gente mede o crescimento
+      e o impacto dentro da AUVP Escola. Com resultado, dá pra flexibilizar regras e até
+      melhorar os brindes.”</p>
+      <p><em>Essa última frase conversa com a regra de ouro (slide 10): “pode expandir
+      conforme os resultados aparecerem”.</em></p>
       <p><em>Os dois próximos slides são a referência interna do MGM: quantos leads a base
       trouxe em 2026 e quanto custa cada um.</em></p>`,
   },
@@ -147,6 +163,16 @@ const SLIDES = [
     n: "6.753",
     t: "leads chegaram à base por indicação.",
     sub: "Média de ~780 por mês de janeiro a agosto.",
+    // Base total: soma das semanas de 29/dez a 26/abr no painel de leads
+    // (44.986, já inclui a indicação). Indicação jan–abr: 3.370 → 7,5%.
+    share: {
+      title: "De janeiro a abril, em toda a base",
+      part: 3370,
+      partLabel: "Indicação: 3.370 (≈ 7,5%)",
+      rest: 41616,
+      restLabel: "Outras origens: ≈ 41,6 mil",
+      note: "Base total ≈ 45 mil leads no período.",
+    },
     barsTitle: "Leads por indicação · 2026",
     bars: [
       { x: "Jan", v: 865, label: "865" },
@@ -161,10 +187,20 @@ const SLIDES = [
     ],
     barsNote: "* Setembro em andamento.",
     navTitle: "Leads por indicação em 2026",
-    marks: ["⭐ o volume que a base traz", "⚠️ setembro parcial: atualizar no dia"],
+    marks: [
+      "⭐ o volume que a base traz",
+      "⚠️ setembro parcial: atualizar no dia",
+      "⚠️ comparativo só vai até abril",
+    ],
     notes: `<p>“Esse é o volume que a nossa base trouxe este ano: <strong>6.753 leads</strong>
       que chegaram porque alguém que já é cliente recomendou. Dá uma média de quase 800 por
       mês.”</p>
+      <p>“E pra dar escala: de janeiro a abril entraram uns 45 mil leads na base, de todas
+      as origens. <strong>Cerca de 7,5%</strong> vieram por indicação, justamente o canal mais
+      barato.”</p>
+      <p><em>O comparativo usa o painel de leads por semana (29/dez a 26/abr), então é
+      aproximado. ⚠️ Com os dados de maio a setembro da base total, dá pra comparar o ano
+      inteiro.</em></p>
       <p><em>Setembro está em andamento (495 até agora): por isso a barra vazada. Não leia
       como queda.</em></p>
       <p><em>Fique no volume. Conversão e faturamento são números do Comercial: não entram
@@ -397,38 +433,33 @@ const SLIDES = [
     layout: "cards",
     theme: "light",
     section: "No dia a dia",
-    title: "Na conversa, o valor já chegou antes de vocês.",
-    lead: "Quem vem por indicação ouviu de alguém de confiança que o produto vale a pena. Usem isso.",
-    cardsLabel: "Como usar:",
+    title: "Quem chega por indicação já ouviu falar bem de nós.",
+    lead: "Informação que vocês têm a partir de agora, para usar na conversa como fizer sentido.",
+    cardsLabel: "O que vocês têm em mãos:",
     cards: [
       {
-        h: "Abram pela indicação",
-        p: "“Quem te indicou já é aluno. O que ele te contou?” O valor aparece na voz de quem o cliente confia.",
+        h: "A recomendação de um aluno",
+        p: "Todo lead de indicação chega por alguém que já é cliente e conhece o produto por dentro.",
       },
       {
-        h: "Respondam “vale a pena?”",
-        p: "Com a base: só em 2026, 6.753 pessoas chegaram porque um aluno recomendou.",
+        h: "6.753 recomendações em 2026",
+        p: "É quantas pessoas chegaram este ano porque um aluno indicou: ≈ 7,5% dos leads da base de jan a abr.",
       },
       {
-        h: "Não prometam brinde",
-        p: "O brinde é de quem indicou. Com o indicado, falem do produto, não do programa.",
+        h: "O brinde é de quem indicou",
+        p: "O brinde do Indica AUVP vai para o embaixador. O indicado não recebe brinde pelo programa.",
       },
     ],
-    navTitle: "Como usar na conversa",
-    marks: ["⭐ oportunidade de venda", "⚠️ sugestões de abordagem: validar com o Comercial"],
+    navTitle: "O que muda na conversa",
+    marks: ["⭐ informação, não roteiro"],
     notes: `<p>“O que isso muda pra vocês? Quem chega por indicação já ouviu, de alguém em quem
       confia, que o produto vale a pena. Vocês não começam do zero.”</p>
-      <p>Passe pelos três cartões:</p>
-      <ul>
-        <li><strong>Abram pela indicação:</strong> perguntar o que quem indicou contou faz o
-        cliente repetir o valor com as palavras dele.</li>
-        <li><strong>“Vale a pena?”:</strong> a resposta está na base: 6.753 pessoas chegaram
-        este ano porque um aluno recomendou.</li>
-        <li><strong>Não prometam brinde:</strong> o brinde é do embaixador. Com o indicado, a
-        conversa é sobre o produto (mesma regra do slide dos dois links).</li>
-      </ul>
-      <p><em>⚠️ As frases dos cartões são sugestões de abordagem. Vale validar com a liderança
-      do Comercial antes de apresentar.</em></p>`,
+      <p>“Aqui eu trago a informação. Como ela entra na conversa, vocês e os especialistas do
+      time sabem melhor do que eu: pode ser uma oportunidade de venda ou um apoio numa objeção
+      sobre o valor do produto.”</p>
+      <p><em>Não sugira frases nem abordagens: a condução da conversa é do Comercial. Os três
+      cartões são só fatos: a origem do lead, o volume e a regra do brinde (a mesma do slide
+      dos dois links).</em></p>`,
   },
 
   /* 15 ------------------------------------------------------------------- */
